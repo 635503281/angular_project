@@ -2,7 +2,6 @@ var webpack=require("webpack");//下面有些配置只能是webpack4.0以下
 var cssWebpackPlugin=require("extract-text-webpack-plugin");//打包抓取css插件
 var htmlWebpackPlugin=require("html-webpack-plugin");//打包生成html插件
 var copyWebpackPlugin=require("copy-webpack-plugin");//复制静态目录
-// var autoprefixer=require("autoprefixer");//添加css前缀
 
 //使用多线程来打包js/css/less
 const HappyPack = require('happypack');
@@ -48,7 +47,7 @@ module.exports={
     },
     module:{//模块
         rules:[//加载器 各种loader
-            {test:/\.js$/,exclude:/node_modules/,loader:"happypack/loader?id=babel"},
+            {test:/\.js$/,exclude:/node_modules/,loader:"happypack/loader?id=babel"},//将es6转为es5
             {test:/\.css$/,use:cssWebpackPlugin.extract({//打包css options:{plugins:[autoprefixer]}
                 use:'happypack/loader?id=css'
             })},
@@ -75,15 +74,7 @@ module.exports={
     plugins:[//插件
         new HappyPack({
             id:"babel",//用id来标识 happypack处理那里类文件
-            loaders:[//将es6转为es5
-                {
-                    loader:"babel-loader",
-                    options:{
-                        presets: ['env'],//babel-preset-env的缩写
-                        plugins: ['transform-runtime']
-                    } 
-                }   
-            ]
+            loaders:["babel-loader"]
         }),
         new HappyPack({
             id:"less",//用id来标识 happypack处理那里类文件
