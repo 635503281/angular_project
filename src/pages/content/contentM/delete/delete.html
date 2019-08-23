@@ -1,0 +1,67 @@
+<div id="delete" class="pageBox">
+	<div id="pageHead">
+		<div id="breadcrumb">
+			<a class="parent">{{firstMenuName}}</a>
+			<a class="parent" ui-sref="index.content.contentM.list">{{secondMenuName}}</a>
+			<a class="self" >{{"contentDelete"|translate}}</a>
+		</div>
+		<div id="currentSelf">
+			<h3>{{"contentDelete"|translate}}</h3>
+		</div>
+	</div>
+
+	<div class="pageMain">
+		<div id="pageEdit">
+			<form name="edit_form" novalidate autocomplete="off">
+				<div class="pageEdit_content">
+					<!-- 节点 -->
+					<div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"node"|translate}}:</span>
+                        <select class="pageEdit_itemC" ui-select2 ng-model="item.nodeId" ng-options="i.nodeID as i.nodeName for i in nodeList" required></select>  
+                    </div>
+                    <!-- CPID -->
+					<div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"cp"|translate}}:</span>
+                        <select class="pageEdit_itemC" ui-select2 ng-model="item.cpId" ng-options="i.cpId as i.name for i in cpList" required></select>  
+                    </div>
+                    <!-- 是否返回注入结果 -->
+					<div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"responseType"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                        <select class="pageEdit_itemC" ui-select2 ng-model="item.responseType" ng-options="i.id as i.name for i in responseTypeList"></select>  
+                    </div>
+                    
+					<!-- contentId -->
+                    <div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"contentId"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                        <input class="pageEdit_itemC" type="text" ng-model="item.contentId" maxlength="50" placeholder='{{"pleaseInput"|translate}}' >
+                        <span class="iptTip">{{"pleaseInput"|translate}}</span>
+                    </div> 
+                    <!-- flag -->
+					<div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"flag"|translate}}:</span>
+                        <select class="pageEdit_itemC" ui-select2 ng-model="item.flag" ng-options="i.id as i.name for i in flagList" ng-change="changeFlag()" required></select>  
+                    </div>
+                    <!-- contentUrl -->
+                    <div ng-if="item.flag==0" class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"contentUrl"|translate}}:</span>
+                        <input class="pageEdit_itemC" type="text" ng-model="item.contentUrl" maxlength="2048" nullValue required placeholder='{{"pleaseInput"|translate}}'>
+                        <span class="iptTip">{{"pleaseInput"|translate}}</span>
+                    </div>
+                    <!-- contentDir -->
+                    <div ng-if="item.flag!=0" class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"contentDir"|translate}}:</span>
+                        <input class="pageEdit_itemC" type="text" ng-model="item.contentDir" maxlength="2048" nullValue required placeholder='{{"pleaseInput"|translate}}'>
+                        <span class="iptTip">{{"pleaseInput"|translate}}</span>
+                    </div> 
+                    
+				</div>
+			
+				<div class="pageEdit_btnGroup">
+					<button type="button" class="pageBtn_blue40" ng-click="delete()" ng-disabled="edit_form.$invalid">{{"delete"|translate}}</button>
+					<button type="button" class="pageBtn_bai40" ng-click="return()">{{"cancel"|translate}}</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	
+</div>

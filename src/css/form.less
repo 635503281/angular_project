@@ -1,0 +1,812 @@
+
+//修改编辑页面 和 单独配置块
+#pageEdit,.pageConfig{
+    @itemB:28px;//每个编辑项间的间距
+    @itemH:40px;//每个编辑项的高度
+    @iptSpace:8px;//input框距输入框的间距
+    @iptW_min:304px;//input框最小的宽度
+    @iptW:30%;//input框的宽度
+    @titleW:35%;//编辑名称的宽度
+    @errorW:30%;//错误提示的宽度
+    @btnSpace:12px;//按钮之间的间距
+    @iptPL:12px;//input框的padding-left
+    @iptBC:#F5F6FA;//颜色
+    @textareaH:80px;
+
+    padding-top:68px;
+    margin-bottom:20px;
+    background-color: @bai;
+    font-family: "PingFang-SC-Regular";
+    box-shadow:0 1px 3px 0 rgba(31, 46, 84, 0.2);
+
+    //title
+    >h3{
+        font-size:14px;
+        font-weight: 100;
+        padding:0 12px 12px; 
+        color: #273B5A;
+    }
+    //小正方形提示
+    .xTip{
+        &:before{
+            width: 8px;
+            height: 8px;
+            content:"";
+            display: inline-block;
+            background: #D8D8D8;
+            border-radius: 1px;
+            margin-right: 5px
+        }
+        margin-left:12px;
+        font-size: 12px;
+        color:#808894;
+    }
+
+    // 编辑主体部分
+    .pageEdit_content{
+        font-size:14px;
+        border-bottom:1px solid #DCE1E9;
+        // padding-bottom:4px;
+        //编辑的每一项
+        .pageEdit_item{
+            margin-bottom:@itemB; 
+            line-height: @itemH;    
+            color:#2E3440;
+            position: relative;
+            display: block;
+            .clear;
+
+            //横线
+            &.lines{
+                .pageEdit_itemT{
+                    height:1px;
+                }
+                .pageEdit_itemC{
+                    height:0;
+                    border:none;
+                    border-top:1px solid #DCE1E9;
+                }
+            }
+
+            //注：提示
+            &.note{
+                
+                &::before{
+                    display: block;
+                    content:"";
+                    float:left;
+                    width:@titleW;
+                    height:14px;
+                    margin-right:@iptSpace;
+
+                
+                }
+                .pageEdit_itemC{
+                    line-height:14px;
+                    height:14px;
+                    border:none;
+                    font-size:12px;
+                    padding:0;
+                    background-color: @bai;
+                    color: #808894;
+                    .perWidth(@titleW + 2%);
+                }
+
+            }
+
+            //展开按钮
+            &.showBtn{
+                padding-top:@itemB;
+                text-align: center;
+                border-top:1px solid #DCE1E9;
+        
+                button,a{
+                    color:@blue;
+                }
+            }
+
+            //小正方形提示
+            .xTip{
+                &:before{
+                    width: 8px;
+                    height: 8px;
+                    content:"";
+                    display: inline-block;
+                    background: #D8D8D8;
+                    border-radius: 1px;
+                    margin-right: 5px
+                }
+
+                float:left;
+                width:100%;
+                padding-left:calc(~"@{titleW} + @{iptSpace}");
+                padding-left:-webkit-calc(~"@{titleW} + @{iptSpace}");
+                padding-left:-moz-calc(~"@{titleW} + @{iptSpace}");
+                height:16px;
+                line-height: 16px;
+                font-size: 12px;
+                color:#808894;
+                margin-left:0;
+            }
+
+            //a标签提示
+            .aTip{
+                float:left;
+                width:100%;
+                padding-left:calc(~"@{titleW} + @{iptSpace}");
+                padding-left:-webkit-calc(~"@{titleW} + @{iptSpace}");
+                padding-left:-moz-calc(~"@{titleW} + @{iptSpace}");
+                position: absolute;
+                bottom:-16px;
+                line-height: 14px;
+                a{
+                    color:#4181FF ;
+                    font-family: "PingFang-SC-Regular";
+                    font-size:12px;
+                    text-decoration: underline;
+                    cursor: pointer;
+                }
+            }
+
+            .pageEdit_itemT{
+                float:left;
+                width:@titleW;
+                text-align: right;
+                margin-right:@iptSpace;
+                white-space:nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                
+            }
+            
+            .pageEdit_itemC{
+                float:left;
+                height:@itemH;
+                line-height:@itemH - 2px;
+                min-width:@iptW_min;
+                width:@iptW;
+                background: @iptBC;
+                border-radius: 2px!important;
+                border:1px solid @iptBC;
+                padding:0;
+                padding-left:@iptPL;
+                color:#2E3440;
+
+                &[disabled],&[readonly]{
+                    background-color: @ipt-disabled!important;
+                    border: 1px dashed  #CCD1DA!important;
+                }
+                
+                //换行
+                &.wordbreak{
+                    min-height: @itemH;
+                    height: auto;
+                    word-wrap:break-word;
+                }
+
+            }
+           
+            //文本框
+            textarea.pageEdit_itemC{
+                min-height:@textareaH;
+                line-height: 20px;
+                vertical-align: top;
+                padding-top:10px;
+                resize: vertical;
+            }
+
+            //多选
+            select[ui-select2][multiple]+.select2{
+                min-width:@iptW_min!important;
+                width:@iptW!important;
+                .select-multipleLine(@itemH,#2E3440,1px,@iptBC,@iptBC,2px);
+            }
+    
+            //单选
+            select[ui-select2]:not([multiple])+.select2{
+                min-width:@iptW_min!important;
+                width:@iptW!important;
+                .select-single(@itemH,#2E3440,1px,@iptBC,@iptBC,2px);
+            }
+            
+
+            //输入框获得焦点样式
+            input:not([disabled]):not([readonly]):focus,textarea:not([disabled]):not([readonly]):focus{
+                border:1px solid @blue;
+
+                &~.iptTip{
+                    display: inline-block!important;
+                }
+            }
+
+
+            //提示和错误提示
+            .iptTip{
+                width:@errorW;
+                max-width:calc(~"100% - @{titleW} - @{iptW_min} - 15px");
+                max-width:-webkit-calc(~"100% - @{titleW} - @{iptW_min} - 15px");
+                max-width:-moz-calc(~"100% - @{titleW} - @{iptW_min} - 15px");
+            }
+
+        }
+
+        //数组list的编辑项不在首项时
+        .pageEdit_item~.pageEdit_list{
+            padding-top:@itemB;
+            border-top:1px solid #DCE1E9;
+           
+            .pageEdit_listBox+.list_add{
+                margin:30px 0;
+            }
+            
+        }
+        //数组list的编辑项
+        .pageEdit_list{
+            .pageEdit_listBox{
+                margin-bottom:20px; 
+                border-bottom:1px dashed #DCE1E9;
+
+                .pageEdit_item{
+                    height:@itemH;
+                }
+                
+                //删除按钮
+                .list_del{
+                    @height:30px;//按钮的高度
+
+                    margin-left:calc(~"@{titleW} + @{iptSpace}");
+                    margin-left:-webkit-calc(~"@{titleW} + @{iptSpace}");
+                    margin-left:-moz-calc(~"@{titleW} + @{iptSpace}");
+                    min-width:@iptW_min;
+                    width:@iptW;
+                    line-height:  @height;
+                    height: @height;
+                    margin-top:2px - @height ;
+                    margin-bottom:6px;
+                    text-align: center;
+
+                    button{
+                        line-height: 14px;               
+                    }
+
+                }
+               
+                &+.list_add{
+                    margin:30px 0;
+                }  
+            }
+
+            //添加按钮
+           .list_add{
+
+                margin:2px 0 30px;
+                button{
+                    &:hover{
+                        color:@blue;
+                        border-color: @blue!important;
+                        span::before{
+                            background-image: url("../img/table/ic_btn_blue_plus.png");
+                            background-size:16px 16px; 
+                        }
+                    }
+
+                    margin-left:calc(~"@{titleW} + @{iptSpace}");
+                    margin-left:-webkit-calc(~"@{titleW} + @{iptSpace}");
+                    margin-left:-moz-calc(~"@{titleW} + @{iptSpace}");
+                    min-width:@iptW_min;
+                    width:@iptW; 
+                    line-height: @itemH - 2px;
+                    height: @itemH;
+                    text-align: center;
+                    border:1px dashed #DCE1E9!important;
+                    background-color: @bai;
+                    color: #808894;
+                    font-size:14px;
+
+                    span{
+                        position: relative;
+                        display: inline-block;
+                        &::before{
+                            content:"";
+                            display: inline-block;
+                            position: absolute;
+                            background:url("../img/table/ic_btn_grey_plus.png") no-repeat 0 50% ;
+                            background-size:16px 16px; 
+                            width:16px;
+                            height:100%;
+                            vertical-align: middle;
+                            left:-26px;
+                            top:-1px;
+                        }
+                           
+                    }
+                }
+           } 
+        }
+
+        //编辑主体部分的list列表
+        .pageTabContent{
+            margin:0;
+            box-shadow: none;
+            border-top:1px solid  #DCE1E9;
+
+            &+.pageEdit_item,&+div .pageEdit_item:first-child{
+                margin-top:@itemB;
+            }
+
+            h3{
+                margin-top:18px;
+                button{
+                    float: right;
+                    margin-top:-12px;
+                    &:not(:nth-last-of-type){
+                        margin-left:12px;
+                    }
+                }
+            }
+        }
+
+        //上边框
+        .borderT{
+            border-top:1px solid #DCE1E9;
+        }
+    }
+
+    // 操作按钮
+    .pageEdit_btnGroup{
+        padding-top:@btnSpace;  
+        padding-bottom:@btnSpace;
+        font-family: "PingFang-SC-Medium";
+        &::before{
+            content:"";
+            display: inline;
+            float:left;
+            width:calc(~"@{titleW} + @{iptSpace}");
+            width:-webkit-calc(~"@{titleW} + @{iptSpace}");
+            width:-moz-calc(~"@{titleW} + @{iptSpace}");
+            height: 1px;
+
+        }   
+
+        button{
+            float:left;
+            &:not(:last-child){
+                margin-right:@btnSpace;
+            }
+            &:first-child:last-child{
+                
+            }
+            padding:0;
+            min-width:(@iptW_min - @btnSpace)/2;
+            width:calc(~"@{iptW}/2 - @{btnSpace}/2");
+            width:-webkit-calc(~"@{iptW}/2- @{btnSpace}/2");
+            width:-moz-calc(~"@{iptW}/2 - @{btnSpace}/2");
+        }
+
+        //只有一个按钮且此按钮要居中时在button外层加一个div
+        div{
+            float: left;
+            min-width:@iptW_min;
+            width:@iptW;
+            text-align: center;
+            button:first-child:last-child{
+                float: initial;
+                
+            }
+        }
+
+
+        &::after{
+            content:"";
+            display: block;
+            height:0;width:0;
+            clear:both;
+            overflow: hidden;
+        }
+        
+    }
+
+}
+
+//单独配置块(与#pageEdit用法相同)
+.pageConfig{
+    @space:12px;
+    margin: 0 @space @space!important;
+    padding-top:38px!important;
+    // .pageEdit_content{
+    //     @titleW:40%;
+    //     @errW:28%;
+    //     @iptSpace:8px;
+    //     @iptW_min:304px;
+    //     .pageEdit_item{
+         
+    //         .pageEdit_itemT{
+    //             width:@titleW!important;    
+    //         }
+
+    //         //提示和错误提示
+    //         .iptTip{
+    //             width: @errW!important;
+    //             max-width:calc(~"100% - @{titleW} - @{iptW_min} - 15px")!important;
+    //             max-width:-webkit-calc(~"100% - @{titleW} - @{iptW_min} - 15px")!important;
+    //             max-width:-moz-calc(~"100% - @{titleW} - @{iptW_min} - 15px")!important;
+    //         }
+
+    //         //小正方形提示
+    //         .xTip{
+    //             padding-left:calc(~"@{titleW} + @{iptSpace}")!important;
+    //             padding-left:-webkit-calc(~"@{titleW} + @{iptSpace}")!important;
+    //             padding-left:-moz-calc(~"@{titleW} + @{iptSpace}")!important;
+    //         }
+
+    //     }
+    // }
+    
+}
+
+// 表单单独按钮
+.form_btns{
+    text-align: center;
+    padding:12px 0;
+    margin:0 12px;
+    background: @bai;
+    font-size:0;
+    button{
+        font-size:14px;
+        min-width: 148px;
+        &:not(:last-child){
+            margin-right:12px;
+        }
+    }
+}
+
+//编辑项后面的正常和错误提示
+.iptTip{
+    display: none;
+    vertical-align: middle;
+    font-family: "PingFang-SC-Regular";
+    margin-left:6px;
+    margin-top:-2px;
+    color:@tip-normal;
+    font-size:11px;
+    word-wrap:break-word;
+    line-height: 18px;
+    max-height:40px;
+    overflow-y: hidden;
+
+}
+.errTip{
+    display: inline-block;
+    vertical-align: middle;
+    font-family: "PingFang-SC-Medium";
+    margin-left:6px;
+    margin-top:-2px;
+    color:@tip-error;
+    font-size:11px;
+    word-wrap:break-word;
+    line-height: 18px;
+    max-height:40px;
+    overflow-y: hidden;
+
+}
+//编辑项后面的错误输入框颜色
+body .errIpt{
+    border:1px solid @tip-error!important;
+    background-color: #FFF6F4!important;
+}
+
+
+//选填样式
+.optional{
+    color:#808894!important;
+    font-style: normal;
+}
+
+
+/**定义switch 必须给checkbox 定义一个id 关联label for
+<input type="checkbox" ng-model="" id="switch1" class="switch">
+<label for="switch1"></label>
+**/
+input[type=checkbox].switch{
+    display:none;
+
+    @switchH:26px;
+    @switchW:56px;
+    @sideH:22px;
+    @color-close:#999;
+
+    @fontLineH:27px;
+    @textIndentC:28px;
+    @textIndentO:6px;
+
+    &~label{
+        position:relative;
+        display: inline-block;
+        border-radius:@sideH + 2px ;
+        height: @switchH;
+        width:@switchW;
+        cursor: pointer;
+        vertical-align: middle;
+        -webkit-user-select: none;
+        text-align: left;
+    }
+    &~label:before{
+        content: 'OFF';
+        text-indent: @textIndentC;
+        .fontS-12;
+        line-height: @fontLineH;
+        display: block;
+        border-radius: @sideH + 2px;
+        height: @switchH;
+        color:@bai;
+        background-color: @color-close;
+
+        transform: scale(1, 1);
+        -webkit-transform: scale(1, 1);
+        -moz-transform: scale(1, 1);
+        transition: all 0.3s ease;
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+    }
+    &~label:after{
+        content: '';
+        position: absolute;
+        top: 50%;  
+        left: 50%;  
+        margin-top: -@sideH/2;  
+        margin-left: -@sideH/2;
+        width: @sideH;
+        height: @sideH;
+        border-radius: 50%;
+        background-color: @bai;
+        box-shadow: 0 1px 1px 1px rgba(0, 0, 0, .3);
+
+        transform: translateX(-@switchH/2);
+        -webkit-transform: translateX(-@switchH/2);
+        -moz-transform: translateX(-@switchH/2);
+        transition: all 0.3s ease;
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+    }
+    &:checked~label:after{
+        transform: translateX(@switchH/2);
+        -webkit-transform: translateX(@switchH/2);
+        -moz-transform: translateX(@switchH/2);
+    }
+    
+    &:checked~label:before{
+        content: 'ON';
+        text-indent: @textIndentO;
+        background-color:@blue;
+    }  
+
+}
+
+
+/**开关switch(开/关  ON/OFF)
+<label class="pageSwitch">
+    <input type="checkbox" ng-model="" class="pageSwitch-ls">
+    <span class="lbl {{lang}}"></span>
+</label>
+**/
+.pageSwitch,.pageSwitch-yes{
+    padding-left:0;
+    background:@bai;
+    margin-bottom:0;
+    text-align: left;
+
+    input[type=checkbox]{
+        display: none;
+
+        //不可用
+        &[disabled],&[readonly]{
+            +span.lbl{
+                cursor:not-allowed;
+                // .opacity(0.6);
+                &::before{
+                    background-color: #CCD1DA!important; 
+                }
+            }
+            
+        }
+        
+    }
+    span.lbl{
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        width:44px;
+        height: 22px;
+        cursor: pointer;
+    }
+    input[type=checkbox].pageSwitch-ls+.lbl::before{
+        content:"关";
+        font-size:12px;
+        width:44px;
+        height:22px;
+        line-height: 22px;
+        text-indent:25px;
+        vertical-align: middle;
+        color: #fff;
+    
+        // text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+        box-shadow: none;
+        border: 0;
+        font-weight: lighter;
+        border-radius: 12px;
+        display: inline-block;
+        vertical-align: top;
+        background-color: #CCD1DA;
+        -webkit-transition: background .1s ease;
+        -moz-transition: background .1s ease;
+        transition: background .1s ease;
+        
+    }
+    input[type=checkbox].pageSwitch-ls+.lbl::after{
+        content: '';
+        // text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+        // box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        border-radius: 50%;
+        width: 18px;
+        height: 18px;
+        background-color: #fff;
+        -moz-transition: left .2s ease;
+        -webkit-transition: left .2s ease;
+        transition: left .2s ease;
+    }
+    input[type=checkbox].pageSwitch-ls:checked+.lbl::before{
+        content:"开";
+        background-color: @blue;
+        text-indent:8px;
+        line-height: 21px;
+        
+    }
+    input[type=checkbox].pageSwitch-ls:checked+.lbl::after{
+        left:24px;
+    }
+
+    //英文开关 ON OFF
+    input[type=checkbox].pageSwitch-ls+.lbl.en-us::before{
+        content:"OFF";
+        text-indent:20px;
+    }
+    input[type=checkbox].pageSwitch-ls:checked+.lbl.en-us::before{
+        content:"ON";
+        text-indent:3px;
+    }
+}
+/**是否开关
+**/
+.pageSwitch-yes{
+    input[type=checkbox].pageSwitch-ls+.lbl::before{
+        content:"否";
+    }
+    input[type=checkbox].pageSwitch-ls:checked+.lbl::before{
+        content:"是";
+    }
+    input[type=checkbox].pageSwitch-ls+.lbl.en-us::before{
+        content:"No";
+        text-indent:24px;
+    }
+    input[type=checkbox].pageSwitch-ls:checked+.lbl.en-us::before{
+        content:"Yes";
+        text-indent:4px;
+    }
+}
+
+
+/**定义checkbox样式
+<label class="checkbox">
+    <input type="checkbox" ng-model=""><i class="layui-icon"></i>
+    <span>...</span>
+</label>
+**/
+label.checkbox{
+    @checkLineH:30px;
+    @checkW:18px;
+
+    display: inline-block;
+    vertical-align: middle;
+    line-height: @checkLineH;
+    height:@checkLineH;
+
+    input[type=checkbox]{ 
+        display: none;
+        
+        //复选框勾选
+        &~i{
+            display: inline-block;
+            &::before{
+                display: inline-block;
+                content:"";
+                vertical-align: middle;
+                text-align: center;
+                line-height:@checkW; 
+                width:@checkW;
+                height:@checkW;
+                border:1px solid #d2d2d2;
+                border-radius: 2px;
+                margin-right:6px;
+            }
+    
+        }
+        
+        &:checked~i{
+            &::before{
+                content: "\e605";
+                background-color: @blue;
+                color:@bai;
+                border:none;
+                font-size:12px;
+            }
+    
+        }
+    
+    }
+
+    span{
+        display: inline-block;
+        font-size:14px;
+    }
+}
+
+
+/**定义单选radio
+<div class="singleRadio">
+    <label><input type="radio" ng-model=""> <i>...</i></label>
+    <label><input type="radio" ng-model=""> <i>...</i></label>
+</div>
+**/
+.singleRadio{
+    display: inline-block;
+    margin:0;
+    label{
+        display: inline-block;
+        position: relative;
+        margin:0;
+        padding-right:5px;
+        font-weight: 400;
+        &:not(:last-child){
+            margin-right: 30px;
+        }
+
+        input[type='radio']{
+            display: inline-block;
+            vertical-align: middle;
+            margin:0;
+            display: none;
+            &+i{
+                display: inline-block;
+                font-style: initial;
+                cursor: pointer;
+            }
+            &+i::before{
+                content:"";
+                display: inline-block;
+                width:20px;height:20px;
+                margin-right:10px;
+                margin-top:-3px;
+                vertical-align: middle;
+                background: url("../img/form/radio_default_normal@2x.png") no-repeat;
+                background-size: 100%;
+            }
+            //不可用
+            &[disabled]+i{
+                cursor: not-allowed;
+                .opacity(0.6);
+            }
+            
+        }
+        input[type='radio']:checked{
+            &+i::before{
+                background: url("../img/form/radio_selected_normal@2x.png") no-repeat;
+                background-size: 100%;
+            }
+        }
+
+    }
+    
+}

@@ -1,0 +1,54 @@
+<div id="securityLog" class="pageBox">
+    <div id="pageHead">
+        <div id="breadcrumb">
+            <a class="parent">{{firstMenuName}}</a>
+            <a class="self">{{secondMenuName}}</a>
+        </div>
+        <div id="currentSelf">
+            <h3>{{secondMenuName}}</h3>
+        </div>
+    </div>
+
+    <div  class="pageMain">
+        <div class="pageSearch">
+            <div class="pageSearch_row">
+                <div class="pageSearch_item">
+                    <span class="pageSearch_itemT">{{"selectTime"|translate}}:</span>
+                    <input class="pageSearch_itemC" id="times" type="text" ng-model="searchOptions.times" lay-range-date placeholder='{{"beginToEnd"|translate}}' autocomplete="off">
+                </div>
+               
+                <div class="pageSearch_item">
+                    <span class="pageSearch_itemT">{{"type"|translate}}:</span>
+                    <select class="pageSearch_itemC" ui-select2 ng-model="searchOptions.operateType" ng-options="i.id as i.name for i in operateTypeList"></select>
+                </div>
+               
+                <div class="pageSearch_item">
+                    <span class="pageSearch_itemT">{{"userName"|translate}}:</span>
+                    <input class="pageSearch_itemC" type="text" ng-model="searchOptions.userName" null-value placeholder='{{"pleaseInput"|translate}}'>
+                </div>
+            </div>
+             <div class="pageSearch_row">
+                <div class="pageSearch_item">
+                    <span class="pageSearch_itemT">{{"IP"|translate}}:</span>
+                    <input class="pageSearch_itemC" type="text" ng-model="searchOptions.ip" null-value placeholder='{{"pleaseInput"|translate}}'>
+                </div>
+
+                <div class="pageSearch_btnGroup right">
+                    <button  id="search" type="button" class="pageBtn_blue36" ng-click="search()">{{"search"|translate}}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="empty" ng-show="noData"><span>{{"no_data"|translate}}</span></div>
+        <div id="pageContent" ng-show="!noData">
+            
+            <div class="tabBox">
+                <table id="tab" lay-filter="tab"></table>
+            </div>
+            <pagination paging-options="pagingOptions" get-page-data="getPageData()"></pagination>
+        </div>
+
+    </div>
+   
+
+</div>

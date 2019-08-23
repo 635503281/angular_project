@@ -1,0 +1,27 @@
+<div id="contentOTT" init-layui>
+    <div class="header">
+        <span class="layui-breadcrumb" lay-separator="/">
+            <a href="">{{"contentManagement"|translate}}</a>
+            <a ><cite>{{"contentOTT"|translate}}</cite></a>
+        </span>               
+    </div>
+
+    <div class="content">
+        <div class="content_main">
+            <div class="operation_group">
+                <button class="btn-blue" type="button" ng-click="inject()">{{"inject"|translate}}</button>
+                <button class="btn-blue" type="button" ng-click="distribute()">{{"distribute"|translate}}</button>
+                <button class="btn-blue" type="button" ng-click="update()">{{"update"|translate}}</button>
+                <button class="btn-blue" type="button" ng-click="delete()">{{"delete"|translate}}</button>
+                <!-- <button class="btn-blue" type="button" ng-click="retry()" ng-disabled="selectItems.length==0">{{"retry"|translate}}</button> -->
+            </div>
+            
+            <div class="tabbox">
+                <table id="tab" lay-filter="tab"></table>
+            </div>
+            <pagination paging-options="pagingOptions" get-page-data="getPageData()"></pagination>
+            
+        </div>
+        
+    </div>
+</div>

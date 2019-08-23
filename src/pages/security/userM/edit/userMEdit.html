@@ -1,0 +1,90 @@
+<div id="userMEdit" class="pageBox">
+    <div id="pageHead">
+        <div id="breadcrumb">
+            <a class="parent">{{firstMenuName}}</a>
+            <a class="parent" ui-sref="index.security.userM.list">{{secondMenuName}}</a>
+            <a class="self" ng-if="id==0">{{"add"|translate}}</a>
+            <a class="self" ng-if="id!=0">{{"modify"|translate}}</a>
+        </div>
+        <div id="currentSelf">
+            <h3 ng-if="id==0">{{"add"|translate}}</h3>
+            <h3 ng-if="id!=0">{{"modify"|translate}}</h3>
+        </div>
+    </div>
+
+    <div class="pageMain w80 autoLR">
+        <div id="pageEdit">
+            <form name="edit_form" novalidate autocomplete="off">
+                <div class="pageEdit_content">
+                    <!-- 用户名 -->
+                    <div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"userName"|translate}}:</span>
+                        <input class="pageEdit_itemC" type="text" ng-model="item.name" required ng-disabled="id!=0" placeholder='{{"pleaseInputUserName"|translate}}'>
+                        <span class='iptTip'>{{"pleaseInputUserName"|translate}}</span>
+                    </div>
+                    <!-- 角色 -->
+                    <div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"roleName"|translate}}:</span>
+                        <select class="pageEdit_itemC" ui-select2 ng-model="item.role" ng-options="i.id as i.name for i in roleList" required ng-disabled="item.name=='sysadmin'">
+                            <option ng-if="id==0" value>{{"pleaseChoose"|translate}}</option>
+                        </select>
+                    </div>
+                    <div ng-if="id==0">
+                        <!-- 密码 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"password"|translate}}:</span>
+                            <input class="pageEdit_itemC" type="password" name="password" ng-model="item.password" ng-pattern="/^[A-Za-z0-9_]\w{5,17}$/" required autocomplete="new-password"
+                                ng-class="{'errIpt':edit_form.password.$error.pattern}" placeholder='{{"pleaseInputPwd"|translate}}'>
+                            <span class="iptTip" ng-class="{'errTip':edit_form.password.$error.pattern}">{{"passwordTip"|translate}}</span>
+                        </div>
+                        <!-- 确认密码 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"confirmPassword"|translate}}:</span>
+                            <input class="pageEdit_itemC" type="password" name="confirmPassword" ng-model="confirmPassword"  required autocomplete="new-password"
+                                ng-blur="edit_form.confirmPassword.$setValidity('confirmPsdErr',confirmPassword?item.password==confirmPassword:true)"
+                                ng-class="{'errIpt':edit_form.confirmPassword.$error.confirmPsdErr}" placeholder='{{"pleaseInputPwdAgain"|translate}}'>
+                            <span class="iptTip" ng-class="{'errTip':edit_form.confirmPassword.$error.confirmPsdErr}">
+                                {{edit_form.confirmPassword.$error.confirmPsdErr?("password_inconsistent"|translate):("pleaseInputPwdAgain"|translate)}}
+                            </span>
+                        </div>
+                        <!-- 是否激活 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"enable"|translate}}:</span>
+                            <label class="pageSwitch-yes">
+                                <input type="checkbox" ng-model="item.enable" class="pageSwitch-ls">
+                                <span class="lbl {{lang}}"></span>
+                            </label> 
+                        </div>
+                    </div>
+                    
+                    <!-- 邮箱 -->
+                    <div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"email"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                        <input class="pageEdit_itemC" type="email" name="email" ng-model="item.email"
+                            ng-class="{'errIpt':edit_form.email.$error.email}" placeholder='{{"pleaseInput"|translate}}'>
+                        <span class="iptTip" ng-class="{'errTip':edit_form.email.$error.email}">{{"invalidemail"|translate}}</span>
+                    </div>
+                    <!-- 手机 -->
+                    <div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"telephone"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                        <input class="pageEdit_itemC" type="text" name="telephone" ng-model="item.telephone"  ng-pattern="/^\d{0,11}$/"
+                            ng-class="{'errIpt':edit_form.telephone.$error.pattern}" placeholder='{{"pleaseInput"|translate}}'>
+                        <span class="iptTip" ng-class="{'errTip':edit_form.telephone.$error.pattern}">{{"invalidTel"|translate}}</span>
+                    </div>
+                    <!-- 描述 -->
+                    <div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"description"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                        <textarea class="pageEdit_itemC" ng-model="item.description" placeholder='{{"pleaseInput"|translate}}'></textarea>
+                        <span class="iptTip">{{"pleaseInput"|translate}}</span>
+                    </div>
+
+                </div>
+
+                <div class="pageEdit_btnGroup">
+                    <button type="button" class="pageBtn_blue40" ng-click="save()" ng-disabled="edit_form.$invalid">{{"submit"|translate}}</button>
+                    <button type="button" class="pageBtn_bai40" ng-click="return()">{{"cancel"|translate}}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

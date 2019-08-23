@@ -1,0 +1,38 @@
+<div id="page1" init-layui>
+    <div class="header">
+        <span class="layui-breadcrumb" lay-separator="/">
+            <a href="">{{"authenticationMmanagement"|translate}}</a>
+            <a><cite>page1</cite></a>
+        </span>               
+    </div>
+
+    <div class="content">
+        <div class="searchbox">
+            <div class="search_row">
+                <div class="search_item">
+                    <span class="search_title">{{"selectTime"|translate}}</span>
+                    <input class="search_content" type="text" id="time1"  ng-model="time1" lay-range-date>
+                </div>
+                <button type="button" id="search" class="btn-blue marL-20" ng-click="search()">{{"search"|translate}}</button>
+            </div>
+        </div>
+
+        <!-- <div>
+            <canvas id="canvas" style="width:100%;height: 700px;"></canvas>
+        </div> -->
+        <div>
+            <div>
+                <button class="pageBtn_blue40" ng-click="fn1()">所有节点</button>
+            </div>
+            <div id="tree"></div>
+        </div>
+        <!-- <div class="w100">
+            <div class="tabbox">
+                <table id="tab" lay-filter="tab"></table>
+            </div>
+            <pagination paging-options="pagingOptions" get-page-data="getPageData()"></pagination>
+        </div> -->
+    </div>
+   
+        
+</div>

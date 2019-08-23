@@ -1,0 +1,33 @@
+<div id="globalSchedulingSList" class="pageBox">
+    <div id="pageHead">
+        <div id="breadcrumb">
+            <a class="parent">{{firstMenuName}}</a>
+            <a class="self">{{secondMenuName}}</a>
+        </div>
+        <div id="currentSelf">
+            <h3>{{secondMenuName}}</h3>
+        </div>
+    </div>
+
+    <div class="pageMain">
+        <div class="pageContent_operation">
+            <a ng-if="globalSchedulingS.addBtn" class="pageBtn_blue36 addIcon" ui-sref="index.strategy.globalSchedulingS.edit({id:0})">{{globalSchedulingS.addName}}</a>
+            <button ng-if="globalSchedulingS.issuedAllBtn" class="pageBtn_blue36" ng-click="issuedAll()">{{globalSchedulingS.issuedAllName}}</button>
+            <button ng-if="globalSchedulingS.issuedMoreBtn" class="pageBtn_blue36" ng-click="issuedMore()" ng-show="selectItems.length!=0" ng-disabled="selectItems.length==0">{{globalSchedulingS.issuedMoreName}}</button>
+            <button ng-if="globalSchedulingS.deleteMoreBtn" class="pageBtn_blue36" ng-click="deleteMore()" ng-show="selectItems.length!=0" ng-disabled="selectItems.length==0">{{globalSchedulingS.deleteMoreName}}</button>
+            
+            <selected-tip ng-hide="noData" length="selectItems.length"></selected-tip>
+        </div>
+        
+
+        <div class="empty" ng-show="noData"><span>{{"no_data"|translate}}</span></div>
+        <div id="pageContent" ng-show="!noData">
+            <div class="tabBox">
+                <table id="tab" lay-filter="tab"></table>
+            </div>
+            <pagination paging-options="pagingOptions" get-page-data="getPageData()"></pagination>
+        </div>
+
+    </div>
+
+</div>

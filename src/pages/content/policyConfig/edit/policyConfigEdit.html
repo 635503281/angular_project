@@ -1,0 +1,103 @@
+<div id="policyConfigEdit" class="pageBox">
+	<div id="pageHead">
+		<div id="breadcrumb">
+			<a class="parent">{{firstMenuName}}</a>
+			<a class="parent" ui-sref="index.content.policyConfig.list">{{secondMenuName}}</a>
+            <a class="self" ng-if="id==0">{{"add"|translate}}</a>
+            <a class="self" ng-if="id!=0">{{"modify"|translate}}</a>	
+		</div>
+		<div id="currentSelf">
+			<h3 ng-if="id==0">{{"add"|translate}}</h3>
+            <h3 ng-if="id!=0">{{"modify"|translate}}</h3>
+		</div>
+	</div>
+
+	<div class="pageMain w80 autoLR">
+		<div id="pageEdit">
+			<form name="edit_form" novalidate autocomplete="off">
+				<div class="pageEdit_content">
+                    <!-- 策略类型 -->
+					<div class="pageEdit_item">
+						<span class="pageEdit_itemT">{{"policyType"|translate}}:</span>
+                        <select class="pageEdit_itemC" ui-select2 ng-model="item.policyType" ng-options="i.id as i.name for i in policyTypeList" ng-disabled="id!=0" required></select>
+                    </div>
+                    <div ng-if="item.policyType!=0">
+                        <!-- cpId -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT ">{{"cpId"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                            <select class="pageEdit_itemC" ui-select2 ng-model="item.cpId" ng-options="i.cpId as i.name for i in cpList" ng-disabled="item.policyType==0" ></select>
+                        </div>
+                        <!-- url -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT ">{{"url"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                            <input class="pageEdit_itemC" type="text" ng-model="item.url"  ng-disabled="item.policyType==0" null-value maxlength="255" placeholder='{{"pleaseInput"|translate}}'>
+                            <span class="iptTip">{{"pleaseInput"|translate}}</span>
+                        </div>
+                        <!-- 域名 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT ">{{"domain"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                            <input class="pageEdit_itemC" type="text" ng-model="item.domain" ng-disabled="item.policyType==0" null-value maxlength="255" placeholder='{{"pleaseInput"|translate}}'>
+                            <span class="iptTip">{{"pleaseInput"|translate}}</span>
+                        </div>
+                        <!-- 文件类型 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT ">{{"fileType"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                            <input class="pageEdit_itemC" type="text" ng-model="item.fileType" ng-disabled="item.policyType==0" null-value maxlength="255" placeholder='{{"pleaseInput"|translate}}'>
+                            <span class="iptTip">{{"pleaseInput"|translate}}</span>
+                        </div>
+                    </div>
+                    <!-- 有效期 -->
+                    <div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"effectiveTime"|translate}}:</span>
+                        <input class="pageEdit_itemC" id="effectiveTime" lay-range-date type="text" ng-model="item.effectiveTime" placeholder='{{"beginToEnd"|translate}}' required>
+                    </div>
+                    <div ng-if="type==1">
+                        <!-- 注入类型 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"injectType"|translate}}:</span>
+                            <select class="pageEdit_itemC" ui-select2 ng-model="item.injectType">
+                                <option value="0">{{"injectType_0"|translate}}</option>
+                                <option value="1">{{"injectType_1"|translate}}</option>
+                                <option value="2">{{"injectType_2"|translate}}</option>
+                            </select>
+                        </div>
+                        <!-- 延迟时间 -->
+                        <div class="pageEdit_item" ng-if="item.injectType=='1'">
+                            <span class="pageEdit_itemT">{{"delayedHours"|translate}}(h):</span>
+                            <input class="pageEdit_itemC" type="number" ng-model="item.delayedHours" null-value required placeholder='{{"beNumber_10"|translate}}' maxlimit="10"
+                                oninput="this.value<=0?this.value=null:this.value;">
+                            <span class="iptTip">{{"beNumber_10"|translate}}</span>
+                        </div>
+                        <!-- 定时时间 -->
+                        <div class="pageEdit_item" ng-if="item.injectType=='2'" >
+                            <span class="pageEdit_itemT">{{"dailyTime"|translate}}:</span>
+                            <input class="pageEdit_itemC" id="dailyTime" lay-range-date  date-type="time" type="text" ng-model="item.dailyTime" required placeholder='{{"pleaseSelectTime"|translate}}'>
+                        </div>
+                    </div>
+
+                    <!-- 分发节点 -->
+                    <div ng-if="type==2" class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"distributeNodes"|translate}}:</span>
+                        <select class="pageEdit_itemC" ui-select2 ng-model="item.distributeNodes" ng-options="i.nodeID as i.nodeName for i in distributeNodeList" 
+                            multiple data-placeholder="{{'pleaseChoose'|translate}}" required>
+                        </select>
+                    </div>
+
+                    <!-- 同步节点 -->
+                    <div ng-if="type==3" class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"syncNodes"|translate}}:</span>
+                        <select class="pageEdit_itemC" ui-select2 ng-model="item.syncNodes" ng-options="i.nodeID as i.nodeName for i in syncNodeList" 
+                            multiple data-placeholder="{{'pleaseChoose'|translate}}" required>
+                        </select>
+                    </div>
+            
+                </div>
+     
+				<div class="pageEdit_btnGroup">
+					<button type="button" class="pageBtn_blue40" ng-click="save()" ng-disabled="edit_form.$invalid">{{"submit"|translate}}</button>
+					<button type="button" class="pageBtn_bai40" ng-click="return()">{{"cancel"|translate}}</button>
+				</div>
+			</form>	
+		</div>
+	</div>
+</div>

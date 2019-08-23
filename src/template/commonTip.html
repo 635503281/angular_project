@@ -1,0 +1,11 @@
+<div class="commonTipBox">
+    <div class="commonTip_icon">
+        <span class="layui-layer-ico{{icon}}"></span>
+    </div>
+    <h5 class="commonTip_tip">{{tip}}</h5>
+    <p class="commonTip_message">{{message}}</p>
+    <div class="commonTip_btn clear">
+        <button type="button" class="pageBtn_bai40 cancel" ng-click="closeThisDialog('Cancel')" ng-if="type==1">{{"cancel"|translate}}</button>
+        <button type="button" class="pageBtn_blue40 save" ng-click="confirm('Save')">{{"ok"|translate}}<span ng-if="timeout!=0&&timeoutType=='number'">({{timeout}})</span></button>
+    </div>
+</div>

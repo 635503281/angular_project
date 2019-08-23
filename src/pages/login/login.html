@@ -1,0 +1,51 @@
+
+<div id="login">
+    
+    <div id="main" class="{{lang}}">
+        <!-- 图标 -->
+        <div class="login_icon"></div>
+        
+        <div class="login_content">
+            <form name="login_form">
+                <h3>{{'cdncManagementSystem'|translate}}</h3>
+                <!-- 错误信息 -->
+                <div class="error">{{errMessage}}</div>
+                <!-- 账号 -->
+                <div class="ipt_model userName_ipt">
+                    <input type="text" ng-model="item.userName" placeholder="{{'userName'|translate}}" required autofocus tabindex="1">
+                    <button type="button" class="codeBtn" ng-show="item.userName" ng-click="item.userName=null"></button>
+                </div>
+                <!-- 密码 -->
+                <div class="ipt_model password_ipt">
+                    <input type="password" ng-model="item.password" placeholder="{{'password'|translate}}" required tabindex="2" autocomplete="new-password">
+                    <button type="button" class="codeBtn" ng-show="item.password" ng-click="item.password=null"></button>
+                </div>
+                <!-- 验证码 -->
+                <div class="ipt_model code_ipt">
+                    <input type="text" ng-model="item.captcha" placeholder="{{'code'|translate}}" minlength="4" maxlength="4" required tabindex="3">
+                    <button type="button" class="codeBtn" ng-show="item.captcha" ng-click="item.captcha=null"></button>
+                    <span class="imgbox">
+                        <img id="codeImg" alt="{{'code'|translate}}" ng-click="getCode()">
+                    </span>
+                </div>
+                <!-- 登录 -->
+                <div class="ipt_model marB-0">
+                    <button class="btn1" type="button" ng-click="login()" ng-disabled="login_form.$invalid||loading">{{loading?("loading"|translate):('login'|translate)}}
+                        <img ng-if="loading" src="../../img/login/ic_login@2x.png">
+                    </button>
+                </div>
+                <!-- 语言切换 -->
+                <div class="ipt_model marB-0 singleRadio">
+                    <label ng-repeat="value in langList track by $index">
+                        <input type="radio" name="lang" ng-click="changeLang(value.lang)" ng-checked="lang==value.lang">
+                        <i>{{value.name}}</i>
+                    </label>
+                </div>
+            </form>
+        </div>
+        <!-- 版权 -->
+        <div class="login_copyright"> © {{"fiberhome_copyright"|translate}} &nbsp;all rights reserved</div>
+    </div>
+    
+</div>
+

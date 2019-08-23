@@ -1,0 +1,209 @@
+<div id="inject" class="pageBox">
+	<div id="pageHead">
+		<div id="breadcrumb">
+			<a class="parent">{{firstMenuName}}</a>
+			<a class="parent" ui-sref="index.content.contentM.list">{{secondMenuName}}</a>
+			<a class="self" >{{"contentInject"|translate}}</a>
+		</div>
+		<div id="currentSelf">
+			<h3>{{"contentInject"|translate}}</h3>
+		</div>
+	</div>
+
+	<div class="pageMain">
+		<div id="pageEdit">
+			<form name="edit_form" novalidate autocomplete="off">
+				<div class="pageEdit_content">
+					<!-- 节点 -->
+					<div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"node"|translate}}:</span>
+                        <select class="pageEdit_itemC" ui-select2 ng-model="item.nodeId" ng-options="i.nodeID as i.nodeName for i in nodeList" required></select>  
+                    </div>
+                    <!-- CPID -->
+					<div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"cp"|translate}}:</span>
+                        <select class="pageEdit_itemC" ui-select2 ng-model="item.cpId" ng-options="i.cpId as i.name for i in cpList" required></select>  
+                    </div>
+                    <!-- 是否返回注入结果 -->
+					<div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"responseType"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                        <select class="pageEdit_itemC" ui-select2 ng-model="item.responseType" ng-options="i.id as i.name for i in responseTypeList"></select>  
+                    </div>
+
+                    <!-- contentId -->
+                    <div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"contentId"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                        <input class="pageEdit_itemC" type="text" ng-model="item.contentId" maxlength="50" placeholder='{{"pleaseInput"|translate}}' >
+                        <span class="iptTip">{{"pleaseInput"|translate}}</span>
+                    </div> 
+                    <!-- contentName -->
+                    <div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"contentName"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                        <input class="pageEdit_itemC" type="text" ng-model="item.contentName" maxlength="256" placeholder='{{"pleaseInput"|translate}}' >
+                        <span class="iptTip">{{"pleaseInput"|translate}}</span>
+                    </div>
+                    <!-- flag -->
+					<div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"flag"|translate}}:</span>
+                        <select class="pageEdit_itemC" ui-select2 ng-model="item.flag" ng-options="i.id as i.name for i in flagList" ng-change="changeFlag()" required></select>  
+                    </div>
+                    <!-- contentUrl -->
+                    <div ng-if="item.flag==0" class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"contentUrl"|translate}}:</span>
+                        <input class="pageEdit_itemC" type="text" ng-model="item.contentUrl" maxlength="2048" nullValue required placeholder='{{"pleaseInput"|translate}}'>
+                        <span class="iptTip">{{"pleaseInput"|translate}}</span>
+                    </div>
+                    <!-- contentDir -->
+                    <div ng-if="item.flag!=0" class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"contentDir"|translate}}:</span>
+                        <input class="pageEdit_itemC" type="text" ng-model="item.contentDir" maxlength="2048" nullValue required placeholder='{{"pleaseInput"|translate}}'>
+                        <span class="iptTip">{{"pleaseInput"|translate}}</span>
+                    </div>  
+
+                   
+                    <div ng-show="showOptional">
+                        <!-- 时长 -->
+					    <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"duration"|translate}}(s)<i class="optional">{{"optional"|translate}}</i>:</span>
+                            <input class="pageEdit_itemC" type="number" name="duration" ng-model="item.duration" maxlimit="50" min="0" step="1" 
+                                   ng-class="{'errIpt':edit_form.duration.$error.number||edit_form.duration.$error.min}" placeholder='{{"pleaseInputNumber"|translate}}'>
+                            <span class="iptTip" ng-class="{'errTip':edit_form.duration.$error.number||edit_form.duration.$error.min}">{{"pleaseInputNumber"|translate}}</span>
+                        </div> 
+                        <!-- 媒体类型 -->
+					    <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"mimeType"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                            <input class="pageEdit_itemC" type="text" ng-model="item.mimeType" maxlength="50" placeholder='{{"pleaseInput"|translate}}'>
+                            <span class="iptTip">{{"pleaseInput"|translate}}</span>
+                        </div> 
+                        <!-- 码率 -->
+					    <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"bitRate"|translate}}(bps)<i class="optional">{{"optional"|translate}}</i>:</span>
+                            <input class="pageEdit_itemC" type="number" name="bitRate" ng-model="item.bitRate" maxlimit="50" min="0" step="1" 
+                                   ng-class="{'errIpt':edit_form.bitRate.$error.number||edit_form.bitRate.$error.min}" placeholder='{{"pleaseInputNumber"|translate}}'>
+                            <span class="iptTip" ng-class="{'errTip':edit_form.bitRate.$error.number||edit_form.bitRate.$error.min}">{{"pleaseInputNumber"|translate}}</span>
+                        </div> 
+                        <!-- 大小 -->
+					    <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"size"|translate}}(Byte)<i class="optional">{{"optional"|translate}}</i>:</span>
+                            <input class="pageEdit_itemC" type="number" name="size" ng-model="item.size" maxlimit="20" min="0" step="1" 
+                                   ng-class="{'errIpt':edit_form.size.$error.number||edit_form.size.$error.min}" placeholder='{{"pleaseInputNumber"|translate}}'>
+                            <span class="iptTip" ng-class="{'errTip':edit_form.size.$error.number||edit_form.size.$error.min}">{{"pleaseInputNumber"|translate}}</span>
+                        </div> 
+                        <!-- 分辨率 -->
+					    <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"resolution"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                            <input class="pageEdit_itemC" type="text" ng-model="item.resolution" maxlength="50" placeholder='{{"pleaseInput"|translate}}'>
+                            <span class="iptTip">{{"pleaseInput"|translate}}</span>
+                        </div> 
+                        <!-- 校验文件内容 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"checkType"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                            <select class="pageEdit_itemC" ui-select2 ng-model="item.checkType" ng-options="i.id as i.name for i in checkTypeList"></select>
+                        </div>
+                        <!-- md5值 -->
+                        <div class="pageEdit_item" ng-if="item.checkType==1">
+                            <span class="pageEdit_itemT">{{"checkStr"|translate}}:</span>
+                            <input class="pageEdit_itemC" type="text" ng-model="item.checkStr" maxlength="255" placeholder='{{"pleaseInput"|translate}}' required> 
+                            <span class="iptTip">{{"pleaseInput"|translate}}</span>
+                        </div>
+                        <!-- 内容来源系统的ID -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"systemId"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                            <input class="pageEdit_itemC" type="text" ng-model="item.systemId" maxlength="255" placeholder='{{"pleaseInput"|translate}}'>
+                            <span class="iptTip">{{"pleaseInput"|translate}}</span>
+                        </div>
+                        <!-- 内容类型 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"contentType"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                            <select class="pageEdit_itemC" ui-select2 ng-model="item.contentType" ng-options="i.id as i.name for i in contentTypeList"></select>
+                        </div>
+                        <!-- 是否支持时移 -->
+                        <div class="pageEdit_item" ng-if="item.contentType==2">
+                            <span class="pageEdit_itemT">{{"tsSupport"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                            <select class="pageEdit_itemC" ui-select2 ng-model="item.tsSupport" ng-options="i.id as i.name for i in tsSupportList"></select>
+                        </div>
+                        <!-- 开始录制时间 -->
+                        <div class="pageEdit_item" ng-if="item.contentType==2&&item.tsSupport==1">
+                            <span class="pageEdit_itemT">{{"beginTime"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                            <input class="pageEdit_itemC" type="text" ng-model="item.beginTime" id="beginTime" lay-date placeholder='{{"pleaseSelectTime"|translate}}'>
+                        </div>
+                        <!-- 结束录制时间 -->
+                        <div class="pageEdit_item" ng-if="item.contentType==2&&item.tsSupport==1">
+                            <span class="pageEdit_itemT">{{"endTime"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                            <input class="pageEdit_itemC" type="text" ng-model="item.endTime" id="endTime" lay-date placeholder='{{"pleaseSelectTime"|translate}}'>
+                        </div>
+
+                        <!-- src类型 -->
+                        <div class="pageEdit_item" ng-if="item.contentType==2">
+                            <span class="pageEdit_itemT">{{"srcType"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                            <select class="pageEdit_itemC" ui-select2 ng-model="item.srcType" ng-options="i.id as i.name for i in srcTypeList"></select>
+                        </div>
+                        <!-- 是否是浮动频点 -->
+                        <div class="pageEdit_item" ng-if="item.contentType==2">
+                            <span class="pageEdit_itemT">{{"isFloatIPQAM"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                            <select class="pageEdit_itemC" ui-select2 ng-model="item.isFloatIPQAM" ng-options="i.id as i.name for i in isFloatIPQAMList"></select>
+                        </div>
+
+                        <!-- 内容访问路径 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"accessURL"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                            <input class="pageEdit_itemC" type="text" ng-model="item.accessURL" maxlength="256" placeholder='{{"pleaseInput"|translate}}'>
+                            <span class="iptTip">{{"pleaseInput"|translate}}</span>
+                        </div>
+                        <!-- 内容提供商 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"providerId"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                            <input class="pageEdit_itemC" type="text" ng-model="item.providerId" maxlength="255" placeholder='{{"pleaseInput"|translate}}'>
+                            <span class="iptTip">{{"pleaseInput"|translate}}</span>
+                        </div>
+                        <!-- 内容是否需要分发 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"needDelivery"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                            <select class="pageEdit_itemC" ui-select2 ng-model="item.needDelivery" ng-options="i.id as i.name for i in responseTypeList"></select>
+                        </div>
+                        <!-- 内容源业务标识 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"serviceId"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                            <input class="pageEdit_itemC" type="text" ng-model="item.serviceId" maxlength="64" placeholder='{{"pleaseInput"|translate}}'>
+                            <span class="iptTip">{{"pleaseInput"|translate}}</span>
+                        </div>
+                        <!-- 业务类型 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"serviceType"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                            <select class="pageEdit_itemC" ui-select2 ng-model="item.serviceType" ng-options="i.id as i.name for i in serviceTypeList"></select>
+                        </div>
+                        <!-- 媒体类型 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"mediaType"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                            <select class="pageEdit_itemC" ui-select2 ng-model="item.mediaType" ng-options="i.id as i.name for i in mediaTypeList"></select>
+                        </div>
+                        <!-- 版权开始日期 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"copyrightStart"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                            <input class="pageEdit_itemC" type="text" ng-model="item.copyrightStart" id="copyrightStart" lay-date placeholder='{{"pleaseSelectTime"|translate}}'>
+                        </div>
+                        <!-- 版权结束日期 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"copyrightEnd"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                            <input class="pageEdit_itemC" type="text" ng-model="item.copyrightEnd" id="copyrightEnd" lay-date placeholder='{{"pleaseSelectTime"|translate}}'>
+                        </div>
+
+                    </div>
+
+                    <div class="pageEdit_item showBtn">
+                        <a class="pageBtn_bai36" ng-click="showOptional=!showOptional">
+							<span ng-if="!showOptional">{{"openOptional"|translate}}<i class="layui-icon layui-icon-down marL-5"></i></span>
+							<span ng-if="showOptional">{{"closeOptional"|translate}}<i class="layui-icon layui-icon-up marL-5"></i></span>
+						</a>
+                    </div> 
+				</div>
+			
+				<div class="pageEdit_btnGroup">
+					<button type="button" class="pageBtn_blue40" ng-click="inject()" ng-disabled="edit_form.$invalid">{{"inject"|translate}}</button>
+					<button type="button" class="pageBtn_bai40" ng-click="return()">{{"cancel"|translate}}</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	
+</div>

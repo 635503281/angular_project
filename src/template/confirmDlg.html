@@ -1,0 +1,16 @@
+<div>
+	<div class="ngdialog-header center">
+		<p>{{'tip_title'|translate}}</p>
+	</div>
+	<div class="ngdialog-message center">
+		{{message}}
+	</div>
+	<div class="ngdialog-buttons center">
+		<button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm('ok')" style="margin-right:5px;">
+			{{'ok'|translate}}
+		</button>
+		<button type="button" class="ngdialog-button ngdialog-button-secondary " ng-click="closeThisDialog('cancel')">
+			{{'cancel'|translate}}
+		</button>
+	</div>
+</div>

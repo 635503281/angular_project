@@ -1,0 +1,43 @@
+<div id="domainView" class="pageBox">
+    <div id="pageHead">
+        <div id="breadcrumb">
+            <a class="parent">{{firstMenuName}}</a>
+            <a class="self">{{secondMenuName}}</a>
+        </div>
+        <div id="currentSelf">
+            <h3>{{secondMenuName}}</h3>
+        </div>
+    </div>
+
+    <div class="pageMain">
+         <div class="pageSearch">
+            <form name="search_form">
+                <div class="pageSearch_row">
+                    <div class="pageSearch_item">
+                        <span class="pageSearch_itemT">{{"domainType"|translate}}<i class="required">*</i>:</span>
+                        <select class="pageSearch_itemC" ui-select2 ng-model="searchOptions.domainGroup" ng-options="i.id as i.name for i in domainGroupList" required></select>
+                    </div>
+                
+                    <div class="pageSearch_item">
+                        <span class="pageSearch_itemT">{{"node"|translate}}<i class="required">*</i>:</span>
+                        <select class="pageSearch_itemC" ui-select2  ng-model="searchOptions.nodeId" ng-options="i.nodeID as i.nodeName for i in nodeList" required></select>
+                    </div>
+
+                    <div class="pageSearch_btnGroup right">
+                        <button ng-if="domainView.searchBtn" id="search" type="button" class="pageBtn_blue36" ng-click="search()" ng-disabled="search_form.$invalid">{{domainView.searchName}}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+   
+        <div class="empty" ng-show="noData"><span>{{"no_data"|translate}}</span></div>
+        <div id="pageContent" ng-show="!noData">
+            <div class="tabBox">
+                <table id="tab" lay-filter="tab"></table>
+            </div>   
+        </div>
+
+    </div>
+
+</div>

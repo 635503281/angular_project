@@ -1,0 +1,99 @@
+<div id="contentMList" class="pageBox">
+    <div id="pageHead">
+        <div id="breadcrumb">
+            <a class="parent">{{firstMenuName}}</a>
+            <a class="self">{{secondMenuName}}</a>
+        </div>
+        <div id="currentSelf">
+            <h3>{{secondMenuName}}</h3>
+        </div>
+        <div class="pageHead_btn">
+            <div ng-if="contentM.injectBtn||contentM.injectMoreBtn" class="pageBtn_blue36 dropdownBtn">{{"inject"|translate}}
+                <div class="dropdownBox">
+                    <a ng-if="contentM.injectBtn" class="btn" ui-sref="index.content.contentM.inject">{{contentM.injectName}}</a>
+                    <button ng-if="contentM.injectMoreBtn" class="btn" type="button" ng-click="importMore('injectMore','static/assets/file/inject_template.xlsx','/rest/content/contentInjectFromFile')">{{contentM.injectMoreName}}</button>
+                </div>
+            </div>
+            <div ng-if="contentM.synchroBtn||contentM.synchroMoreBtn" class="pageBtn_blue36 dropdownBtn">{{"synchro"|translate}}
+                <div class="dropdownBox">
+                    <a ng-if="contentM.synchroBtn" class="btn" ui-sref="index.content.contentM.synchro">{{contentM.synchroName}}</a>
+                    <button ng-if="contentM.synchroMoreBtn" class="btn" type="button" ng-click="importMore('synchroMore','static/assets/file/sync_template.xlsx','/rest/content/contentDistributeSyncFromFile')">{{contentM.synchroMoreName}}</button>
+                </div>
+            </div>
+            <div ng-if="contentM.distributeBtn||contentM.distributeMoreBtn" class="pageBtn_blue36 dropdownBtn">{{"distribute"|translate}}
+                <div class="dropdownBox">
+                    <a ng-if="contentM.distributeBtn" class="btn" ui-sref="index.content.contentM.distribute">{{contentM.distributeName}}</a>
+                    <button ng-if="contentM.distributeMoreBtn" class="btn" type="button" ng-click="importMore('distributeMore','static/assets/file/distri_template.xlsx','/rest/content/contentDistributeFromFile')">{{contentM.distributeMoreName}}</button>
+                </div>
+            </div>
+            <div ng-if="contentM.updateBtn||contentM.updateMoreBtn" class="pageBtn_blue36 dropdownBtn">{{"update"|translate}}
+                <div class="dropdownBox">
+                    <a ng-if="contentM.updateBtn" class="btn" ui-sref="index.content.contentM.update">{{contentM.updateName}}</a>
+                    <button ng-if="contentM.updateMoreBtn" class="btn" type="button" ng-click="importMore('updateMore','static/assets/file/update_template.xlsx','/rest/content/contentUpdateFromFile')">{{contentM.updateMoreName}}</button>
+                </div>
+            </div>
+            <div ng-if="contentM.deleteBtn||contentM.deleteMoreBtn" class="pageBtn_blue36 dropdownBtn">{{"delete"|translate}}
+                <div class="dropdownBox">
+                    <a ng-if="contentM.deleteBtn" class="btn" ui-sref="index.content.contentM.delete">{{contentM.deleteName}}</a>
+                    <button ng-if="contentM.deleteMoreBtn" class="btn" type="button" ng-click="importMore('deleteMore','static/assets/file/delete_template.xlsx','/rest/content/contentDeleteFromFile')">{{contentM.deleteMoreName}}</button>
+                </div>
+            </div>
+        </div>
+        <div class="pageNavtab">
+            <li ng-repeat="tab in tabList" ng-click="switchTab(tab.id)" ng-class="{'active':currentTab==tab.id}">
+                <a>{{tab.name}}</a>
+            </li>
+        </div>
+    </div>
+
+    <div class="pageMain">
+        <div class="pageSearch">
+            <div class="pageSearch_row">
+                <div class="pageSearch_item">
+                    <span class="pageSearch_itemT">{{"selectTime"|translate}}:</span>
+                    <input class="pageSearch_itemC" id="times" type="text" ng-model="searchOptions.times" lay-range-date placeholder='{{"beginToEnd"|translate}}' autocomplete="off">
+                </div>
+                <div class="pageSearch_item">
+                    <span class="pageSearch_itemT">{{"node"|translate}}:</span>
+                    <select class="pageSearch_itemC" ui-select2 ng-model="searchOptions.nodeId" ng-options="i.nodeID as i.nodeName for i in nodeList"></select>
+                </div>
+                <div class="pageSearch_item" >
+                    <span class="pageSearch_itemT">{{"cp"|translate}}:</span>
+                    <input class="pageSearch_itemC" type="text" ng-model="searchOptions.cpId" null-value placeholder='{{"pleaseInput"|translate}}'>
+                </div>    
+            </div>
+            <div class="pageSearch_row">
+                 <div class="pageSearch_item">
+                    <span class="pageSearch_itemT">{{"commandType"|translate}}:</span>
+                    <select class="pageSearch_itemC" ui-select2 ng-model="searchOptions.commandType" ng-options="key as value for (key,value) in commandType"></select>
+                </div>
+                <div class="pageSearch_item">
+                    <span class="pageSearch_itemT">{{"operationResult"|translate}}:</span>
+                    <select class="pageSearch_itemC" ui-select2 ng-model="searchOptions.operationResult" ng-options="i.id as i.name for i in operationResult"></select>
+                </div>
+                <div class="pageSearch_item" >
+                    <span class="pageSearch_itemT">{{"contentUrlDir"|translate}}:</span>
+                    <input class="pageSearch_itemC" type="text" ng-model="searchOptions.contentUrlDir" null-value placeholder='{{"pleaseInput"|translate}}'> 
+                </div>
+               
+            </div>
+            <div class="pageSearch_row onlyBtn">
+                 <div class="pageSearch_btnGroup right">
+                    <button ng-if="contentM.searchBtn" id="search" type="button" class="pageBtn_blue36" ng-click="search()">{{contentM.searchName}}</button>
+                    <button ng-if="contentM.resetBtn" type="button" class="pageBtn_bai36" ng-click="reset()">{{contentM.resetName}}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="empty" ng-show="noData"><span>{{"no_data"|translate}}</span></div>
+        <div id="pageContent" ng-show="!noData">
+            
+            <div class="tabBox">
+                <table id="tab" lay-filter="tab"></table>
+            </div>
+            <pagination paging-options="pagingOptions" get-page-data="getPageData()"></pagination>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,61 @@
+<div id="localSchedulingSEdit" class="pageBox">
+    <div id="pageHead">
+        <div id="breadcrumb">
+            <a class="parent">{{firstMenuName}}</a>
+            <a class="parent" ui-sref="index.strategy.localSchedulingS.list">{{secondMenuName}}</a>
+            <a class="self" ng-if="id==0">{{"add"|translate}}</a>
+            <a class="self" ng-if="id!=0">{{"modify"|translate}}</a>
+        </div>
+        <div id="currentSelf">
+            <h3 ng-if="id==0">{{"add"|translate}}</h3>
+            <h3 ng-if="id!=0">{{"modify"|translate}}</h3>
+        </div>
+    </div>
+
+    <div class="pageMain w80 autoLR">
+        <div id="pageEdit">
+            <form name="edit_form" novalidate autocomplete="off">
+                <div class="pageEdit_content">
+                    <!-- cpID -->
+                    <div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"cp"|translate}}:</span>
+                        <select class="pageEdit_itemC" ui-select2 ng-model="item.cpID" ng-options="i.cpId as i.name for i in cpList" ng-change="getDomainByCp(item.cpID)" required></select>
+                    </div>
+                    <!-- 域名 -->
+                    <div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"domainName"|translate}}:</span>
+                        <select class="pageEdit_itemC" ui-select2 ng-model="item.domainName" ng-options="i.domainName as i.alias for i in domainList" required></select>
+                    </div>
+                    <!-- 节点 -->
+                    <div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"nodeID"|translate}}:</span>
+                        <select class="pageEdit_itemC" ui-select2 ng-model="item.nodeID" ng-options="i.nodeID as i.nodeName for i in nodeList" ng-change="getGroupByNode(item.nodeID)" required></select>
+                    </div>
+                    <!-- 群组 -->
+                    <div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"dispatchGroupID"|translate}}:</span>
+                        <select class="pageEdit_itemC" ui-select2 ng-model="item.dispatchGroupID" ng-options="i.groupID as i.groupName for i in groupList" required></select>
+                    </div>
+                    <!-- 名单类型 -->
+                    <div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"listType"|translate}}:</span>
+                        <select class="pageEdit_itemC" ui-select2 ng-model="item.type" ng-options="i.id as i.name for i in typeList" required></select>
+                    </div>
+                    <!-- 有效期 -->
+                    <div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"validity"|translate}}:</span>
+                        <input class="pageEdit_itemC" type="text" name="validity" ng-model="item.validity" ng-pattern="/^([1-9]\d*|[0]{1,1})$/" maxlength="16" required
+                            ng-class="{'errIpt':edit_form.validity.$error.pattern}"  placeholder='{{"pleaseInput"|translate}}'>
+                        <span class="iptTip" ng-class="{'errTip':edit_form.validity.$error.pattern }">{{'validityTip'|translate}}</span>
+                    </div>
+
+                </div>
+
+                <div class="pageEdit_btnGroup">
+                    <button type="button" class="pageBtn_blue40" ng-click="save()" ng-disabled="edit_form.$invalid">{{"submit"|translate}}</button>
+                    <button type="button" class="pageBtn_bai40" ng-click="return()">{{"cancel"|translate}}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

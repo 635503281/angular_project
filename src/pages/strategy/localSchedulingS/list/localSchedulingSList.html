@@ -1,0 +1,51 @@
+<div id="localSchedulingSList" class="pageBox">
+    <div id="pageHead">
+        <div id="breadcrumb">
+            <a class="parent">{{firstMenuName}}</a>
+            <a class="self">{{secondMenuName}}</a>
+        </div>
+        <div id="currentSelf">
+            <h3>{{secondMenuName}}</h3>
+        </div>
+    </div>
+
+    <div class="pageMain">
+         <div class="pageSearch">
+            <div class="pageSearch_row">
+                <div class="pageSearch_item">
+                    <span class="pageSearch_itemT">{{"listType"|translate}}:</span>
+                    <select class="pageSearch_itemC" ui-select2 ng-model="searchOptions.type" ng-options="i.id as i.name for i in typeList"></select>
+                </div>
+               
+                <div class="pageSearch_item">
+                    <span class="pageSearch_itemT">{{"domainName"|translate}}:</span>
+                    <input class="pageSearch_itemC" type="text" ng-model="searchOptions.domainName" placeholder='{{"pleaseInput"|translate}}'>
+                </div>
+
+                <div class="pageSearch_btnGroup right">
+                    <button ng-if="localSchedulingS.searchBtn" id="search" type="button" class="pageBtn_blue36" ng-click="search()">{{localSchedulingS.searchName}}</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="pageContent_operation">
+            <a ng-if="localSchedulingS.addBtn" class="pageBtn_blue36 addIcon" ui-sref="index.strategy.localSchedulingS.edit({id:0})">{{localSchedulingS.addName}}</a>
+            <button ng-if="localSchedulingS.issuedMoreBtn" class="pageBtn_blue36" ng-click="issuedMore()" ng-show="selectItems.length!=0" ng-disabled="selectItems.length==0">{{localSchedulingS.issuedMoreName}}</button>
+            <button ng-if="localSchedulingS.deleteMoreBtn" class="pageBtn_blue36" ng-click="deleteMore()" ng-show="selectItems.length!=0" ng-disabled="selectItems.length==0">{{localSchedulingS.deleteMoreName}}</button>
+            
+            <selected-tip ng-hide="noData" length="selectItems.length"></selected-tip> 
+        </div>
+        
+        <div class="empty" ng-show="noData"><span>{{"no_data"|translate}}</span></div>
+        <div id="pageContent" ng-show="!noData">
+            
+            <div class="tabBox">
+                <table id="tab" lay-filter="tab"></table>
+            </div>
+            <pagination paging-options="pagingOptions" get-page-data="getPageData()"></pagination>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,116 @@
+<div id="blackWhiteListEdit" class="pageBox">
+	<div id="pageHead">
+		<div id="breadcrumb">
+			<a class="parent">{{firstMenuName}}</a>
+			<a class="parent" ui-sref="index.strategy.blackWhiteList.list">{{secondMenuName}}</a>
+            <a class="self" ng-if="id==0">{{"add"|translate}}</a>
+            <a class="self" ng-if="id!=0">{{"modify"|translate}}</a>	
+		</div>
+		<div id="currentSelf">
+			<h3 ng-if="id==0">{{"add"|translate}}</h3>
+            <h3 ng-if="id!=0">{{"modify"|translate}}</h3>
+		</div>
+	</div>
+
+	<div class="pageMain">
+		<div id="pageEdit">
+			<form name="edit_form" novalidate autocomplete="off">
+				<div class="pageEdit_content">
+                    <!-- 类型 -->
+					<div class="pageEdit_item">
+						<span class="pageEdit_itemT">{{"type"|translate}}:</span>
+                        <select class="pageEdit_itemC" ui-select2 ng-model="item.tcsIpListType"  ng-options="i.id as i.name for i in typeList" required></select>
+                    </div>
+                    <!-- 域名 -->
+					<div class="pageEdit_item">
+						<span class="pageEdit_itemT">{{"domain"|translate}}:</span>
+                        <input class="pageEdit_itemC" ng-model="item.host" maxlimit="1024" required placeholder='{{"pleaseInput"|translate}}'>
+                        <span class="iptTip">{{"pleaseInput"|translate}}</span>
+                    </div>
+ 
+                    <!-- ipv4 -->
+					<div class="pageTabContent">
+						<h3>{{"IP"|translate}}</h3>
+						<div class="pageTabContent_box" ng-if="ipv4Viewlist.length>0">
+							<div>
+								<table>
+									<thead>
+										<tr>
+											<th width=40%>{{"startIp"|translate}}</th>
+											<th>{{"endIp"|translate}}</th>
+											<th class="operation" style="width:73px;">{{"operation"|translate}}</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="value in ipv4Viewlist track by $index">
+											<td> 
+                                                <input type="text" name="ipStart{{$index}}" ng-model="value.ipStart" ip-check  required 
+                                                       ng-class="{'errIpt':edit_form.ipStart{{$index}}.$error.ipErr}"   placeholder='{{"pleaseInput"|translate}}'>
+                                                <span class="none" ng-class="{'errTip':edit_form.ipStart{{$index}}.$error.ipErr}">{{"invalidIpv4"|translate}}</span>
+											</td>
+											<td>
+                                                <input type="text" name="ipEnd{{$index}}" ng-model="value.ipEnd" ip-check  required 
+                                                       ng-class="{'errIpt':edit_form.ipEnd{{$index}}.$error.ipErr}"   placeholder='{{"pleaseInput"|translate}}'>
+                                                <span class="none" ng-class="{'errTip':edit_form.ipEnd{{$index}}.$error.ipErr}">{{"invalidIpv4"|translate}}</span>
+											</td>
+											<td class="operationBtn"><button class="btn icon_delete" ng-click="delIpv4list($index,$event)"></button></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="pageTabContent_add noBorder_b">
+							<div class="dashed">
+								<button type="button" ng-click="addIpv4list()">{{'addIpRange'|translate}}</button>
+							</div> 
+						</div>
+					</div>
+                    
+                     <!-- IPv6地址段 -->
+					<div class="pageTabContent">
+						<h3>{{"IPv6"|translate}}</h3>
+						<div class="pageTabContent_box" ng-if="ipv6Viewlist.length>0">
+							<div>
+								<table>
+									<thead>
+										<tr>
+											<th width=40%>{{"startIp"|translate}}</th>
+											<th>{{"endIp"|translate}}</th>
+											<th class="operation" style="width:73px;">{{"operation"|translate}}</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="value in ipv6Viewlist track by $index">
+											<td> 
+                                                <input type="text" name="ipv6Start{{$index}}" ng-model="value.ipStart" ipv6-check  required 
+                                                       ng-class="{'errIpt':edit_form.ipv6Start{{$index}}.$error.ipv6Err}"   placeholder='{{"pleaseInput"|translate}}'>
+                                                <span class="none" ng-class="{'errTip':edit_form.ipv6Start{{$index}}.$error.ipv6Err}">{{"invalidIpv6"|translate}}</span>   
+											</td>
+											<td>
+                                                <input type="text" name="ipv6End{{$index}}" ng-model="value.ipEnd" ipv6-check  required 
+                                                       ng-class="{'errIpt':edit_form.ipv6End{{$index}}.$error.ipv6Err}"   placeholder='{{"pleaseInput"|translate}}'>
+                                                <span class="none" ng-class="{'errTip':edit_form.ipv6End{{$index}}.$error.ipv6Err}">{{"invalidIpv6"|translate}}</span>
+											</td>
+											<td class="operationBtn"><button class="btn icon_delete" ng-click="delIpv6list($index,$event)"></button></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="pageTabContent_add noBorder_b">
+							<div class="dashed">
+								<button type="button" ng-click="addIpv6list()">{{'addIpv6Range'|translate}}</button>
+							</div> 
+						</div>
+					</div>
+
+                </div>
+     
+				<div class="pageEdit_btnGroup">
+					<button type="button" class="pageBtn_blue40" ng-click="save()" ng-disabled="edit_form.$invalid">{{"submit"|translate}}</button>
+					<button type="button" class="pageBtn_bai40" ng-click="return()">{{"cancel"|translate}}</button>
+				</div>
+			</form>	
+		</div>
+	</div>
+</div>

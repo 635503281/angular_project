@@ -1,0 +1,232 @@
+
+
+#login{
+    @color1:#4181FF;
+
+    height: 100%;
+    width:100%;
+    background: url("../img/login/bg@2x.png");
+    background-size: cover;
+
+    #main{
+        width:440px;
+        min-width: 440px;
+        position: fixed;
+        top:50%;
+        left:50%;
+        transform: translate(-50%,-50%);
+        -webkit-transform: translate(-50%,-50%);
+        -moz-transform: translate(-50%,-50%);
+        font-size:16px;
+        &.en-us{
+            width:auto;
+        }
+
+        .login_icon{
+            background: url("../img/login/logo@2x.png") no-repeat 50% 0;
+            background-size: auto 100%;
+            width:100%;
+            height:38px;
+            margin-bottom:50px;
+        }
+
+        .login_content{
+            background-color:#fff;
+            border-radius: 2px;
+            box-shadow:0 13px 37px 0 rgba(13,68,173,0.28); 
+            padding:60px 60px 50px;
+
+            h3{
+                color:@color1;
+                font-size:30px;
+                text-align: center;
+                line-height:30px;
+            }
+            .error{
+                line-height:30px;
+                height: 30px;
+                margin:12px 0;
+                border:1px solid #DE350B;
+                border-radius: 2px;
+                box-sizing: content-box;
+                font-size:12px;
+                text-indent: 40px; 
+                background:rgba(222,53,11,0.10) url("../img/login/hint_red@2x.png") no-repeat 12px center;
+                background-size:auto 50%;
+                overflow: hidden;
+                font-family: "PingFang-SC-Regular";
+                color:#2E3440;
+
+                &:empty{
+                    height:0;
+                    border-width: 0;
+                }
+            }
+
+            .ipt_model{
+                position: relative;
+                text-align: center;
+                line-height: 40px;
+                width: 100%;
+                margin-bottom:20px;
+                
+                &.userName_ipt::before{
+                    content:"";
+                    display: block;
+                    position: absolute;
+                    left:1px;
+                    top:1px;
+                    width:46px;
+                    height: 40px;
+                    background:transparent url("../img/login/ic_user@2x.png") no-repeat 16px center;
+                    background-size: 16px 16px;  
+                }
+                &.password_ipt::before{
+                    content:"";
+                    display: block;
+                    position: absolute;
+                    left:1px;
+                    top:1px;
+                    width:46px;
+                    height: 40px;
+                    background:transparent url("../img/login/ic_lock@2x.png") no-repeat 16px center;
+                    background-size: 16px 16px;  
+                }
+                &.code_ipt::before{
+                    content:"";
+                    display: block;
+                    position: absolute;
+                    left:1px;
+                    top:1px;
+                    width:46px;
+                    height: 40px;
+                    background:transparent url("../img/login/ic_safety@2x.png") no-repeat 16px center; 
+                    background-size: 16px 16px; 
+                }
+
+                input{
+                    border:1px solid #DCE1E9;
+                    border-radius: 2px;
+                    display: inline-block;
+                    width:100%;
+                    height:40px;
+                    outline: none;
+                    box-sizing: content-box;
+                    text-indent:48px;
+           
+
+                    &:focus{
+                        border-color:@color1;
+                    }
+                }
+                //关闭按钮
+                .codeBtn{
+                    position: absolute;
+                    right:10px;
+                    top:15px;
+                    width:12px;
+                    height: 12px;
+                    background: url("../img/login/ic_close@2x.png") no-repeat;
+                    background-size: cover;
+                    cursor: pointer;
+                }
+                
+                &.code_ipt .codeBtn{
+                    right:140px;
+                }
+                //验证码
+                .imgbox{
+                    position: absolute;
+                    right:1px;
+                    top:1px;
+                    width:130px;
+                    height:40px;
+                    &::before{
+                        content:"";
+                        display: inline-block;
+                        position: absolute;
+                        font-size:18px;
+                        border-left:1px solid #dce1e9;
+                        height:18px;
+                        width:0;
+                        top:11px;
+                    }
+                    #codeImg{
+                        cursor: pointer;
+                        vertical-align: middle;
+                        width:100%;
+                    }
+                }
+
+
+
+
+                input[type=radio]{
+                    width:15px;
+                    height:15px;
+                    vertical-align: middle;
+                    margin-top:-2px;
+                    display: none;
+                }
+    
+                label {
+                    margin-right:30px;
+                    span{
+                        text-align: left;
+                        font-weight: 100;
+                    }
+                }
+    
+               
+    
+            }
+    
+           
+        }
+        
+        .login_copyright{
+            font-size: 10px;
+            color: #fff;
+            letter-spacing: 0;
+            text-align: center;
+            margin-top: 32px;
+        }
+
+    }
+
+    //登录按钮
+    .btn1{
+        border:none;
+        outline: none;
+        width:100%;
+        line-height: 40px;
+        background-color:@color1;
+        border-radius: 2px; 
+        color:#fff;
+        font-size: 16px;
+        cursor: pointer;
+        &:disabled{
+            cursor: not-allowed;
+            .opacity(0.6);
+            top:0;
+        }
+
+        img{
+            margin-left:20px;
+            height:20px;
+            margin-top:-3px;
+        }
+      
+    } 
+
+
+}
+
+/* 设置在火狐中input的红色边框问题 */
+input[required]:invalid,input:focus:invalid,textarea[required]:invalid,textarea:focus:invalid {
+    box-shadow: none;
+}
+
+
+
+

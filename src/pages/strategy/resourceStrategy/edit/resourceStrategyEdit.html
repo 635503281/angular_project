@@ -1,0 +1,79 @@
+<div id="resourceStrategyEdit" class="pageBox">
+	<div id="pageHead">
+		<div id="breadcrumb">
+			<a class="parent">{{firstMenuName}}</a>
+			<a class="parent" ui-sref="index.strategy.resourceStrategy.list({currentTab:0})">{{secondMenuName}}</a>
+			<a class="self" ng-if="id==0">{{"add"|translate}}</a>
+            <a class="self" ng-if="id!=0">{{"modify"|translate}}</a>
+		</div>
+		<div id="currentSelf">
+			<h3 ng-if="id==0">{{"add"|translate}}</h3>
+            <h3 ng-if="id!=0">{{"modify"|translate}}</h3>
+		</div>
+	</div>
+
+	<div class="pageMain">
+		<div id="pageEdit">
+			<form name="edit_form" novalidate autocomplete="off">
+			
+				<div class="pageEdit_content">
+					<!-- 域名 -->
+					<div class="pageEdit_item">
+						<span class="pageEdit_itemT">{{"domain"|translate}}:</span>
+						<input class="pageEdit_itemC" type="text" name="domain" ng-model="item.domain" required maxlength="200" placeholder='{{"pleaseInput"|translate}}'>
+						<span class="iptTip">{{"pleaseInput"|translate}}</span>
+					</div>
+	
+					<!-- 回源地址列表 -->
+					<div class="pageTabContent">
+						<h3>{{"sourceList"|translate}}</h3>
+						<div class="pageTabContent_box" ng-if="item.sourceList.length>0">
+							<div>
+								<table>
+									<thead>
+										<tr>
+											<th width=30%>{{"sourceIP"|translate}}</th>
+											<th>{{"sourceIPv6"|translate}}<i class="optional">{{"optional"|translate}}</i></th>
+											<th width=25%>{{"port"|translate}}</th>
+											<th class="operation" style="width:73px;">{{"operation"|translate}}</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="value in item.sourceList track by $index">
+											<td><input type="text" name="sourceIP{{$index}}" ng-model="value.sourceIP" ip-check required
+													ng-class="{'errIpt':edit_form.sourceIP{{$index}}.$error.ipErr}" placeholder='{{"pleaseInput"|translate}}'>
+												<span class="none" ng-class="{'errTip':edit_form.sourceIP{{$index}}.$error.ipErr}">{{"ip_err"|translate}}</span>   
+											</td>
+											<td><input type="text" name="sourceIPv6{{$index}}" ng-model="value.sourceIPv6" ipv6-check
+													ng-class="{'errIpt':edit_form.sourceIPv6{{$index}}.$error.ipv6Err}" placeholder='{{"pleaseInput"|translate}}'>
+												<span class="none" ng-class="{'errTip':edit_form.sourceIPv6{{$index}}.$error.ipv6Err}">{{"ipv6_err"|translate}}</span>     
+											</td>
+											<td><input type="text" name="port{{$index}}" ng-model="value.port"  port-check required
+													ng-class="{'errIpt':edit_form.port{{$index}}.$error.portErr}" placeholder='{{"pleaseInput"|translate}}'>
+												<span class="none" ng-class="{'errTip':edit_form.port{{$index}}.$error.portErr}">{{"port_err"|translate}}</span>     
+											</td>
+											<td class="operationBtn"><button class="btn icon_delete" ng-click="delSource($index,$event)" ng-disabled="item.sourceList.length==1"></button></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="pageTabContent_add noBorder_b">
+							<div class="dashed">
+								<button type="button" ng-click="addSource()">{{'addConfig'|translate}}</button>
+							</div> 
+						</div>
+					</div>
+	
+				</div>
+			
+			
+				<div class="pageEdit_btnGroup">
+					<button type="button" class="pageBtn_blue40" ng-click="save()" ng-disabled="edit_form.$invalid">{{"submit"|translate}}</button>
+					<button type="button" class="pageBtn_bai40" ng-click="return()">{{"cancel"|translate}}</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	
+</div>

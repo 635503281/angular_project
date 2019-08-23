@@ -1,0 +1,28 @@
+<div id="badDomainList" class="pageBox">
+    <div id="pageHead">
+        <div id="breadcrumb">
+            <a class="parent">{{firstMenuName}}</a>
+            <a class="self">{{secondMenuName}}</a>
+        </div>
+        <div id="currentSelf">
+            <h3>{{secondMenuName}}</h3>
+        </div>
+    </div>
+
+    <div class="pageMain">
+        <div class="pageContent_operation">
+            <a ng-if="badDomain.addBtn" class="pageBtn_blue36 addIcon" ui-sref="index.content.badDomain.edit({id:0})">{{badDomain.addName}}</a>
+        </div>
+        
+
+        <div class="empty" ng-show="noData"><span>{{"no_data"|translate}}</span></div>
+        <div id="pageContent" ng-show="!noData">
+            <div class="tabBox">
+                <table id="tab" lay-filter="tab"></table>
+            </div>
+            <pagination paging-options="pagingOptions" get-page-data="getPageData()"></pagination>
+        </div>
+
+    </div>
+
+</div>

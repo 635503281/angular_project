@@ -1,0 +1,33 @@
+
+(function(app){
+    "use strict";
+    // 引入样式
+    require("../../css/logReport.less");
+
+    app.controller("logReportCtrl",logReportCtrl);
+    logReportCtrl.$inject=['$scope','$state','$rootScope','menuService'];
+    function logReportCtrl($scope,$state,$rootScope,menuService){
+
+        //初始化
+        $scope.init=function(){
+            //默认二级菜单，刷新还是当前菜单
+            let defaultSecondMenuUrl=menuService.getFSecondMenu("index.logReport");
+            let currentFirstMenuUrl=sessionStorage.getItem("currentFirstMenuUrl");
+            let oldSecondMenuUrl=sessionStorage.getItem("currentSecondMenuUrl");
+            if(currentFirstMenuUrl&&oldSecondMenuUrl&&oldSecondMenuUrl.split(".")[1]==currentFirstMenuUrl.split(".")[1]){
+                defaultSecondMenuUrl=oldSecondMenuUrl;
+            }
+            
+            //当前二级菜单
+            $rootScope.currentSecondMenuUrl= defaultSecondMenuUrl;
+
+            //默认跳转
+            $state.go($rootScope.currentSecondMenuUrl);
+        };
+       
+        $scope.init();
+    };
+    module.exports=logReportCtrl;
+
+
+})(angular.module("app"));

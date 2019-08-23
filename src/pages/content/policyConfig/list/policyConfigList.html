@@ -1,0 +1,35 @@
+<div id="policyConfigList" class="pageBox">
+    <div id="pageHead">
+        <div id="breadcrumb">
+            <a class="parent">{{firstMenuName}}</a>
+            <a class="self">{{secondMenuName}}</a>
+        </div>
+        <div id="currentSelf">
+            <h3>{{secondMenuName}}</h3>
+        </div>
+        <div class="pageNavtab">
+            <li ng-repeat="tab in tabList | filter:{isShow:true}" ng-click="switchTab(tab.id)" ng-class="{'active':currentTab==tab.id}">
+                <a>{{tab.name}}</a>
+            </li>
+        </div>
+    </div>
+
+    <div class="pageMain" ng-show="currentTab">
+        <div class="pageContent_operation">
+            <a ng-if="policyConfig.injectPolicy_addBtn&&currentTab==1" class="pageBtn_blue36 addIcon" ui-sref="index.content.policyConfig.edit({id:0,type:currentTab})">{{policyConfig.injectPolicy_addName}}</a>
+            <a ng-if="policyConfig.distributePolicy_addBtn&&currentTab==2" class="pageBtn_blue36 addIcon" ui-sref="index.content.policyConfig.edit({id:0,type:currentTab})">{{policyConfig.distributePolicy_addName}}</a>
+            <a ng-if="policyConfig.syncPolicy_addBtn&&currentTab==3" class="pageBtn_blue36 addIcon" ui-sref="index.content.policyConfig.edit({id:0,type:currentTab})">{{policyConfig.syncPolicy_addName}}</a>
+        </div>
+        
+        <div class="empty" ng-show="noData"><span>{{"no_data"|translate}}</span></div>
+        <div id="pageContent" ng-show="!noData">
+            
+            <div class="tabBox">
+                <table id="tab" lay-filter="tab"></table>
+            </div>
+            <pagination paging-options="pagingOptions" get-page-data="getPageData()"></pagination>
+        </div>
+
+    </div>
+
+</div>

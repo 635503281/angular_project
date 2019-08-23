@@ -1,0 +1,82 @@
+<div id="pAnReport" class="pageBox">
+    <div id="pageHead">
+        <div id="breadcrumb">
+            <a class="parent">{{firstMenuName}}</a>
+            <a class="self">{{secondMenuName}}</a>
+        </div>
+        <div id="currentSelf">
+            <h3>{{secondMenuName}}</h3>
+        </div>
+        <div class="pageNavtab">
+            <li ng-repeat="tab in tabList | filter:{isShow:true}" ng-click="switchTab(tab.id)" ng-class="{'active':currentTab==tab.id}">
+                <a>{{tab.name}}</a>
+            </li>
+        </div>
+    </div>
+
+    <div class="pageMain" ng-show="currentTab">
+         <div class="pageSearch">
+            <form name="search_form">
+                <div class="pageSearch_row">
+                    <div class="pageSearch_item">
+                        <span class="pageSearch_itemT">{{"province"|translate}}:</span>
+                        <select class="pageSearch_itemC" ui-select2 multiple ng-model="searchOptions.provinces" ng-options="i.id as i.name for i in provinceList"
+                                data-placeholder="{{'all'|translate}}" ng-change="changeProvince(searchOptions.provinces)">
+                        </select>
+                    </div>
+                    <div ng-if="currentTab==2" class="pageSearch_item">
+                        <span class="pageSearch_itemT">{{"resultType"|translate}}:</span>
+                        <select class="pageSearch_itemC" ui-select2 ng-model="searchOptions.resultType" ng-options="i.id as i.name for i in resultTypeList" 
+                                ng-change="changeResult(searchOptions.resultType)">
+                        </select>
+                    </div>
+                    <div class="pageSearch_item">
+                        <span class="pageSearch_itemT">{{"node"|translate}}:</span>
+                        <select class="pageSearch_itemC" ui-select2 multiple ng-model="searchOptions.nodeIds" ng-options="i.nodeID as i.nodeName for i in nodeList" 
+                                data-placeholder="{{'all'|translate}}" ng-change="changeNode(searchOptions.nodeIds)"  ng-disabled="searchOptions.resultType==0">
+                        </select>
+                    </div>
+                    <div ng-if="currentTab==1" class="pageSearch_item">
+                        <span class="pageSearch_itemT">{{"sortType"|translate}}:</span>
+                        <select class="pageSearch_itemC" ui-select2 ng-model="searchOptions.sortType" ng-options="i.id as i.name for i in sortTypeList"></select>
+                    </div>
+                </div>
+                <div class="pageSearch_row">
+                    <div class="pageSearch_item">
+                        <span class="pageSearch_itemT">{{"selectTime"|translate}}<i class="required">*</i>:</span>
+                        <input class="pageSearch_itemC" id="times" type="text" lay-range-date ng-model="searchOptions.time" placeholder='{{"beginToEnd"|translate}}' required  autocomplete="off">
+                    </div>
+                    <div class="pageSearch_item" ng-if="currentTab==2">
+                        <span class="pageSearch_itemT">{{"timeGranularity"|translate}}:</span>
+                        <select class="pageSearch_itemC" ui-select2 ng-model="searchOptions.times" ng-options="i.id as i.name for i in timesList"></select>
+                    </div>
+
+                    <div class="pageSearch_btnGroup right">
+                        <button ng-if="pAnReport.reportDetail_searchBtn&&currentTab==1" id="search" type="button" class="pageBtn_blue36" ng-click="search()" ng-disabled="search_form.$invalid">{{pAnReport.reportDetail_searchName}}</button>
+                        <button ng-if="pAnReport.reportDetail_exportBtn&&currentTab==1" id="export" type="button" class="pageBtn_bai36" ng-click="export()" ng-disabled="search_form.$invalid">{{pAnReport.reportDetail_exportName}}</button>
+                        <button ng-if="pAnReport.reportTrend_searchBtn&&currentTab==2" id="search" type="button" class="pageBtn_blue36" ng-click="search()" ng-disabled="search_form.$invalid">{{pAnReport.reportTrend_searchName}}</button>
+                    </div>
+                </div>
+
+            </form>    
+        </div>
+        
+        <div class="empty" ng-show="noData"><span>{{"no_data"|translate}}</span></div>
+        <div id="pageContent" ng-show="!noData">
+            <div ng-show="currentTab==1">
+                 <div class="tabBox">
+                    <table id="tab" lay-filter="tab"></table>
+                </div>
+                <pagination ng-if="currentTab==1" paging-options="pagingOptions" get-page-data="getPageData()"></pagination>
+            </div>
+
+           <div ng-show="currentTab==2" class="clear">
+                <div class="performance_echart" ng-repeat="value in echartList track by $index">
+                    <div class="echart" id="echart{{value.id}}"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,36 @@
+<div class="commonDialog_box">
+    <h3>{{"importIPDispatchList"|translate}}</h3>
+    <form name="edit_form">
+        <div class="commonDialog_main">
+            <div class="commonDialog_content">
+                <div class="upload_content">
+                    <i class="icon_upload"></i>
+                    <h4>{{"upload_tip"|translate}}</h4>
+                    <input type="file" ng-model="files" ngf-multiple="false" ngf-select="selectFile($file)">
+                </div>
+                
+            </div>
+            <div class="fileUpload_list" ng-show="loadFile">
+                <div class="fileUploadList_item">
+                    <div class="fileOperation">
+                        <span class="fileName">{{loadFile.name}}</span>
+                        <div class="fileOperation_btn">
+                            <i class="retry" ng-click="retry()" title="{{'retry'|translate}}"></i>
+                            <i class="del" ng-click="del()" title="{{'delete'|translate}}"></i>
+                        </div>
+                        <span class="fileStatus"></span>
+                    </div>
+                    <div class="fileProgressC layui-progress" lay-filter="progress">
+                        <div class="layui-progress-bar layui-bg-blue fileProgress"  lay-percent="0%"></div>
+                    </div>
+                </div>
+                <div class="errMsg">{{errMsg}}</div>
+            </div>
+        </div>
+        <div class="btn_group">
+            <a class="pageBtn_blue40 ipDispatchTemplateDownLoad" ng-click="export()">{{"downloadTemplate"|translate}}</a>
+            <button ng-if="!Dupload" type="button" class="pageBtn_blue40" ng-click="submit()">{{"import"|translate}}</button>
+        </div>
+    </form>
+</div>
+

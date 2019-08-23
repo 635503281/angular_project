@@ -1,0 +1,160 @@
+<div id="globalSchedulingSEdit" class="pageBox">
+	<div id="pageHead">
+		<div id="breadcrumb">
+			<a class="parent">{{firstMenuName}}</a>
+			<a class="parent" ui-sref="index.strategy.globalSchedulingS.list">{{secondMenuName}}</a>
+			<a class="self" ng-if="id==0">{{"add"|translate}}</a>
+            <a class="self" ng-if="id!=0">{{"modify"|translate}}</a>
+		</div>
+		<div id="currentSelf">
+			<h3 ng-if="id==0">{{"add"|translate}}</h3>
+            <h3 ng-if="id!=0">{{"modify"|translate}}</h3>
+		</div>
+	</div>
+
+	<form name="edit_form" novalidate autocomplete="off">
+		<div class="pageConfig">
+			<div class="pageEdit_content">
+				<!-- 域名 -->
+				<div class="pageEdit_item">
+                    <span class="pageEdit_itemT">{{"domain"|translate}}:</span>
+                    <input class="pageEdit_itemC" type="text" name="domain" ng-model="item.domain" required maxlength="200" placeholder='{{"pleaseInput"|translate}}'>
+					<span class="iptTip">{{"pleaseInput"|translate}}</span>
+				</div>
+				<!-- 状态 -->
+				<div class="pageEdit_item">
+					<span class="pageEdit_itemT">{{"status"|translate}}:</span>
+                    <select class="pageEdit_itemC" ui-select2 ng-model="item.status" ng-options="i.id as i.name for i in statusList" required></select>
+				</div>
+				<!-- 域名的TTL -->
+				<div class="pageEdit_item">
+                    <span class="pageEdit_itemT">{{"ttl"|translate}}:</span>
+                    <input class="pageEdit_itemC" type="number" name="ttl" ng-model="item.ttl" maxlimit="10"  step=1 required
+                             ng-class="{'errIpt':edit_form.ttl.$error.number}" placeholder='{{"pleaseInput"|translate}}'>
+                    <span class="iptTip" ng-class="{'errTip':edit_form.ttl.$error.number}">{{"beNumber"|translate}}</span>
+				</div>
+				<!-- 调度策略 -->
+				<div class="pageEdit_item">
+					<span class="pageEdit_itemT">{{"policy"|translate}}:</span>
+                    <select class="pageEdit_itemC" ui-select2 ng-model="item.policy" ng-options="i.id as i.name for i in policyList" required></select>
+				</div>
+
+				<!-- LTC节点列表 -->
+				<div class="pageTabContent">
+					<h3>{{"LTCNodeList"|translate}}</h3>
+					<div class="pageTabContent_box" ng-if="item.ltcNodes.length>0">
+						<div>
+							<table>
+								<thead>
+									<tr>
+										<th width="30%">{{"nodeID"|translate}}</th>
+										<th>{{"dispatchGroupID"|translate}}</th>
+										<th class="operation" style="width:73px;">{{"operation"|translate}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="value in item.ltcNodes track by $index">
+										<td><select ui-select2 ng-model="value.nodeID" ng-options="i.nodeID as i.nodeName for i in ltcNodeList"
+											ng-change="getGroupByNode(value.nodeID,'LTC')" required></select>
+										</td>
+										<td><select ui-select2 ng-model="value.dispatchGroupID" 
+											ng-options="i.groupID as i.groupName for i in ltcGroupList[value.nodeID==null?0:value.nodeID]" required></select>
+										</td>
+										<td class="operationBtn"><button class="btn icon_delete" ng-click="delLTCNode($index,$event)"></button></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="pageTabContent_add noBorder_b">
+						<div class="dashed">
+							<button type="button" ng-click="addLTCNode()">{{'addConfig'|translate}}</button>
+						</div> 
+					</div>
+				</div>
+		
+				<!-- 内容中心列表 -->
+				<div class="pageTabContent">
+					<h3>{{"CCSNodeList"|translate}}</h3>
+					<div class="pageTabContent_box" ng-if="item.ccsNodes.length>0">
+						<div>
+							<table>
+								<thead>
+									<tr>
+										<th width="30%">{{"nodeID"|translate}}</th>
+										<th>{{"dispatchGroupID"|translate}}</th>
+										<th class="operation" style="width:73px;">{{"operation"|translate}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="value in item.ccsNodes track by $index">
+										<td><select ui-select2 ng-model="value.nodeID" ng-options="i.nodeID as i.nodeName for i in ccsNodeList"
+											ng-change="getGroupByNode(value.nodeID,'CCS')" required></select>
+										</td>
+										<td><select ui-select2 ng-model="value.dispatchGroupID" 
+											ng-options="i.groupID as i.groupName for i in ccsGroupList[value.nodeID==null?0:value.nodeID]" required></select>
+										</td>
+										<td class="operationBtn"><button class="btn icon_delete" ng-click="delCCSNode($index,$event)" ng-disabled="$index==0"></button></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="pageTabContent_add noBorder_b">
+						<div class="dashed">
+							<button type="button" ng-click="addCCSNode()">{{'addConfig'|translate}}</button>
+						</div> 
+					</div>
+				</div>
+		
+				<!-- 边缘节点列表 -->
+				<div class="pageTabContent">
+					<h3>{{"SNSNodeList"|translate}}</h3>
+					<div class="pageTabContent_box" ng-if="item.snsNodes.length>0">
+						<div>
+							<table>
+								<thead>
+									<tr>
+										<th width="30%">{{"nodeID"|translate}}</th>
+										<th>{{"dispatchGroupID"|translate}}</th>
+										<th width="20%">{{"weight"|translate}}<i class="optional">{{'optional'|translate}}</i></th>
+										<th class="operation" style="width:73px;">{{"operation"|translate}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="value in item.snsNodes track by $index">
+										<td><select ui-select2 ng-model="value.nodeID" ng-options="i.nodeID as i.nodeName for i in snsNodeList"
+											ng-change="getGroupByNode(value.nodeID,'SNS')" required></select>
+										</td>
+										<td><select ui-select2 ng-model="value.dispatchGroupID" 
+											ng-options="i.groupID as i.groupName for i in snsGroupList[value.nodeID==null?0:value.nodeID]" required></select>
+										</td>
+										<td><input type="text" name="weight{{$index}}" ng-model="value.weight" ng-pattern="/^([1-9]\d*|[0]{1,1})$/" maxlimit="10" 
+											ng-class="{'errIpt':edit_form.weight{{$index}}.$error.pattern}" placeholder='{{"pleaseInputNumber"|translate}}'>
+											<span class="iptTip" ng-class="{'errTip':edit_form.weight{{$index}}.$error.pattern}">{{'pleaseInputNumber'|translate}}</span>
+										</td>
+										<td class="operationBtn"><button class="btn icon_delete" ng-click="delSNSNode($index,$event)" ng-disabled="$index==0"></button></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="pageTabContent_add noBorder_b">
+						<div class="dashed">
+							<button type="button" ng-click="addSNSNode()">{{'addConfig'|translate}}</button>
+						</div> 
+					</div>
+				</div>
+				
+			</div>
+
+			<div class="pageEdit_btnGroup">
+				<button type="button" class="pageBtn_blue40" ng-click="save()" ng-disabled="edit_form.$invalid">{{"submit"|translate}}</button>
+				<button type="button" class="pageBtn_bai40" ng-click="return()">{{"cancel"|translate}}</button>
+			</div>
+        </div>
+        
+    </form>
+    
+</div>
+

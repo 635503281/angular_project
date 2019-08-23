@@ -1,0 +1,40 @@
+
+//注入弹出层
+#injectLayer{
+    margin-top:20px;
+    
+    .commonDialog_main{
+        .layui-collapse{
+            max-height: 480px;
+            overflow-y:scroll;
+            margin-bottom:20px;
+    
+            .layerTab{
+                margin-bottom:10px;
+                h3{
+                    line-height: 30px;
+                    font-size: 16px;
+                    text-align: center;
+        
+    
+                    span{
+                        float: right;
+                    }
+                }
+            }
+
+            .pageSwitch,.pageSwitch-yes{
+                display: inline-block;
+                vertical-align: middle;
+                margin-top:-3px;
+
+                .lbl::before{
+                    line-height: 22px;
+                }
+            }
+        }
+    }
+    
+
+}
+

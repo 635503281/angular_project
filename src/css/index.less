@@ -1,0 +1,562 @@
+@logo-height:56px;
+@logo-width:290px;
+@logo-color:#324064;
+@nav-width:290px;
+@firstNav-width:50px;
+@firstNav-color:#2B3756;
+@firstNav-color_hover:#1B294A;
+
+@secondNav-width:@nav-width - @firstNav-width;
+@secondNav-color:@firstNav-color_hover;
+
+@fristNav-height:50px;
+@secondNav-height:50px;
+
+#index{
+    height:100%;
+    width:100%;
+    @dropdownWidth:200px;
+    
+    #head{
+        height:@logo-height; 
+        border-bottom:1px solid #E1E8F7;
+        .logo{
+            background-color:@logo-color;
+            height:@logo-height; 
+            line-height:@logo-height;
+            width:@logo-width;
+            padding-left: 17px;
+                
+        }
+
+        .head-main{
+            .perWidth(@dropdownWidth+@logo-width);
+            height:100%;
+            line-height: @logo-height;
+            text-align: center;
+            .fontS-20;
+            font-weight: 600;
+      
+        }
+
+        //欢迎
+        .welcome{
+            position: relative;
+            width:@dropdownWidth;
+            height:100%;
+            line-height:@logo-height;
+            background-color: #F5F6FA;
+            float:right;
+            color:#2B3756;
+            font-size:14px;
+            padding:0 20px;
+            &:hover{
+                .welcome_dropdown{display:block;}
+            }
+
+            >span{
+                font-weight: 100;
+                float:left;
+                font-family: "PingFang-SC-Medium";
+                max-width:132px;
+                overflow: hidden;
+                white-space: pre;
+            }
+            >i{
+                float:right;
+            }
+
+            //欢迎下拉框
+            .welcome_dropdown{
+                .animation_move(0.1s);
+                position: absolute;
+                z-index:201;
+                top:@logo-height;
+                left:0;
+                width:calc(100% - 4px);
+                width:-webkit-calc(100% - 4px);
+                width:-moz-calc(100% - 4px);
+                display: none;
+                color:#000;
+                font-family: "PingFang-SC-Regular";
+                padding-top:4px;
+                box-shadow: 0px 1px 0px #F5F6FA;
+                
+                &::before{
+                    content:"";
+                    display: block;
+                    position: absolute;
+                    width:0;height:0;
+                    border:10px solid transparent;
+                    border-bottom-color:#fff;
+                    top:-15px;
+                    right:10%;
+                    z-index:100;
+                
+                }
+                &::after{
+                    content:"";
+                    display: block;
+                    position: absolute;
+                    width:0;height:0;
+                    border:12px solid transparent;
+                    border-bottom-color:#F5F6FA;
+                    top:-19px;
+                    right:9%;
+                    z-index:99;
+                
+                }
+
+                li{
+                    height:50px;
+                    line-height: 50px;
+                    text-align: center;
+                    background-color: #fff;
+                    border-left:1px solid #F5F6FA;
+                    border-right:1px solid #F5F6FA;
+                    a{
+                        color:#000;
+                        display: inline-block;
+                        line-height:30px;
+                    }
+                }
+                li:nth-of-type(1){
+                    border-top:1px solid #F5F6FA;
+                    span{
+                        margin-left:5px;
+                    }
+                }
+                li:not(:last-child){
+                    border-bottom:1px solid #F5F6FA;
+                }
+                li:not(:first-of-type):hover{
+                    background-color: #EDF4FF ;
+                    cursor: pointer;
+                }
+             
+            }
+
+        }
+
+        //设置
+        // .dropdown{
+        //     width:@dropdownWidth;
+        //     background-color:@blue;
+        //     .layui-nav-item{
+        //         >a{
+        //             line-height:@logo-height;
+        //             color:#fff;
+        //             text-align: center;
+        //             overflow: hidden;
+        //             text-overflow: ellipsis;
+        //             white-space: nowrap;
+        //         }
+
+        //         .layui-nav-child{
+        //             right:0px;
+        //             top:@logo-height;
+        //         }
+        //     }
+        // }
+
+    }
+
+    #main{
+        width:100%;
+        .perHeight(@logo-height);
+        position: relative;
+
+        
+        //左边菜单部分
+        #main-left{
+            float: left;
+            height: 100%;
+            width:@nav-width;
+            position: relative;
+            
+           
+            // 侧边导航 一级菜单
+            #f-nav-menu{
+                position: absolute;
+                z-index:999;
+                left:0;
+                width:@firstNav-width;
+                height: 100%;
+                background-color: @firstNav-color;
+                transition: width 0.3s linear;
+
+                &.open{//打开时
+                    width:@nav-width;
+                }
+
+                .menu{
+                    width:100%;
+                    &:hover .subMenu{
+                        background-color: @firstNav-color!important;
+                    }
+
+                    .subMenu{
+                        width:100%;
+                        height:@fristNav-height;
+                        cursor: default;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        color:#A1A6B1;
+
+                        &:hover{
+                            background-color: @firstNav-color_hover!important;
+                            color:#fff;
+                            a{
+                                color:#fff;
+                            }
+                        }
+
+                        //选中
+                        &.active{
+                            background-color: @firstNav-color_hover;
+                            color:#fff;
+                            a{
+                                color:#fff;
+                            }
+                        }
+
+                        
+                        i{//图标
+                            display: inline-block;
+                            width:@firstNav-width;
+                            line-height:@fristNav-height;
+                            font-size:20px;
+                            text-align: center;
+                        }
+                        a{//文字
+                            display: inline-block;
+                            line-height:@fristNav-height;
+                            font-size:14px;
+                            color:#A1A6B1;
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+
+            // 侧边导航 二级菜单
+            #nav-menu{
+                position: absolute;
+                z-index: 10;
+                left:@firstNav-width;
+                width:@secondNav-width;
+                height: 100%;;
+                background-color:@secondNav-color;
+
+                .layui-nav-tree{
+                    width:100%;
+                    height: 100%;
+                    background-color:@secondNav-color;
+    
+                    >.layui-nav-item{//每个一级菜单
+                        position: absolute;
+                        z-index:10;
+                        height: 100%;
+                        background-color:@secondNav-color;
+                        &.active{
+                            z-index:11;
+                        }
+
+                        &.layui-nav-itemed{//展开时
+                             a .layui-nav-more{
+                                transform: rotate(0deg);
+                                -webkit-transform: rotate(0deg);
+                                -moz-transform: rotate(0deg);
+                             }
+                        }
+                        
+                        >a{//一级菜单高度
+                            line-height: @fristNav-height;
+                            height:@fristNav-height;
+                            text-overflow:initial;
+                            text-indent:20px;
+                            &:hover{
+                                background-color: transparent;
+                            }
+                        }
+
+                        //二级菜单
+                        >.layui-nav-child{
+                            background-color:@secondNav-color!important;
+                            >dd {
+                                background-color:@secondNav-color!important;
+                                >a{
+                                    padding-left:54px!important; 
+                                    padding-right:5px;
+                                    height:@secondNav-height;  
+                                    line-height:@secondNav-height; 
+                                    &:not(.thirdMenuT):active,&:not(.thirdMenuT):visited{
+                                        background-color:@blue;
+                                    }
+
+                                }
+                            }
+
+                            //三级菜单
+                            >dd .thirdMenu{
+                                >li a{
+                                    padding-left:60px!important; 
+                                    height:@secondNav-height;  
+                                    line-height:@secondNav-height;
+                                    &:active,&:visited{
+                                        background-color:@blue;
+                                    }
+                                   
+                                }
+                               
+                            }
+
+                        }
+                       
+                    }
+
+                     //选中的背景颜色和字体颜色
+                    .layui-this{
+                        a {
+                            background-color: @blue;
+                            color:@bai;
+                        }
+                    }
+
+                    .layui-nav-bar{
+                        width:0;
+                        background-color: @blue;
+                    }
+
+                    //展开图标
+                    .layui-nav-more{
+                        left:20px;
+                        top:22px;
+                        width:13px;
+                        height:7px;
+                        border:none!important;
+                        margin-top:0;
+
+                        transform: rotate(180deg);
+                        -webkit-transform: rotate(180deg);
+                        -moz-transform: rotate(180deg);
+                        &::before{
+                            content:"";
+                            display: inline-block;
+                            width:100%;height:100%;
+                            position: absolute;
+                            left:0;top:0;
+                            background-size:cover;
+                            background-image: url("../img/menu/ic_sidebar_up.png");
+                        }
+                    }
+                }
+                
+            }
+        }
+
+  
+        //右边主体部分
+        #main-right{
+
+            overflow: hidden;
+            height: 100%;
+            position: relative;
+            z-index:11;
+            background-color: @grep;
+            // padding:0 @main_pad;
+            overflow-y:auto;
+
+            #wrapper{
+                position: relative;
+                min-height: 100%;
+                height: auto;
+                width:100%;
+                background-color: @grep;  
+            }
+
+        }
+
+        //加载层
+        #loading{
+            @loadingH:@logo-height;
+    
+            position: absolute;
+            top:0;
+            left:@nav-width;
+            width:calc(100% - @nav-width);
+            width:-moz-calc(~"100% - @{nav-width}");
+            width:-webkit-calc(~"100% - @{nav-width}");
+            height:100%;
+            z-index:200;
+            // background-color:rgba(0,0,0,0.2);
+            .opacity(0.9);
+            background: #FFFFFF;
+            color:#000;
+            transition: all 0.3s linear;
+
+            @-webkit-keyframes rotation {
+                from {
+                    -webkit-transform: rotate(0deg);
+                    transform: rotate(0deg);
+                }
+                to {
+                    -webkit-transform: rotate(360deg);
+                    transform: rotate(360deg);
+                }
+            }  
+            @keyframes rotation {
+                from {
+                    -webkit-transform: rotate(0deg);
+                    transform: rotate(0deg);
+                }
+                to {
+                    -webkit-transform: rotate(360deg);
+                    transform: rotate(360deg);
+                }
+            }
+            // 定义加载动效
+            .animation-2{
+                position: relative;
+                left: 50%;
+                top: 50%;
+                width: 30px;
+                height: 30px;
+                -webkit-animation: rotation 1s infinite;
+                animation: rotation 1s infinite;
+                
+                .shape{
+                    position: absolute;
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                }
+                .shape1 {
+                    left: 0;
+                    background-color: rgba(65,129,255,1);
+                    -webkit-animation: animation2shape1 0.5s ease 0s infinite alternate;
+                    animation: animation2shape1 0.5s ease 0s infinite alternate;
+                } 
+                @-webkit-keyframes animation2shape1 {
+                    from {
+                        -webkit-transform: translate(0, 0);
+                        transform: translate(0, 0);
+                    }
+                    to {
+                        -webkit-transform: translate(20px, 20px);
+                        transform: translate(20px, 20px);
+                    }
+                }  
+                @keyframes animation2shape1 {
+                    from {
+                        -webkit-transform: translate(0, 0);
+                        transform: translate(0, 0);
+                    }
+                    to {
+                        -webkit-transform: translate(20px, 20px);
+                        transform: translate(20px, 20px);
+                    }
+                }
+        
+                .shape2 {
+                    right: 0;
+                    background-color: rgba(65,129,255,0.8);;
+                    -webkit-animation: animation2shape2 0.5s ease 0s infinite alternate;
+                    animation: animation2shape2 0.5s ease 0s infinite alternate;
+                }  
+                @-webkit-keyframes animation2shape2 {
+                    from {
+                        -webkit-transform: translate(0, 0);
+                        transform: translate(0, 0);
+                    }
+                    to {
+                        -webkit-transform: translate(-20px, 20px);
+                        transform: translate(-20px, 20px);
+                    }
+                }
+                @keyframes animation2shape2 {
+                    from {
+                        -webkit-transform: translate(0, 0);
+                        transform: translate(0, 0);
+                    }
+                    to {
+                        -webkit-transform: translate(-20px, 20px);
+                        transform: translate(-20px, 20px);
+                    }
+                }
+        
+                .shape3 {
+                    bottom: 0;
+                    background-color: rgba(65,129,255,0.7);;
+                    -webkit-animation: animation2shape3 0.5s ease 0s infinite alternate;
+                    animation: animation2shape3 0.5s ease 0s infinite alternate;
+                } 
+                @-webkit-keyframes animation2shape3 {
+                    from {
+                        -webkit-transform: translate(0, 0);
+                        transform: translate(0, 0);
+                    }
+                    to {
+                        -webkit-transform: translate(20px, -20px);
+                        transform: translate(20px, -20px);
+                    }
+                }
+                @keyframes animation2shape3 {
+                    from {
+                        -webkit-transform: translate(0, 0);
+                        transform: translate(0, 0);
+                    }
+                    to {
+                        -webkit-transform: translate(20px, -20px);
+                        transform: translate(20px, -20px);
+                    }
+                }
+        
+                .shape4 {
+                    bottom: 0;
+                    right: 0;
+                    background-color: rgba(65,129,255,0.6);;
+                    -webkit-animation: animation2shape4 0.5s ease 0s infinite alternate;
+                    animation: animation2shape4 0.5s ease 0s infinite alternate;
+                }  
+                @-webkit-keyframes animation2shape4 {
+                    from {
+                        -webkit-transform: translate(0, 0);
+                        transform: translate(0, 0);
+                    }
+                    to {
+                        -webkit-transform: translate(-20px, -20px);
+                        transform: translate(-20px, -20px);
+                    }
+                } 
+                @keyframes animation2shape4 {
+                    from {
+                        -webkit-transform: translate(0, 0);
+                        transform: translate(0, 0);
+                    }
+                    to {
+                        -webkit-transform: translate(-20px, -20px);
+                        transform: translate(-20px, -20px);
+                    }
+                }
+        
+            } 
+            
+        }
+
+        //有外链的时候
+        &.link{
+            #main-left{
+                width:@firstNav-width;
+            }
+            #loading{
+                left:@firstNav-width;
+                width:calc(100% - @firstNav-width);
+                width:-moz-calc(~"100% - @{firstNav-width}");
+                width:-webkit-calc(~"100% - @{firstNav-width}");
+            }
+        }   
+
+    }
+
+}

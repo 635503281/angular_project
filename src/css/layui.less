@@ -1,0 +1,646 @@
+
+
+// layui中的样式
+
+.layui-nav{
+    padding:0;
+
+    .layui-nav-item{
+        line-height:inherit;
+
+        dl dd{
+            cursor: pointer;
+        }
+
+        a{
+            text-decoration:none;
+        }
+    }
+}
+.layui-nav-tree{
+    .layui-nav-item{
+        >a{
+            cursor: default;
+        }
+    }
+
+}
+
+//layui-table
+body .layui-table, .layui-table-view{
+    margin:0!important;
+    border:0!important;
+    font-family: "PingFang-SC-Regular";
+    font-size:12px;
+
+    table{
+        border-collapse:unset;
+    }
+
+    //checkbox样式
+    .layui-form-checkbox[lay-skin=primary] i{
+        &:hover{
+            border-color: @blue;
+        }    
+    }
+    .layui-form-checked[lay-skin=primary] i{
+        background-color: @blue;
+        border-color: @blue;
+    }
+
+    //radio的样式
+    .layui-form-radio>i:hover, .layui-form-radioed>i{
+        color:@blue;
+    }
+    .layui-table-view .layui-form-radio>i{
+        font-size:22px;
+    }
+
+
+}
+
+//去掉overflow:hidden的影响
+[class$="-operation"]{
+    overflow: visible!important;
+}
+//固定的列头颜色
+.layui-table-fixed{
+    .layui-table-header thead tr th{
+        background-color: @table-fixed!important;
+    }
+    .layui-table-body tbody tr td{
+        background-color: @grep; 
+    }
+} 
+//laytable中固定超出让其显示
+.layui-table-fixed .layui-table-body,.layui-table-box, .layui-table-view{
+    overflow: visible!important;
+    margin-right: 0;
+}
+
+// 排序三角颜色
+body .layui-table-sort{
+    .layui-edge{
+        left:0px;
+    }
+    &[lay-sort=asc] .layui-table-sort-asc{
+        border-bottom-color:@blue;
+    }
+    .layui-table-sort-asc{
+        border-bottom-color:#CCD1DA;
+        &:hover{
+            border-bottom-color:@blue;
+        }
+    }
+
+    &[lay-sort=desc] .layui-table-sort-desc{
+        border-top-color:@blue;
+    }
+    .layui-table-sort-desc{
+        border-top-color:#CCD1DA;
+        &:hover{
+            border-top-color:@blue;
+        }
+    }
+
+}
+
+// layui中的table
+body .layui-table-box table{
+    width:100%!important;
+}
+// table列头
+body .layui-table-header{
+    border:none;
+    border-top:1px solid @tableBC;
+
+    .layui-table[lay-skin=line]{
+        border:none;
+    }
+}
+body table.layui-table thead tr{
+
+    th{
+        text-align: -webkit-center;
+        text-align: -moz-center;
+        border-right:0;
+        height:@tableHH;
+        line-height:@tableHH;
+        background-color:@grep!important;
+        &[data-field="operation"]{
+            background-color:@table-fixed!important;
+        }
+
+        .layui-table-cell{
+            color:#808894;
+            
+            span{
+                cursor: default;
+            }
+        }
+    }
+    
+} 
+body .layui-table-cell{
+    &:not(.laytable-cell-checkbox):not(.laytable-cell-radio){
+        padding:0 5px 0 @tableRP;  
+    }
+    &.laytable-cell-checkbox,&.laytable-cell-radio{
+        padding:0 5px;
+    }
+}
+body .layui-table[lay-skin=line] td{
+    border-bottom:1px solid @tableBC!important; 
+}
+
+//layui-table中的a
+body .layui-table-body table .layui-table-cell a{
+    cursor: pointer;
+    &:hover{
+        text-decoration: underline;
+    }
+    
+}
+
+//table中的body
+body .layui-table {
+    border-collapse:separate;
+    th,td{
+        padding:0!important;
+        font-size:12px;
+    }
+
+    td{
+        height:@tableRH;
+        line-height: @tableRH;
+    }
+}
+body .layui-table-main{
+    overflow-x:auto;
+    // &::-webkit-scrollbar {
+    //     height: 6px;
+    // } 
+
+    .layui-none{
+        border-bottom:1px solid @tableBC;
+        line-height: @tableRH;
+        height: @tableRH;
+        padding:0;
+    }
+}
+// boder的颜色
+body .layui-table td,body .layui-table th,body .layui-table-fixed-r,body .layui-table-header,body .layui-table-page,body .layui-table-tips-main,body .layui-table-tool,body .layui-table-view, 
+body .layui-table[lay-skin=line],body .layui-table[lay-skin=row]{
+    border-color: @tableBC!important;
+}
+
+//.layui-table-tips 滚动条
+body .layui-table-tips-main{
+    // &::-webkit-scrollbar{
+    //     height:6px;
+    // }
+    //取消点击事件
+    span>a{
+        pointer-events: none;
+    }
+}
+
+body .layui-table-fixed-r{
+    // right:0!important;
+    // box-shadow:0 0 3px rgba(31,46,84,0.10)!important;
+    display: block!important;
+    box-shadow: none!important;
+    border-left:0;
+}
+body .layui-table-fixed-l{
+    box-shadow:none;
+}
+
+//去掉点击后列的背景变化效果
+body .layui-table-click{
+    background-color: transparent;
+}
+//layui-table中hover每行效果
+body .layui-table[lay-even] tbody tr:nth-child(even){
+    background-color:@table-even;
+}
+body .layui-table-hover{
+    background-color:@table-hover!important;
+    td{
+        background-color:@table-hover!important; 
+    }
+}
+body .layui-table[lay-even] tbody tr:nth-child(even).layui-table-hover{
+    background-color:@table-hover!important;
+}
+body .layui-table[lay-even] tbody tr:nth-child(odd).layui-table-hover{
+    background-color:@table-hover!important;
+}
+body .layui-table-tips-c{
+    padding:0!important;
+    line-height:20px;
+}
+.layui-table-mend{
+    width:0!important;
+}
+
+//table中的input
+body td[data-edit='input'] input.layui-input.layui-table-edit{
+    height:32px;
+    margin-left:24px;
+    width:calc(~"100% - @{tableRP} - 6px");
+    width:-webkit-calc(~"100% - @{tableRP} - 6px");
+    width:-moz-calc(~"100% - @{tableRP} - 6px");
+    margin-top:6px;
+    border-radius: 2px;
+    padding-left:12px;
+    
+    &:focus{
+        border-color:#4181FF!important;
+    }
+}
+body td[data-edit='input']>div{
+    height:32px;
+    line-height: 32px;
+    input{
+        display: inline-block;
+        width:100%;
+        height:32px;
+        border:1px solid #CCD1DA;
+        border-radius: 2px;
+        padding-left:12px;
+    
+    }
+
+} 
+//table中的select
+body td[data-edit='select']>div{
+    height:32px;
+    line-height: 32px;
+
+    div.layui-form-select{
+        padding-left:0;
+        width:100%;
+        
+        input{
+            height:32px;
+            line-height: 30px;
+            padding:0;
+            padding-left:12px;
+            border-radius: 2px!important;
+            display: inline-block;
+            border:1px solid #CCD1DA;
+        }
+        
+        
+    }
+} 
+.layui-form-checked .layui-icon-ok{
+    font-weight: 900;
+}
+
+//layui table中每个单元格内容溢出时样式
+.layui-table-grid-down{
+    width:22px;
+    .layui-icon{
+        transform: translate(-50%,-50%);
+        -webkit-transform: translate(-50%,-50%);
+        -moz-transform: translate(-50%,-50%);
+        -ms-transform: translate(-50%,-50%);
+        margin:0;
+    }
+}
+//兼容ie
+td .layui-table-grid-down{
+    height:@tableRH - 1px;
+}
+
+//固定列样式
+.layui-table-fixed{
+    .layui-table-body{
+        min-height: auto!important;
+    }
+}
+
+//layui-layer中的button
+body .layui-layer-btn a{
+    box-sizing: content-box;
+}
+
+// 字体图标
+body .layui-icon{
+    vertical-align: middle;
+}
+
+//dropdown效果
+body .layui-nav.dropdown{
+
+    .layui-nav-item{
+        width:100%;
+        color:#333;
+
+        dl span{
+            color:#333;
+            cursor: default;;
+        }
+        .layui-this{
+            background-color:transparent;
+            a{
+                background-color:transparent;
+                color:#333;
+                &:hover{
+                    background-color: #f2f2f2;
+                }
+            }
+            
+        }
+    }
+
+    .layui-nav-bar{
+        width:0!important;
+    }
+}
+
+//layui时间插件样式
+body .layui-laydate {
+    font-family: "PingFang-SC-Regular";
+    box-shadow: 0px 0px 4px rgba(0,0,0,.12), 0px 0px 4px rgba(0,0,0,.12);
+    border:0;
+    width:auto;
+    
+
+    .layui-laydate-main{
+        width:auto;
+    }
+    .layui-laydate-header{
+        padding: 8px 70px 7px;
+        >i{
+            font-size:12px;
+            color: rgb(128,136,148);
+            padding:0!important;
+            top:9px;
+            &:hover{
+                color:@blue!important;
+            }
+        }
+        .laydate-prev-y{
+            left:12px!important;
+        }
+        .laydate-prev-m{
+            left:36px!important;
+        }
+        .laydate-next-m{ 
+            right:36px!important;
+        }
+        .laydate-next-y{
+            right:12px!important;
+        }
+
+        .laydate-set-ym{
+            span{
+                padding:0 2px;
+            }
+        }
+
+       
+    }
+}
+//选择样式
+body .layui-laydate .layui-this{
+    background-color: @blue!important;
+    border-radius: 2px!important;
+}
+body .layui-laydate-content {
+    padding:8px;
+
+    table {
+        th,td{
+            padding:0px!important;
+            border-bottom:0!important;
+            text-align: center!important;
+            width:24px;
+            height: 24px;
+            margin: 4px 6px;
+            display: inline-block;
+            line-height: 24px;
+
+            &.layui-this::after{
+                content: "";
+                display: block;
+                width:12px;
+                height: 100%;
+                background:@bai;
+                position: absolute;
+                left:-12px;
+                top:0;
+            }
+        }
+        tr{
+            .laydate-selected:not(:last-of-type):after{
+                content: "";
+                display: block;
+                width:12px;
+                height: 100%;
+                background:#EFF4FF;
+                position: absolute;
+                right:-12px;
+                top:0;
+            }
+        }
+        
+    }
+    td:hover{
+        background: transparent!important;
+        color:@blue!important;
+        &::before{
+            content:"";
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top:0;left:0;
+            border:1px solid @blue;
+            border-radius: 2px;
+            box-sizing: border-box
+        }
+    }
+
+    .layui-laydate-list{
+        padding:12px;
+        &.laydate-month-list,&.laydate-year-list,&.laydate-time-list li ol{
+            li:hover{
+                background-color: #EDF4FF;
+            }
+        }
+        
+    }
+}
+
+//选中时间范围颜色
+body .layui-laydate-content td.laydate-selected,body .laydate-selected.laydate-day-prev{
+    background-color:#EFF4FF!important;
+}
+
+body .layui-laydate-footer span[lay-type=date]{
+    color:@blue!important;
+}
+body .layui-laydate-footer span:hover{
+    color:@blue!important;
+}
+body .layui-laydate-footer{
+    padding:12px;
+    height: 50px;
+
+    .laydate-footer-btns {
+        top:12px;
+        right:12px;
+        span{
+            box-sizing: content-box;
+            height:24px;
+            line-height: 24px;
+            border:0;
+            border-radius: 0;
+        }
+    }
+
+    span{
+        font-size:13px;
+    }
+    
+}
+body .laydate-set-ym span:hover{
+    color:@blue!important;
+}
+body .laydate-time-list li ol{
+    // &::-webkit-scrollbar {
+    //     width: 6px;
+    // }
+    // &::-webkit-scrollbar-thumb{
+    //     background-color:#E4E8EF;
+    //     -webkit-border-radius: 2em;
+    //     -moz-border-radius: 2em;
+    //     border-radius:2em;
+    // }
+    // &::-webkit-scrollbar-thumb:window-inactive {
+    //     background: rgba(169,169,169,0.4); 
+    // }
+   
+}
+
+//layui中progress垂直居中
+.mid{
+    width: 100%;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+//layui中tips提示
+.headTip{
+    &.layui-layer-tips:not(.layui-table-tips){
+        .layui-layer-content{
+            padding:5px 10px!important;
+            border-radius: 6px;
+            .layui-layer-TipsB{
+                top:-15px;
+                left:50%;
+                transform: translateX(-50%);
+                -webkit-transform: translateX(-50%);
+                -moz-transform: translateX(-50%);
+                border-bottom-style:solid;
+                border-bottom-color:#000;
+                border-right-color:transparent;
+                opacity: 0.75;
+            }
+        }
+    }
+}
+
+
+// layui中layer.msg的样式
+.layui-layer.layui-layer-msg{
+    border:0;
+    min-width: 168px;
+    
+    //.layui-layer-content为第一个元素的时候是msg提示
+    .layui-layer-content.layui-layer-padding:first-child{
+        padding: 24px 12px 32px!important;
+        text-align: center!important;
+        font-size:16px;
+        line-height: 16px;
+        color:#484848;
+        box-shadow: 0 3px 5px 0 rgba(31,46,84,0.20),0 0 5px 0 rgba(31,46,84,0.20);
+        border-radius: 4px;
+        
+        .layui-layer-ico{
+            position:static!important;
+            display: block!important;
+            margin:0 auto 14px;
+            
+        }
+    
+    }
+}
+// 自定义layer.msg的icon
+.layui-layer-icoerr{//错误2
+    &::after{
+        content: url("../img/tips/ic_toast_lose.svg") !important;
+    }
+    background:none!important;
+    width:auto!important;
+    height:auto!important;
+}
+.layui-layer-icosuccess{//成功1
+    &::after{
+        content: url("../img/tips/ic_toast_success.svg") !important;
+    }
+    background:none!important;
+    width:auto!important;
+    height:auto!important;
+}
+.layui-layer-iconotice{//感叹号，通知3
+    &::after{
+        content: url("../img/tips/ic_toast_notice.svg") !important;
+      
+    }
+    background:none!important;
+    width:auto!important;
+    height:auto!important;
+    
+}
+.layui-layer-icoannotation{//注释
+    &::after{
+        content: url("../img/tips/ic_toast_annotation.svg") !important;
+    }
+    background:none!important;
+    width:auto!important;
+    height:auto!important;
+}
+
+
+
+
+//dtree样式
+body {
+    //选中每行颜色
+    .dtree-theme-item-this{
+        // background-color: #d2d2d2!important;
+    }
+    .dtree-theme-item:hover{
+        // background-color: @table-hover!important;
+    }
+    .dtree-nav-checkbox-div>i.dtreefont{
+        color:@blue!important;
+    }
+    //图标
+    .dtree-theme-dtreefont{
+        font-size: 18px!important;
+    }
+    //文字
+    .dtree-theme-item cite{
+        font-size:14px!important;
+    }
+    //每条高度
+    .dtree-nav-item{
+        line-height: 30px;
+    }
+}

@@ -1,0 +1,137 @@
+/**面包屑+头部
+<div id="pageHead">
+    <div id="breadcrumb">
+        <a class="parent">...</a><a class="parent">...</a>
+        <a class="self">...</a>
+    </div>
+    <div id="currentSelf">...</div>
+</div>
+**/
+#pageHead{
+    @breadcrumbH:40px;
+    @a_parentC:#808894;
+    @a_selfC:#2E3440;
+    @a_hoverC:@blue;
+
+    position: relative;
+    height: 100%;
+    padding:0 20px;
+    margin-bottom:12px;
+    background-color: @bai;
+    box-shadow: 0 1px 3px 0 rgba(31,46,84,0.10);
+ 
+    #breadcrumb{
+        height:@breadcrumbH;
+        line-height: @breadcrumbH;
+
+        a{
+            font-size:12px;
+            text-decoration: none;
+            font-family: "PingFang-SC-Regular";
+            //父级菜单
+            &.parent{
+                color:@a_parentC;
+                
+                &[ng-click],&[ui-sref],&[href^="#"]{
+                    cursor: pointer;
+                    &:hover{
+                        color:@a_hoverC!important;
+                    }     
+                }
+                &::after{
+                    content:"/";
+                    display: inline;
+                    margin:0 2px 0 8px;
+                }
+            }
+            //本级菜单
+            &.self{
+                color:@a_selfC;
+                cursor:default;
+            }
+
+        }
+    }
+
+    //本级菜单大写名称
+    #currentSelf{
+        padding:10px 0;
+        padding-bottom:30px;
+        &::before{
+            content:"";
+            display: inline-block;
+            width:0;
+            height: 24px;
+            border-left:3px solid #4181FF;
+            margin:-5px 20px 0 15px;
+            vertical-align: middle;
+        }
+        h3{
+            font-family: "PingFang-SC-Medium";
+            font-size:18px;
+            font-weight: 100;
+            color:@a_selfC;
+            height:24px;
+            line-height: 24px;
+            display: inline-block;
+        }
+    }
+
+    //头部展示信息部分
+    .fileInfo{
+        @titleH:30px;//每项的高度
+
+        padding-bottom:30px;
+        .fileInfo_item{
+            &::before{
+                content: "";
+                display: inline-block;
+                width: 0;
+                height: @titleH + 2px;
+                border-left: 3px solid #F5F6FA;
+                margin: 0 20px 0 15px;
+                vertical-align: middle;
+            }
+
+            float:left;
+            width:30%;
+            line-height:@titleH;
+            height: @titleH;
+            font-size: 14px;
+            color:#808894;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            span:nth-of-type(2){
+                margin-left:5px;
+                font-family: "PingFang-SC-Medium";
+            }
+        }
+
+
+        &::after{
+            content:"";
+            display: block;
+            width: 0;height: 0;
+            clear: both;
+            overflow: hidden;
+        }
+    }
+
+    //头部操作按钮
+    .pageHead_btn{
+        position: absolute;
+        top:@breadcrumbH + 10px;
+        right:20px;
+        .clear;
+        
+        >*{
+            float:left;
+            &:not(:last-child){
+                margin-right:12px;
+            }
+        }
+    }
+
+}

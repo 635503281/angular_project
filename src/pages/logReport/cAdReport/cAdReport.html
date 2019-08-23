@@ -1,0 +1,91 @@
+<div id="cAdReport" class="pageBox">
+    <div id="pageHead">
+        <div id="breadcrumb">
+            <a class="parent">{{firstMenuName}}</a>
+            <a class="self">{{secondMenuName}}</a>
+        </div>
+        <div id="currentSelf">
+            <h3>{{secondMenuName}}</h3>
+        </div>
+        <div class="pageNavtab">
+            <li ng-repeat="tab in tabList | filter:{isShow:true}" ng-click="switchTab(tab.id)" ng-class="{'active':currentTab==tab.id}">
+                <a>{{tab.name}}</a>
+            </li>
+        </div>
+    </div>
+
+    <div class="pageMain" ng-show="currentTab">
+         <div class="pageSearch">
+            <form name="search_form">
+                <div class="pageSearch_row">
+                    <div class="pageSearch_item">
+                        <span class="pageSearch_itemT">{{"CP"|translate}}:</span>
+                        <select class="pageSearch_itemC" ui-select2 multiple ng-model="searchOptions.cp" ng-options="i.cpId as i.name for i in cpList"
+                                data-placeholder="{{'all'|translate}}" ng-change="changeCp(searchOptions.cp)">
+                        </select>
+                    </div>
+                    <div class="pageSearch_item">
+                        <span class="pageSearch_itemT">{{"resultType"|translate}}:</span>
+                        <select class="pageSearch_itemC" ui-select2 ng-model="searchOptions.resultType" ng-options="i.id as i.name for i in resultTypeList" 
+                                ng-change="changeResult(searchOptions.resultType)">
+                        </select>
+                    </div>
+                    <div class="pageSearch_item">
+                        <span class="pageSearch_itemT">{{"domainName"|translate}}:</span>
+                        <select class="pageSearch_itemC" ui-select2 multiple ng-model="searchOptions.domain" ng-options="i.domainName as i.domainName for i in domainList" 
+                                data-placeholder="{{'all'|translate}}" ng-change="changeDomain(searchOptions.domain)"  ng-disabled="searchOptions.resultType==0">
+                        </select>
+                    </div>
+                    
+                </div>
+                <div class="pageSearch_row">
+                    <div class="pageSearch_item">
+                        <span class="pageSearch_itemT">{{"businessType"|translate}}<i class="required">*</i>:</span>
+                        <select class="pageSearch_itemC" ui-select2 ng-model="searchOptions.groupType" ng-options="i.id as i.name for i in groupTypeList" required>
+                            <option value>{{'pleaseChoose'|translate}}</option>
+                        </select>
+                    </div>
+                    <div class="pageSearch_item">
+                        <span class="pageSearch_itemT">{{"selectTime"|translate}}<i class="required">*</i>:</span>
+                        <input class="pageSearch_itemC" id="times" type="text" lay-range-date ng-model="searchOptions.time" placeholder='{{"beginToEnd"|translate}}' required  autocomplete="off">
+                    </div>
+
+                    <div ng-if="currentTab==1" class="pageSearch_item">
+                        <span class="pageSearch_itemT">{{"sortType"|translate}}:</span>
+                        <select class="pageSearch_itemC" ui-select2 ng-model="searchOptions.sortType" ng-options="i.id as i.name for i in sortTypeList"></select>
+                    </div>
+                    <div ng-if="currentTab==2" class="pageSearch_item">
+                        <span class="pageSearch_itemT">{{"timeGranularity"|translate}}:</span>
+                        <select class="pageSearch_itemC" ui-select2 ng-model="searchOptions.times" ng-options="i.id as i.name for i in timesList"></select>
+                    </div>  
+                </div>
+                <div class="pageSearch_row onlyBtn">
+                    <div class="pageSearch_btnGroup right">
+                        <button ng-if="cAdReport.reportDetail_searchBtn&&currentTab==1" id="search" type="button" class="pageBtn_blue36" ng-click="search()" ng-disabled="search_form.$invalid">{{cAdReport.reportDetail_searchName}}</button>
+                        <button ng-if="cAdReport.reportDetail_exportBtn&&currentTab==1" id="export" type="button" class="pageBtn_bai36" ng-click="export()" ng-disabled="search_form.$invalid">{{cAdReport.reportDetail_exportName}}</button>
+                        <button ng-if="cAdReport.reportTrend_searchBtn&&currentTab==2" id="search" type="button" class="pageBtn_blue36" ng-click="search()" ng-disabled="search_form.$invalid">{{cAdReport.reportTrend_searchName}}</button>
+                    </div>
+                </div>
+
+            </form>    
+        </div>
+        
+        <div class="empty" ng-show="noData"><span>{{"no_data"|translate}}</span></div>
+        <div id="pageContent" ng-show="!noData">
+            <div ng-show="currentTab==1">
+                 <div class="tabBox">
+                    <table id="tab" lay-filter="tab"></table>
+                </div>
+                <pagination ng-if="currentTab==1" paging-options="pagingOptions" get-page-data="getPageData()"></pagination>
+            </div>
+
+           <div ng-show="currentTab==2" class="clear">
+                <div class="performance_echart" ng-repeat="value in echartList track by $index">
+                    <div class="echart" id="echart{{value.id}}"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

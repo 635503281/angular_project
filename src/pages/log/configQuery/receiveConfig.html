@@ -1,0 +1,58 @@
+<div id="receiveConfig" class="pageBox">
+    <div id="pageHead">
+        <div id="breadcrumb">
+            <a class="parent">{{firstMenuName}}</a>
+            <a class="self">{{secondMenuName}}</a>
+        </div>
+        <div id="currentSelf">
+            <h3>{{secondMenuName}}</h3>
+        </div>
+    </div>
+
+    <div  class="pageMain">
+        <div class="pageSearch">
+            <div class="pageSearch_row">
+                <div class="pageSearch_item">
+                    <span class="pageSearch_itemT">{{"selectTime"|translate}}:</span>
+                    <input class="pageSearch_itemC" id="times" type="text" ng-model="searchOptions.times" lay-range-date placeholder='{{"beginToEnd"|translate}}' autocomplete="off">
+                </div>
+               
+                <div class="pageSearch_item">
+                    <span class="pageSearch_itemT">{{"nodeName"|translate}}:</span>
+                    <!-- <select class="pageSearch_itemC" ui-select2 ng-model="searchOptions.node_id" ng-options="i.id as i.nodeName for i in nodeList"></select> -->
+                    <input class="pageSearch_itemC" type="text" ng-model="searchOptions.nodeName" placeholder='{{"pleaseInput"|translate}}'>
+                </div>
+                <div class="pageSearch_item">
+                    <span class="pageSearch_itemT">{{"transactionID"|translate}}:</span>
+                    <input class="pageSearch_itemC" type="text" ng-model="searchOptions.transactionID" placeholder='{{"pleaseInput"|translate}}'>
+                </div>
+            </div>
+             <div class="pageSearch_row">
+                <div class="pageSearch_item">
+                    <span class="pageSearch_itemT">{{"commandType"|translate}}:</span>
+                    <input class="pageSearch_itemC" type="text" ng-model="searchOptions.commandType" placeholder='{{"pleaseInput"|translate}}'>
+                </div>
+                <div class="pageSearch_item">
+                    <span class="pageSearch_itemT">{{"filePath"|translate}}:</span>
+                    <input class="pageSearch_itemC" type="text" ng-model="searchOptions.filePath" placeholder='{{"pleaseInput"|translate}}'>
+                </div>
+
+                <div class="pageSearch_btnGroup right">
+                    <button ng-if="receiveConfig.searchBtn" id="search" type="button" class="pageBtn_blue36" ng-click="search()">{{receiveConfig.searchName}}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="empty" ng-show="noData"><span>{{"no_data"|translate}}</span></div>
+        <div id="pageContent" ng-show="!noData">
+            
+            <div class="tabBox">
+                <table id="tab" lay-filter="tab"></table>
+            </div>
+            <pagination paging-options="pagingOptions" get-page-data="getPageData()"></pagination>
+        </div>
+
+    </div>
+   
+
+</div>

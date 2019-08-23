@@ -1,0 +1,60 @@
+<div id="delete">
+    <h3>{{"contentOTTDelete"|translate}}</h3>
+    <form name="edit_form">
+        <div class="edit">
+             <!-- 节点 -->
+            <div class="box">
+                <span class="edit_title required">{{"node"|translate}}:</span>
+                <select class="edit_content" ng-model="item.nodeId" ng-options="i.nodeID as i.nodeName for i in nodeList" required></select>               
+            </div>
+            <!-- 命令来源系统标识 -->
+            <div class="box">
+                <span class="edit_title">{{"systemId"|translate}}:</span>
+                <input class="edit_content" type="text" ng-model="item.systemId" maxlength="50">              
+            </div>
+            <!-- CMS标识 -->
+            <div class="box">
+                <span class="edit_title required">{{"cmsId"|translate}}:</span>
+                <input class="edit_content" type="text" ng-model="item.cmsId" maxlength="50" required>
+            </div>
+            <!-- 目标系统标识 -->
+            <div class="box">
+                <span class="edit_title required">{{"targetSystemId"|translate}}:</span>
+                <input class="edit_content" type="text" ng-model="item.targetSystemId" maxlength="50" required>
+            </div>
+            <!-- content列表 -->
+            <div class="box w100 h-auto">
+                <span class="edit_title">{{"contentList"|translate}}:</span>
+                <button type="button" class="btn-common" ng-click="addContent()">{{"add"|translate}}</button>
+                <div class="edit_list" ng-if="item.contentList.length>0">
+                    <div class="edit_list_tab">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th width=50%>{{"contentId"|translate}}<i class="required">*</i></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="value in item.contentList">
+                                    <td><input type="text" ng-model="value.contentId" maxlength="50" required></td>
+                                    <td><button class="btn icon_delete" ng-disabled="$index==0" ng-click="delContent($index)"></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- 删除方式 -->
+            <div class="box">
+                <span class="edit_title">{{"deleteMethod"|translate}}:</span>
+                <select class="edit_content" ng-model="item.deleteMethod" ng-options="i.id as i.name for i in deleteMethodList"></select>               
+            </div>
+            
+        </div>
+        <div class="btn_group">
+            <button type="button" class="btn-blue" ng-click="delete()" ng-disabled="edit_form.$invalid||loading">{{loading?("loading"|translate):("delete"|translate)}}</button>
+            <button type="button" class="btn-grep" ng-click="closeThisDialog('cancel')">{{"cancel"|translate}}</button>
+        </div>
+    </form>
+</div>

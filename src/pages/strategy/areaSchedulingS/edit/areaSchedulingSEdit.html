@@ -1,0 +1,137 @@
+<div id="areaSchedulingSEdit" class="pageBox">
+	<div id="pageHead">
+		<div id="breadcrumb">
+			<a class="parent">{{firstMenuName}}</a>
+			<a class="parent" ui-sref="index.strategy.areaSchedulingS.list">{{secondMenuName}}</a>
+			<a class="self" ng-if="id==0">{{"add"|translate}}</a>
+            <a class="self" ng-if="id!=0">{{"modify"|translate}}</a>
+		</div>
+		<div id="currentSelf">
+			<h3 ng-if="id==0">{{"add"|translate}}</h3>
+            <h3 ng-if="id!=0">{{"modify"|translate}}</h3>
+		</div>
+	</div>
+
+	<form name="edit_form" novalidate autocomplete="off">
+		<div class="pageConfig">
+			<div class="pageEdit_content">
+                <!-- 省份 -->
+				<div class="pageEdit_item">
+					<span class="pageEdit_itemT">{{"province"|translate}}:</span>
+                    <select class="pageEdit_itemC" ui-select2 ng-model="item.province" ng-options="i.alias as i.name for i in provinceList" required></select>
+                </div>
+                
+				<!-- 域名 -->
+				<div class="pageEdit_item">
+                    <span class="pageEdit_itemT">{{"domain"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                    <textarea ng-if="id==0" class="pageEdit_itemC" name="domain"  ng-model="item.domain" placeholder='{{"pleaseInput"|translate}}'></textarea>
+                    <input ng-if="id!=0" class="pageEdit_itemC" name="domain"  ng-model="item.domain" placeholder='{{"pleaseInput"|translate}}'>
+                    <span class="iptTip">
+                        {{"nodeORclient"|translate}}<br><span ng-if="id==0">{{"domainWrap"|translate}}</span>
+                    </span>
+				</div>
+			
+				<!-- 调度策略 -->
+				<div class="pageEdit_item">
+					<span class="pageEdit_itemT">{{"policy"|translate}}:</span>
+                    <select class="pageEdit_itemC" ui-select2 ng-model="item.policy" ng-options="i.id as i.name for i in policyList" required></select>
+				</div>
+				
+                <!-- 重定向URL格式 -->
+				<div class="pageEdit_item">
+					<span class="pageEdit_itemT">{{"redirectFormat"|translate}}:</span>
+                    <select class="pageEdit_itemC" ui-select2 ng-model="item.redirectFormat" ng-options="i.id as i.name for i in redirectFormatList" required></select>
+				</div>
+
+				<!-- 用户IP地址段列表 -->
+				<div class="pageTabContent">
+					<h3>{{"clientList"|translate}}</h3>
+					<div class="pageTabContent_box" ng-if="item.clients.length>0">
+						<div>
+							<table>
+								<thead>
+									<tr>
+										
+										<th width=30%>{{"ipAddr"|translate}}</th>
+										<th width=30%>{{"mask"|translate}}</th>
+										<th>{{"ipv6Addr"|translate}}</th>
+										<th class="operation" style="width:73px;">{{"operation"|translate}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="value in item.clients track by $index">
+								  
+										<td><input type="text" name="ipv4Addr{{$index}}" ng-model="value.ipAddr" maxlength="200" required ip-check placeholder='{{"pleaseInput"|translate}}'
+											ng-class="{'errIpt':edit_form.ipv4Addr{{$index}}.$error.ipErr}" >
+											<span class="none" ng-class="{'errTip':edit_form.ipv4Addr{{$index}}.$error.ipErr}">{{'ip_err'|translate}}</span>
+										</td>
+										<td><input type="text" name="ipv4Mask{{$index}}" ng-model="value.mask" maxlength="200" required placeholder='{{"pleaseInput"|translate}}'>
+										</td>
+										<td><input type="text" name="ipv6Addr{{$index}}" ng-model="value.ipv6Addr" maxlength="200" required ipv6-check placeholder='{{"pleaseInput"|translate}}'
+											ng-class="{'errIpt':edit_form.ipv6Addr{{$index}}.$error.ipv6Err}">
+											<span class="none" ng-class="{'errTip':edit_form.ipv6Addr{{$index}}.$error.ipv6Err}">{{'ipv6_err'|translate}}</span>
+										</td>
+										<td class="operationBtn"><button class="btn icon_delete" ng-click="delClient($index,$event)"></button></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="pageTabContent_add noBorder_b">
+						<div class="dashed">
+							<button type="button" ng-click="addClient()">{{'addConfig'|translate}}</button>
+						</div> 
+					</div>
+				</div>
+		
+				<!-- 节点列表 -->
+				<div class="pageTabContent">
+					<h3>{{"nodeList"|translate}}</h3>
+					<div class="pageTabContent_box" ng-if="item.nodes.length>0">
+						<div>
+							<table>
+								<thead>
+									<tr>
+										<th width=15%>{{"nodeID"|translate}}</th>
+										<th width=20%>{{"groupID"|translate}}</th>
+										<th width=15%>{{"serviceList"|translate}}</th>
+										<th width=15%>{{"groupIP"|translate}}</th>
+										<th >{{"groupIPv6"|translate}}</th>
+										<th width=10%>{{"port"|translate}}</th>
+										<th class="operation" style="width:73px;">{{"operation"|translate}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="value in item.nodes track by $index">
+										<td><select ui-select2  ng-model="value.nodeID" ng-options="i.nodeID as i.nodeName for i in nodeList" required ng-change="getGroupByNode(value.nodeID,$index)"></select></td>
+										<td><select ui-select2  ng-model="value.groupID" ng-options="i.groupID as i.groupName for i in groupList[$index]" required ng-change="getGroupIPList(value.groupID,$index)"></select></td>
+										<td><select ui-select2  ng-model="value.serviceId" ng-options="i.id as (i.id?i.id:i.serviceVIPAddr) for i in groupIPList[$index]" 
+											required ng-change="fillService(value.serviceId,$index)"></select>
+										</td>
+										<td><input ng-model="value.groupIP" readonly></td>
+										<td><input ng-model="value.groupIPv6" readonly></td>
+										<td><input ng-model="value.port" readonly></td>
+										<td class="operationBtn"><button class="btn icon_delete" ng-click="delNode($index,$event)" ng-disabled="item.nodes.length==1"></button></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="pageTabContent_add noBorder_b">
+						<div class="dashed">
+							<button type="button" ng-click="addNode()">{{'addConfig'|translate}}</button>
+						</div> 
+					</div>
+				</div>
+	
+			</div>
+
+			<div class="pageEdit_btnGroup">
+				<button type="button" class="pageBtn_blue40" ng-click="save()" ng-disabled="edit_form.$invalid">{{"submit"|translate}}</button>
+				<button type="button" class="pageBtn_bai40" ng-click="return()">{{"cancel"|translate}}</button>
+			</div>
+        </div>
+        	
+    </form>
+    
+</div>

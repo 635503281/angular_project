@@ -1,0 +1,59 @@
+<div id="cpManagementList" class="pageBox">
+    <div id="pageHead">
+        <div id="breadcrumb">
+            <a class="parent">{{firstMenuName}}</a>
+            <a class="self">{{secondMenuName}}</a>
+        </div>
+        <div id="currentSelf">
+            <h3>{{secondMenuName}}</h3>
+        </div>
+        <div class="pageNavtab">
+            <li ng-repeat="tab in tabList | filter:{isShow:true}" ng-click="switchTab(tab.id)" ng-class="{'active':currentTab==tab.id}">
+                <a>{{tab.name}}</a>
+            </li>
+        </div>
+    </div>
+
+    <div class="pageMain" ng-show="currentTab">
+        <div class="pageSearch">
+            <div class="pageSearch_row">
+                <div class="pageSearch_item" ng-if="currentTab==1">
+                    <span class="pageSearch_itemT">{{"CPID"|translate}}:</span>
+                    <input class="pageSearch_itemC" type="text" ng-model="searchOptions.cpId" placeholder='{{"pleaseInput"|translate}}'>
+                </div>
+               
+                <div class="pageSearch_item" ng-if="currentTab==2">
+                    <span class="pageSearch_itemT">{{"domain"|translate}}:</span>
+                    <input class="pageSearch_itemC" type="text" ng-model="searchOptions.domainName" placeholder='{{"pleaseInput"|translate}}'>
+                </div>
+
+                <div class="pageSearch_btnGroup right">
+                    <button ng-if="cpdomainConfig.cp_searchBtn&&currentTab==1" id="search" type="button" class="pageBtn_blue36" ng-click="searchCp()">{{cpdomainConfig.cp_searchName}}</button>
+                    <button ng-if="cpdomainConfig.domain_searchBtn&&currentTab==2" id="search" type="button" class="pageBtn_blue36" ng-click="searchDomain()">{{cpdomainConfig.domain_searchName}}</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="pageContent_operation">
+            <a ng-if="cpdomainConfig.cp_addBtn&&currentTab==1" class="pageBtn_blue36 addIcon" ui-sref="index.strategy.domainManagement.cpEdit({id:0})">{{cpdomainConfig.cp_addName}}</a>
+            <button ng-if="cpdomainConfig.cp_deleteMoreBtn&&currentTab==1" class="pageBtn_blue36" ng-click="deleteMore()" ng-show="selectItems.length!=0" ng-disabled="selectItems.length==0">{{cpdomainConfig.cp_deleteMoreName}}</button>
+            <a ng-if="cpdomainConfig.domain_addBtn&&currentTab==2" class="pageBtn_blue36 addIcon" ui-sref="index.strategy.domainManagement.domainEdit({id:0})">{{cpdomainConfig.domain_addName}}</a>
+            <button ng-if="cpdomainConfig.domain_deleteMoreBtn&&currentTab==2" class="pageBtn_blue36" ng-click="deleteMore()" ng-show="selectItems.length!=0" ng-disabled="selectItems.length==0">{{cpdomainConfig.domain_deleteMoreName}}</button>
+            
+            <selected-tip ng-hide="noData" length="selectItems.length"></selected-tip> 
+        </div>
+        
+        <div class="empty" ng-show="noData"><span>{{"no_data"|translate}}</span></div>
+        <div id="pageContent" ng-show="!noData">
+            
+            <div class="tabBox">
+                <table id="tab" lay-filter="tab"></table>
+            </div>
+            <pagination ng-if="currentTab==1||currentTab==2" paging-options="pagingOptions" get-page-data="getPageData(currentTab)"></pagination>
+        </div>
+
+    </div>
+   
+
+</div>

@@ -1,0 +1,51 @@
+<div id="areaSchedulingSList" class="pageBox">
+    <div id="pageHead">
+        <div id="breadcrumb">
+            <a class="parent">{{firstMenuName}}</a>
+            <a class="self">{{secondMenuName}}</a>
+        </div>
+        <div id="currentSelf">
+            <h3>{{secondMenuName}}</h3>
+        </div>
+    </div>
+
+    <div class="pageMain">
+         <div class="pageSearch">
+            <div class="pageSearch_row">
+                <div class="pageSearch_item">
+                    <span class="pageSearch_itemT">{{"province"|translate}}:</span>
+                    <select class="pageSearch_itemC" ui-select2 ng-model="searchOptions.province" ng-options="i.alias as i.name for i in provinceList"></select>
+                </div>
+               
+                <div class="pageSearch_item">
+                    <span class="pageSearch_itemT">{{"domain"|translate}}:</span>
+                    <input class="pageSearch_itemC" type="text" ng-model="searchOptions.domain" placeholder='{{"pleaseInput"|translate}}'>
+                </div>
+
+                <div class="pageSearch_btnGroup right">
+                    <button ng-if="areaSchedulingS.searchBtn" id="search" type="button" class="pageBtn_blue36" ng-click="search()">{{areaSchedulingS.searchName}}</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="pageContent_operation">
+            <a ng-if="areaSchedulingS.addBtn" class="pageBtn_blue36 addIcon" ui-sref="index.strategy.areaSchedulingS.edit({id:0})">{{areaSchedulingS.addName}}</a>
+            <button ng-if="areaSchedulingS.issuedBtn" class="pageBtn_blue36" ng-click="issued()">{{areaSchedulingS.issuedName}}</button>
+            <button ng-if="areaSchedulingS.deleteMoreBtn" class="pageBtn_blue36" ng-click="deleteMore()" ng-show="selectItems.length!=0" ng-disabled="selectItems.length==0">{{areaSchedulingS.deleteMoreName}}</button>
+            
+            <selected-tip ng-hide="noData" length="selectItems.length"></selected-tip> 
+        </div>
+        
+        <div class="empty" ng-show="noData"><span>{{"no_data"|translate}}</span></div>
+        <div id="pageContent" ng-show="!noData">
+            
+            <div class="tabBox">
+                <table id="tab" lay-filter="tab"></table>
+            </div>
+            <pagination paging-options="pagingOptions" get-page-data="getPageData()"></pagination>
+        </div>
+
+    </div>
+
+</div>

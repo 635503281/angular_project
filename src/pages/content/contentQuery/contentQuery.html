@@ -1,0 +1,66 @@
+<div id="contentQuery" class="pageBox">
+    <div id="pageHead">
+        <div id="breadcrumb">
+            <a class="parent">{{firstMenuName}}</a>
+            <a class="self">{{secondMenuName}}</a>
+        </div>
+        <div id="currentSelf">
+            <h3>{{secondMenuName}}</h3>
+        </div>
+        <div class="pageNavtab">
+            <li ng-repeat="tab in tabList | filter:{isShow:true}" ng-click="switchTab(tab.id)" ng-class="{'active':currentTab==tab.id}">
+                <a>{{tab.name}}</a>
+            </li>
+        </div>
+    </div>
+
+    <div class="pageMain" ng-show="currentTab">
+        <form name="search_form">
+            <div class="pageSearch">
+                <div class="pageSearch_row">
+                    <div class="pageSearch_item">
+                        <span class="pageSearch_itemT">{{"node"|translate}}<i class="required">*</i>:</span>
+                        <select class="pageSearch_itemC" ui-select2 ng-model="searchOptions.nodeId" ng-options="i.nodeID as i.nodeName for i in nodeList" required></select>
+                    </div>
+                    <div class="pageSearch_item" >
+                        <span class="pageSearch_itemT">{{"cp"|translate}}<i ng-if="currentTab==2" class="required">*</i>:</span>
+                        <input ng-if="currentTab==1" class="pageSearch_itemC" type="text" ng-model="searchOptions.cpId" placeholder='{{"pleaseInput"|translate}}'>
+                        <select ng-if="currentTab==2" class="pageSearch_itemC" ui-select2 ng-model="searchOptions.cpId" ng-options="i.cpId as i.name for i in cpList" required></select>   
+                    </div>
+                    <div class="pageSearch_item" >
+                        <span class="pageSearch_itemT">{{"contentId"|translate}}:</span>
+                        <input class="pageSearch_itemC" type="text" ng-model="searchOptions.contentId" placeholder='{{"pleaseInput"|translate}}'> 
+                    </div>
+                </div>
+                 <div class="pageSearch_row">
+                    <div class="pageSearch_item">
+                        <span class="pageSearch_itemT">{{"contentUrl"|translate}}<i ng-if="currentTab==2" class="required">*</i>:</span>
+                        <input class="pageSearch_itemC" type='text' ng-model="searchOptions.contentUrl" ng-required="currentTab==2" placeholder='{{"pleaseInput"|translate}}'>
+                    </div>
+                
+                    <div class="pageSearch_item" ng-if="currentTab==1">
+                        <span class="pageSearch_itemT">{{"contentName"|translate}}:</span>
+                        <input class="pageSearch_itemC" type="text" ng-model="searchOptions.contentName" placeholder='{{"pleaseInput"|translate}}'>   
+                    </div>
+
+                    <div class="pageSearch_btnGroup right">
+                        <button ng-if="contentQuery.fuzzyContentQuery_searchBtn&&currentTab==1" id="search" type="button" class="pageBtn_blue36" ng-click="search()" ng-disabled="search_form.$invalid">{{contentQuery.fuzzyContentQuery_searchName}}</button>
+                        <button ng-if="contentQuery.accurateContentQuery_searchBtn&&currentTab==2" id="search" type="button" class="pageBtn_blue36" ng-click="search()" ng-disabled="search_form.$invalid">{{contentQuery.accurateContentQuery_searchName}}</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="empty" ng-show="noData"><span>{{"no_data"|translate}}</span></div>
+        <div id="pageContent" ng-show="!noData">
+            
+            <div class="tabBox">
+                <table id="tab" lay-filter="tab"></table>
+            </div>
+            <pagination ng-if="currentTab==1" paging-options="pagingOptions" get-page-data="getPageData(currentTab)"></pagination>
+        </div>
+
+    </div>
+   
+
+</div>

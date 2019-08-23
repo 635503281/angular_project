@@ -1,0 +1,34 @@
+<div id="pagination" class="clear">
+    <div class="total left color8">
+        <span>{{'pagingOptions.allTotal'|translate}}：</span>
+        <span>{{pagingOptions.total}}</span>
+        <span>{{'pagingOptions.bar'|translate}}</span>
+    </div>
+    <div class="pagination_content right clear">
+        <!-- 上一页 -->
+        <div class="inline_block left marR-10">
+            <span class="previousPage btn" ng-disabled="cantPageBackward()" ng-click="goPreviousPage()"></span>
+        </div>
+        <!-- 分页按钮 -->
+        <div class="pages left">
+            <span ng-class="{'btn':size,'goBtn':!size,'leftBtn':$index==1,'active':size==pagingOptions.currentPage}" ng-repeat="size in pages track by $index" 
+                  ng-click="goPage(size,$index)">{{size?size:""}}
+            </span>
+        </div>
+        <!-- 下一页 -->
+        <div class="inline_block left marR-20">
+            <span class="nextPage btn" ng-disabled="cantPageForward()" ng-click="goNextPage()"></span>
+        </div>
+        <!-- 分页条目数 -->
+        <div class="left pageSizes">
+            <select ui-select2 ng-options="i.size as i.name for i in pageSizes" ng-model="pagingOptions.pageSize"></select>
+        </div>
+        <!-- 跳至多少页 -->
+        <div class="right">
+            <span class="marR-10 color8">{{"pagingOptions.jump"|translate}}</span>
+            <input type="number" ng-model="pagingOptions.currentPage" ng-blur="checkCurrentPage()" onkeyup="this.value=this.value.replace(/s/g,'')"> 
+            <span class="marL-10 color8">{{"pagingOptions.page"|translate}}</span>
+        </div>
+    </div>
+
+</div>

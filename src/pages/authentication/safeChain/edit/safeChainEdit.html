@@ -1,0 +1,188 @@
+<div id="safeChainEdit" class="pageBox">
+    <div id="pageHead">
+        <div id="breadcrumb">
+            <a class="parent">{{firstMenuName}}</a>
+            <a class="parent" ui-sref="index.authentication.safeChain.list">{{secondMenuName}}</a>
+            <a class="self" ng-if="id==0">{{"add"|translate}}</a>
+            <a class="self" ng-if="id!=0">{{"modify"|translate}}</a>
+        </div>
+        <div id="currentSelf">
+            <h3 ng-if="id==0">{{"add"|translate}}</h3>
+            <h3 ng-if="id!=0">{{"modify"|translate}}</h3>
+        </div>
+    </div>
+
+    <div class="pageMain w80 autoLR">
+        <div id="pageEdit">
+            <form name="edit_form" novalidate autocomplete="off">
+                <div class="pageEdit_content">
+                    <!-- 防盗链ID -->
+                    <div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"authID"|translate}}:</span>
+                        <input class="pageEdit_itemC" type="number" name="authID" ng-model="item.authID"  ng-pattern="/^[1-9]\d*$/"  maxlimit="10" maxnum="2147483647" required
+                               ng-class="{'errIpt':edit_form.authID.$error.pattern}" placeholder='{{"pleaseInput"|translate}}'>
+                        <span class="iptTip" ng-class="{'errTip':edit_form.authID.$error.pattern}">{{'authIDFormat'|translate}}</span>
+                    </div>
+                    <!-- 防盗链名称 -->
+                    <div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"authName"|translate}}:</span>
+                        <input class="pageEdit_itemC" type="text" name="authName" ng-model="item.authName" maxlength="20" required placeholder='{{"pleaseInput"|translate}}'>
+                        <span class='iptTip'>{{'pleaseInput'|translate}}</span>
+                    </div>
+                    <!-- 防盗链算法ID -->
+                    <div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"templateID"|translate}}:</span>
+                        <select class="pageEdit_itemC" ui-select2 ng-model="item.templateID" 
+                                ng-options="i.id as i.name for i in templateIDList" required>
+                        </select>
+                    </div>
+
+                    <!-- 防盗链算法名称 -->
+                    <!-- <div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"templateName"|translate}}:</span>
+                        <input class="pageEdit_itemC" type="text" name="templateName" ng-model="item.templateName" maxlength="20" required placeholder='{{"pleaseInput"|translate}}'>
+                        <span class='iptTip'>{{'pleaseInput'|translate}}</span>
+                    </div> -->
+
+                    <!-- 防盗链开关 -->
+                    <div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"authSwitch"|translate}}:</span>
+                        <label class="pageSwitch">
+                            <input type="checkbox" ng-model="item.authSwitch" class="pageSwitch-ls">
+                            <span class="lbl {{lang}}"></span>
+                        </label>
+                    </div>
+                    <!-- miguSelfDefParamVO -->
+                    <div ng-if="item.templateID==templateIDList[1].id">
+                        <!-- AES加密秘钥 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"keyValue"|translate}}:</span>
+                            <input class="pageEdit_itemC" type="text" ng-model="item.miguSelfDefParamVO.keyValue" required  maxlength="256" placeholder='{{"pleaseInput"|translate}}'>
+                            <span class='iptTip'>{{'pleaseInput'|translate}}</span>
+                        </div>
+                        <!-- 秘钥版本 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"keyVersion"|translate}}:</span>
+                            <input class="pageEdit_itemC" type="text" ng-model="item.miguSelfDefParamVO.keyVersion" required  maxlength="48" placeholder='{{"pleaseInput"|translate}}'>
+                            <span class='iptTip'>{{'pleaseInput'|translate}}</span>
+                        </div>
+                        <!-- 秘钥生效期 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"keyEffectiveDate"|translate}}:</span>
+                            <input class="pageEdit_itemC" id="keyEffectiveDate" type="text" ng-model="item.miguSelfDefParamVO.keyEffectiveDate" lay-date required placeholder='{{"pleaseSelectTime"|translate}}'>
+                        </div>
+                        <!-- 新旧秘钥共存期 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"dualTokenValidTime"|translate}}(s):</span>
+                            <input class="pageEdit_itemC" type="text" name="dualTokenValidTime" ng-model="item.miguSelfDefParamVO.dualTokenValidTime"  ng-pattern="/^([1-9]\d*|[0]{1,1})$/" maxlength="10"  required
+                                ng-class="{'errIpt':edit_form.dualTokenValidTime.$error.pattern}" placeholder='{{"pleaseInput"|translate}}'>
+                            <span class="iptTip" ng-class="{'errTip':edit_form.dualTokenValidTime.$error.pattern}">{{"beNumber"|translate}}</span>
+                        </div>
+                        <!-- 是否对一级索引做防盗链鉴权 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"masterIndexSecurity"|translate}}:</span>
+                            <select class="pageEdit_itemC" ui-select2 ng-model="item.miguSelfDefParamVO.masterIndexSecurity" 
+                                ng-options="i.id as i.name for i in selectList" required>
+                            </select>
+                        </div>
+                        <!-- 是否对码率速率做防盗链鉴权 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"rateIndexSecurity"|translate}}:</span>
+                            <select class="pageEdit_itemC" ui-select2 ng-model="item.miguSelfDefParamVO.rateIndexSecurity" 
+                                ng-options="i.id as i.name for i in selectList" required>
+                            </select>
+                        </div>
+                        <!-- 是否对分片做防盗链鉴权 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"segmentalFileSecurity"|translate}}:</span>
+                            <select class="pageEdit_itemC" ui-select2 ng-model="item.miguSelfDefParamVO.segmentalFileSecurity" 
+                                ng-options="i.id as i.name for i in selectList" required>
+                            </select>
+                        </div>
+                        <!-- 是否对一级索引文件做时戳校验 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"masterIndexTimestampCheck"|translate}}:</span>
+                            <select class="pageEdit_itemC" ui-select2 ng-model="item.miguSelfDefParamVO.masterIndexTimestampCheck" 
+                                ng-options="i.id as i.name for i in selectList" required>
+                            </select>
+                        </div>
+                        <!-- 是否对码率索引文件做时戳校验 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"rateIndexTimestampCheck"|translate}}:</span>
+                            <select class="pageEdit_itemC" ui-select2 ng-model="item.miguSelfDefParamVO.rateIndexTimestampCheck" 
+                                ng-options="i.id as i.name for i in selectList" required>
+                            </select>
+                        </div>
+                        <!-- 否对分片文件做时戳校验 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"segmentalFileTimestampCheck"|translate}}:</span>
+                            <select class="pageEdit_itemC" ui-select2 ng-model="item.miguSelfDefParamVO.segmentalFileTimestampCheck" 
+                                ng-options="i.id as i.name for i in selectList" required>
+                            </select>
+                        </div>
+                        <!-- 一级索引文件做时戳校验时使用的有效期 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"masterIndexURLValidTime"|translate}}:</span>
+                            <input class="pageEdit_itemC" type="" name="masterIndexURLValidTime" ng-model="item.miguSelfDefParamVO.masterIndexURLValidTime" required  maxlength="10" period-check
+                                ng-class="{'errIpt':edit_form.masterIndexURLValidTime.$error.periodErr }" placeholder='{{"pleaseInput"|translate}}'>
+                            <span class="iptTip" ng-class="{'errTip':edit_form.masterIndexURLValidTime.$error.periodErr }">{{'invalidTimeTip'|translate}}</span>
+                        </div>
+                        <!-- 码率索引文件做时戳校验时使用的有效期 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"rateIndexURLValidTime"|translate}}:</span>
+                            <input class="pageEdit_itemC" type="text" name="rateIndexURLValidTime" ng-model="item.miguSelfDefParamVO.rateIndexURLValidTime" required  maxlength="10" period-check
+                                ng-class="{'errIpt':edit_form.rateIndexURLValidTime.$error.periodErr}" placeholder='{{"pleaseInput"|translate}}'>
+                            <span class="iptTip" ng-class="{'errTip':edit_form.rateIndexURLValidTime.$error.periodErr}">{{'invalidTimeTip'|translate}}</span>
+                        </div>
+                        <!-- 分片文件做时戳校验时使用的有效期 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"segmentalFileURLValidTime"|translate}}:</span>
+                            <input class="pageEdit_itemC" type="text" name="segmentalFileURLValidTime" ng-model="item.miguSelfDefParamVO.segmentalFileURLValidTime" required  maxlength="10" period-check
+                                ng-class="{'errIpt':edit_form.segmentalFileURLValidTime.$error.periodErr }" placeholder='{{"pleaseInput"|translate}}'>
+                            <span class="iptTip" ng-class="{'errTip':edit_form.segmentalFileURLValidTime.$error.periodErr }">{{'invalidTimeTip'|translate}}</span>
+                        </div>
+                        <!-- 是否对下载类文件做防盗链鉴权 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"dwnldFileSecurity"|translate}}:</span>
+                            <select class="pageEdit_itemC"  ui-select2 ng-model="item.miguSelfDefParamVO.dwnldFileSecurity" 
+                                ng-options="i.id as i.name for i in selectList" required>
+                            </select>
+                        </div>
+                        <!-- 是否对下载类文件做时戳校验 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"dwnldFileTimestampCheck"|translate}}:</span>
+                            <select class="pageEdit_itemC" ui-select2 ng-model="item.miguSelfDefParamVO.dwnldFileTimestampCheck" 
+                                ng-options="i.id as i.name for i in selectList" required>
+                            </select>
+                        </div>
+                        <!-- 下载类文件做时戳校验时使用的有效期 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"dwnldFileURLValidTime"|translate}}:</span>
+                            <input class="pageEdit_itemC" type="text" name="dwnldFileURLValidTime" ng-model="item.miguSelfDefParamVO.dwnldFileURLValidTime" required  maxlength="10" period-check
+                                ng-class="{'errIpt':edit_form.dwnldFileURLValidTime.$error.periodErr }" placeholder='{{"pleaseInput"|translate}}'>
+                            <span class="iptTip" ng-class="{'errTip':edit_form.dwnldFileURLValidTime.$error.periodErr }">{{'invalidTimeTip'|translate}}</span>
+                        </div>
+                        <!-- IP校验模式 -->
+                        <div class="pageEdit_item">
+                            <span class="pageEdit_itemT">{{"ipvalidMode"|translate}}:</span>
+                            <select class="pageEdit_itemC" ui-select2 ng-model="item.miguSelfDefParamVO.ipvalidMode"
+                                 ng-options="i.id as i.name for i in ipvalidModeList" required>
+                            </select>
+                        </div>
+        
+                    </div>
+
+                    <!-- 注释 -->
+                    <div class="pageEdit_item note">
+                        <span class="pageEdit_itemC">{{"authority_tip"|translate}}</span>
+                    </div>
+                </div>
+
+                <div class="pageEdit_btnGroup">
+                    <button type="button" class="pageBtn_blue40" ng-click="save()" ng-disabled="edit_form.$invalid">{{"submit"|translate}}</button>
+                    <button type="button" class="pageBtn_bai40" ng-click="return()">{{"cancel"|translate}}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

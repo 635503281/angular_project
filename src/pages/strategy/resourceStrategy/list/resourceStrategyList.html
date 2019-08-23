@@ -1,0 +1,81 @@
+<div id="resourceStrategyList" class="pageBox">
+    <div id="pageHead">
+        <div id="breadcrumb">
+            <a class="parent">{{firstMenuName}}</a>
+            <a class="self">{{secondMenuName}}</a>
+        </div>
+        <div id="currentSelf">
+            <h3>{{secondMenuName}}</h3>
+        </div>
+        <div class="pageNavtab">
+            <li ng-class="{'active':currentTab==tab.id}" ng-repeat="tab in tabList | filter:{isShow:true}" ng-click="switchTab(tab.id)">
+                <a>{{tab.name}}</a>
+            </li>
+        </div>
+    </div>
+
+    <!-- 静态配置 -->
+    <div ng-show="currentTab==1" class="pageMain">
+        <div class="pageContent_operation">
+            <a ng-if="resourceStrategy.staticResourceConfig_addBtn" class="pageBtn_blue36 addIcon" ui-sref="index.strategy.resourceStrategy.edit({id:0})">{{resourceStrategy.staticResourceConfig_addName}}</a>
+            <button ng-if="resourceStrategy.staticResourceConfig_issuedMoreBtn" class="pageBtn_blue36" ng-click="issuedMore()" ng-show="selectItems.length!=0" ng-disabled="selectItems.length==0">{{resourceStrategy.staticResourceConfig_issuedMoreName}}</button>
+            <button ng-if="resourceStrategy.staticResourceConfig_deleteMoreBtn" class="pageBtn_blue36" ng-click="deleteMore()" ng-show="selectItems.length!=0" ng-disabled="selectItems.length==0">{{resourceStrategy.staticResourceConfig_deleteMoreName}}</button>
+            
+            <selected-tip ng-hide="noData" length="selectItems.length"></selected-tip> 
+        </div>
+        
+        <div class="empty" ng-show="noData"><span>{{"no_data"|translate}}</span></div>
+        <div id="pageContent" ng-show="!noData">
+            
+            <div class="tabBox">
+                <table id="tab" lay-filter="tab"></table>
+            </div>
+            <pagination ng-if="currentTab==1" paging-options="pagingOptions" get-page-data="getPageData()"></pagination>
+        </div>
+
+    </div>
+    <!-- 动态配置 -->
+    <div ng-show="currentTab==2" class="pageMain w80 autoLR">
+        <div id="pageEdit">
+            <form name="edit_form" novalidate autocomplete="off">
+                <div class="pageEdit_content">
+                    <!-- 主TCSIPv4地址 -->
+                    <div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"activeTCS"|translate}}:</span>
+                        <input class="pageEdit_itemC" type="text" name="activeTCS" ng-model="item.activeTCS"  ip-check required maxlength="20"
+                               ng-class="{'errIpt':edit_form.activeTCS.$error.ipErr}" placeholder='{{"pleaseInput"|translate}}'>
+                        <span class="iptTip" ng-class="{'errTip':edit_form.activeTCS.$error.ipErr}">{{"invalidIpv4"|translate}}</span>
+                    </div>
+                    <!-- 主TCSIPv6地址 -->
+                    <div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"activeTCSv6"|translate}}:</span>
+                        <input class="pageEdit_itemC" type="text" name="activeTCSv6" ng-model="item.activeTCSv6" ipv6-check maxlength="128" required
+                               ng-class="{'errIpt':edit_form.activeTCSv6.$error.ipv6Err}" placeholder='{{"pleaseInput"|translate}}'>
+                        <span class="iptTip" ng-class="{'errTip':edit_form.activeTCSv6.$error.ipv6Err}">{{"invalidIpv6"|translate}}</span>
+                    </div>
+                    <!-- 备份TCS地址 -->
+                    <div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"backupTCS"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                        <input class="pageEdit_itemC" type="text" name="backupTCS" ng-model="item.backupTCS" ip-check  maxlength="20"
+                               ng-class="{'errIpt':edit_form.backupTCS.$error.ipErr}" placeholder='{{"pleaseInput"|translate}}'>
+                        <span class="iptTip" ng-class="{'errTip':edit_form.backupTCS.$error.ipErr}">{{"invalidIpv4"|translate}}</span>
+                    </div>
+                    <!-- 备TCSIPv6地址 -->
+                    <div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"backupTCSv6"|translate}}<i class="optional">{{"optional"|translate}}</i>:</span>
+                        <input class="pageEdit_itemC" type="text" name="backupTCSv6" ng-model="item.backupTCSv6" ipv6-check maxlength="128"
+                               ng-class="{'errIpt':edit_form.backupTCSv6.$error.ipv6Err}" placeholder={{"pleaseInput"|translate}}>
+                       <span class="iptTip" ng-class="{'errTip':edit_form.backupTCSv6.$error.ipv6Err}">{{"invalidIpv6"|translate}}</span>
+                    </div>
+
+                </div>
+
+                <div class="pageEdit_btnGroup">
+                    <button ng-if="resourceStrategy.dynamicResourceConfig_issuedBtn" type="button" class="pageBtn_blue40" ng-click="issued()" ng-disabled="edit_form.$invalid">{{resourceStrategy.dynamicResourceConfig_issuedName}}</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+</div>

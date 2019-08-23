@@ -1,0 +1,125 @@
+<div class="commonDialog_box" id="injectLayer" init-layui>
+    <h3>{{"policyConfig"|translate}}
+        <span ng-show="allItems.length>0" style="position:absolute;right:60px;font-size:14px;font-family:'PingFang-SC-Regular'">{{"forbiddenAll"|translate}}:
+            <label class="pageSwitch-yes">
+                <input type="checkbox" ng-model="forbiddenAll" class="pageSwitch-ls" ng-change="forbiddenA(forbiddenAll)">
+                <span class="lbl {{lang}}"></span>
+            </label>
+        </span>
+    </h3>
+    <form name="edit_form">
+        <div class="commonDialog_main">
+            <div class="layui-collapse" ng-class="{'noBorder':items.length==0}">
+                <div class="layui-colla-item" ng-repeat="urlItem in items track by urlItem.id ">
+                    <h2 class="layui-colla-title">{{"content"|translate}}：{{urlItem.contentInject.contentUrl||urlItem.contentInject.contentUrlDir}}</h2>
+                    <div ng-class="['layui-colla-content',{'layui-show':$index==0}]">
+                        <div class="layerTab" ng-show="urlItem.matchInjectPolicyList.length>0">
+                            <h3>{{"injectPolicy"|translate}}
+                                <span>{{"forbidden"|translate}}:
+                                    <label class="pageSwitch-yes">
+                                        <input type="checkbox" ng-model="urlItem.injectD" class="pageSwitch-ls" ng-change="forbiddenI(urlItem.injectD,'injectTab'+{{urlItem.id}})" ng-disabled="forbiddenAll">
+                                        <span class="lbl {{lang}}"></span>
+                                    </label>
+                                </span>
+                            </h3>
+                            <table id="injectTab{{urlItem.id}}" lay-filter="injectTab{{urlItem.id}}">
+                                <thead>
+                                    <tr>
+                                        <td lay-data="{field:'value',align:'left',hide:true}"></td>
+                                        <td lay-data="{type:'radio',align:'left',fixed:'left'}"></td>
+                                        <td lay-data="{field:'policyType',align:'left',width:120}">{{"policyType"|translate}}</td>
+                                        <td lay-data="{field:'priority',align:'left',width:120}">{{"priority"|translate}}</td>
+                                        <td lay-data="{field:'delayedHours',align:'left',minWidth:150}">{{"delayedHours"|translate}}(h)</td>
+                                        <td lay-data="{field:'dailyStartTime',align:'left',minWidth:150}">{{"dailyStartTime"|translate}}</td>
+                                        <td lay-data="{field:'dailyEndTime',align:'left',minWidth:150}">{{"dailyEndTime"|translate}}</td>
+                                    </tr>
+                                    
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="injectItem in urlItem.matchInjectPolicyList track by $index" renderfinish="initTab('injectTab'+{{urlItem.id}},urlItem.matchInjectPolicyList.length,'matchInjectPolicyList',{{urlItem.id}})">
+                                        <td>{{injectItem}}</td>
+                                        <td></td>
+                                        <td>{{injectItem.policyType==0?('policyType_0'|translate):injectItem.policyType==1?('injectPolicy'|translate):'--'}}</td>
+                                        <td>{{injectItem.priority!=null?injectItem.priority:'--'}}</td>
+                                        <td>{{injectItem.delayedHours!=null?injectItem.delayedHours:'--'}}</td>
+                                        <td>{{injectItem.dailyStartTime!=null?(injectItem.dailyStartTime | date:'HH:mm:ss'):"--"}}</td>
+                                        <td>{{injectItem.dailyEndTime!=null?(injectItem.dailyEndTime | date:'HH:mm:ss'):'--'}}</td> 
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="layerTab" ng-show="urlItem.matchDistributePolicyList.length>0">
+                            <h3>{{"distributePolicy"|translate}}
+                                <span>{{"forbidden"|translate}}:
+                                    <label class="pageSwitch-yes">
+                                        <input type="checkbox" ng-model="urlItem.distributeD" class="pageSwitch-ls" ng-change="forbiddenI(urlItem.distributeD,'distributeTab'+{{urlItem.id}})" ng-disabled="forbiddenAll">
+                                        <span class="lbl {{lang}}"></span>
+                                    </label>
+                                </span>
+                            </h3>
+                                <table id="distributeTab{{urlItem.id}}" lay-filter="distributeTab{{urlItem.id}}">
+                                <thead>
+                                    <tr>
+                                        <td lay-data="{field:'value',align:'left',hide:true}"></td>
+                                        <td lay-data="{type:'radio',align:'left',fixed:'left'}"></td>
+                                        <td lay-data="{field:'policyType',align:'left',width:120}">{{"policyType"|translate}}</td>
+                                        <td lay-data="{field:'priority',align:'left',width:120}">{{"priority"|translate}}</td>
+                                        <td lay-data="{field:'distributeNodes',align:'left',minWidth:200}">{{"distributeNodes"|translate}}</td>
+                                    </tr>
+                                    
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="distributeItem in urlItem.matchDistributePolicyList track by $index" renderfinish="initTab('distributeTab'+{{urlItem.id}},urlItem.matchDistributePolicyList.length,'matchDistributePolicyList',{{urlItem.id}})">
+                                        <td>{{distributeItem}}</td>
+                                        <td></td>
+                                        <td>{{distributeItem.policyType==0?('policyType_0'|translate):distributeItem.policyType==1?('distributePolicy'|translate):'--'}}</td>
+                                        <td>{{distributeItem.priority!=null?distributeItem.priority:'--'}}</td>
+                                        <td>{{distributeItem.distributeNodes!=null?(distributeItem.distributeNodes | arrTostr:'nodeName'):'--'}}</td> 
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="layerTab" ng-show="urlItem.matchSyncPolicyList.length>0">
+                            <h3>{{"synchroPolicy"|translate}}
+                                <span>{{"forbidden"|translate}}:
+                                    <label class="pageSwitch-yes">
+                                        <input type="checkbox" ng-model="urlItem.syncD" class="pageSwitch-ls" ng-change="forbiddenI(urlItem.syncD,'syncTab'+{{urlItem.id}})" ng-disabled="forbiddenAll">
+                                        <span class="lbl {{lang}}"></span>
+                                    </label>
+                                </span>
+                            </h3>
+                                <table id="syncTab{{urlItem.id}}" lay-filter="syncTab{{urlItem.id}}">
+                                <thead>
+                                    <tr>
+                                        <td lay-data="{field:'value',align:'left',hide:true}"></td>
+                                        <td lay-data="{type:'radio',align:'left',fixed:'left'}"></td>
+                                        <td lay-data="{field:'policyType',align:'left',width:120}">{{"policyType"|translate}}</td>
+                                        <td lay-data="{field:'priority',align:'left',width:120}">{{"priority"|translate}}</td>
+                                        <td lay-data="{field:'syncNodes',align:'left',minWidth:200}">{{"syncNodes"|translate}}</td>
+                                    </tr>
+                                    
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="syncItem in urlItem.matchSyncPolicyList track by $index" renderfinish="initTab('syncTab'+{{urlItem.id}},urlItem.matchSyncPolicyList.length,'matchSyncPolicyList',{{urlItem.id}})">
+                                        <td>{{syncItem}}</td>
+                                        <td></td>
+                                        <td>{{syncItem.policyType==0?('policyType_0'|translate):syncItem.policyType==1?('synchroPolicy'|translate):'--'}}</td>
+                                        <td>{{syncItem.priority!=null?syncItem.priority:'--'}}</td>
+                                        <td>{{syncItem.syncNodes!=null?(syncItem.syncNodes | arrTostr:'nodeName'):'--'}}</td> 
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+        
+                    </div>
+                </div>
+                <div ng-if="items.length==0" style="text-align:center">{{"noData"|translate}}</div>
+            </div> 
+            <pagination ng-if="layerItems.length>1" style="margin:-20px 0 20px;" paging-options="pagingOptions" get-page-data="getPageData()"></pagination>
+        </div>
+        <div class="btn_group">
+            <button type="button" class="pageBtn_blue40" ng-click="layerInject()" ng-disabled="loading">{{loading?("loading"|translate):("inject"|translate)}}</button>
+            <button type="button" class="pageBtn_bai40" ng-click="closeThisDialog('cancel')">{{"cancel"|translate}}</button>
+        </div>
+    </form>
+</div>

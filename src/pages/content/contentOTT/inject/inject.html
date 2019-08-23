@@ -1,0 +1,257 @@
+<div id="inject">
+    <h3>{{"contentOTTInject"|translate}}</h3>
+    <form name="edit_form" novalidate>
+        <div class="edit">
+            <!-- 节点 -->
+            <div class="box">
+                <span class="edit_title required">{{"node"|translate}}:</span>
+                <select class="edit_content" ng-model="item.nodeId" ng-options="i.nodeID as i.nodeName for i in nodeList" required></select>               
+            </div>
+            <!-- 是否返回注入结果 -->
+            <div class="box">
+                <span class="edit_title required">{{"responseType"|translate}}:</span>
+                <select class="edit_content" ng-model="item.responseType" ng-options="i.id as i.name for i in responseTypeList" required></select>               
+            </div>
+            <!-- 流水号 -->
+            <!-- <div class="box">
+                <span class="edit_title required">{{"streamingNo"|translate}}:</span>
+                <input class="edit_content" type="text" ng-model="item.streamingNo" maxlength="50" required>
+            </div> -->
+            <!-- 牌照方标识 -->
+            <div class="box">
+                <span class="edit_title required">{{"cmsId"|translate}}:</span>
+                <input class="edit_content" type="text" ng-model="item.cmsId" maxlength="50" required placeholder={{"pleaseInput"|translate}}>
+            </div>
+            <!-- content列表 -->
+            <div class="box w100 h-auto">
+                <span class="edit_title">{{"contentList"|translate}}:</span>
+                <button type="button" class="btn-common" ng-click="addContent()">{{"add"|translate}}</button>
+                <label class="readFile btn-common">
+                    <input type="file" onChange="angular.element(this).scope().readFile(this.files)">
+                    {{"importFile"|translate}}
+                </label>
+                <span class="edit_error">{{"import_tip0"|translate}}</span>
+                
+                <div class="edit_list" ng-if="item.contentList.length>0">
+                    <div class="edit_list_tab">
+                        <span class="edit_error marL-0">{{"import_tip3"|translate}}</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th width=30%>{{"contentId"|translate}}<i class="required">*</i></th>
+                                    <th width=30%>{{"contentName"|translate}}<i class="required">*</i></th>
+                                    <th width=40%>{{"contentUrl"|translate}}<i class="required">*</i></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="value in item.contentList">
+                                    <td><input type="text" ng-model="value.contentId" maxlength="50" required placeholder={{"pleaseInput"|translate}}></td>
+                                    <td><input type="text" ng-model="value.contentName" maxlength="256" required placeholder={{"pleaseInput"|translate}}></td>
+                                    <td><input type="text" ng-model="value.contentUrl" maxlength="1024" required placeholder={{"pleaseInput"|translate}}></td>
+                                    <td><button class="btn icon_delete" ng-disabled="$index==0" ng-click="delContent($index)"></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- url类型 -->
+            <div class="box">
+                <span class="edit_title required">{{"urlType"|translate}}:</span>
+                <select class="edit_content" ng-model="item.urlType" ng-options="i.id as i.name for i in urlTypeList" required></select>
+            </div>
+            <!-- 时长 -->
+            <div class="box">
+                <span class="edit_title">{{"duration"|translate}}(s):</span>
+                <input class="edit_content" type="number" name="duration" ng-model="item.duration" maxlimit="50" min="0" step="1"
+                       ng-class="{'errIpt':edit_form.duration.$error.number ||edit_form.duration.$error.min}" placeholder={{"pleaseInputNumber"|translate}}>
+            </div>
+            <!-- 媒体类型 -->
+            <div class="box">
+                <span class="edit_title">{{"mimeType"|translate}}:</span>
+                <input class="edit_content" type="text" ng-model="item.mimeType" maxlength="50" placeholder={{"pleaseInput"|translate}}>
+            </div>
+            <!-- 码率 -->
+            <div class="box">
+                <span class="edit_title">{{"bitRate"|translate}}(bps):</span>
+                <input class="edit_content" type="number" name="bitRate" ng-model="item.bitRate" maxlimit="50" min="0" step="1"
+                       ng-class="{'errIpt':edit_form.bitRate.$error.number ||edit_form.bitRate.$error.min}" placeholder={{"pleaseInputNumber"|translate}}>
+            </div>
+            <!-- 大小 -->
+            <div class="box">
+                <span class="edit_title">{{"size"|translate}}(Byte):</span>
+                <input class="edit_content" type="number" name="size" ng-model="item.size" maxlimit="20" min="0" step="1"
+                       ng-class="{'errIpt':edit_form.size.$error.number ||edit_form.size.$error.min}" placeholder={{"pleaseInputNumber"|translate}}>
+            </div>
+            <!-- 分辨率 -->
+            <div class="box">
+                <span class="edit_title">{{"resolution"|translate}}:</span>
+                <input class="edit_content" type="text" ng-model="item.resolution" maxlength="50" placeholder={{"pleaseInput"|translate}}>
+            </div>
+            <!-- 校验文件内容 -->
+            <div class="w100 h-auto clear">
+                <div class="box">
+                    <span class="edit_title">{{"checkType"|translate}}:</span>
+                    <select class="edit_content" ng-model="item.checkType" ng-options="i.id as i.name for i in checkTypeList"></select>
+                </div>
+                <!-- md5值 -->
+                <div class="box" ng-if="item.checkType==1">
+                    <span class="edit_title">{{"checkStr"|translate}}:</span>
+                    <input class="edit_content" type="text" ng-model="item.checkStr" maxlength="255" placeholder={{"pleaseInput"|translate}}>
+                </div>
+            </div>
+            
+            <!-- 内容类型 1-点播 2-直播-->
+            <div class="box">
+                <span class="edit_title">{{"contentType"|translate}}:</span>
+                <select class="edit_content" ng-model="item.contentType" ng-options="i.id as i.name for i in contentTypeList" ng-change="resetContent(item.contentType)"></select>
+            </div>
+            <!-- 内容来源系统的ID -->
+            <div class="box">
+                <span class="edit_title">{{"systemId"|translate}}:</span>
+                <input class="edit_content" type="text" ng-model="item.systemId" maxlength="255" placeholder={{"pleaseInput"|translate}}>
+            </div>
+            
+            <div class="w100 h-auto clear" ng-if="item.contentType==1">
+                <!-- 点播内容注入方式 -->
+                <div class="box">
+                    <span class="edit_title">{{"ingestType"|translate}}:</span>
+                    <select class="edit_content" ng-model="item.ingestType" ng-options="i.id as i.name for i in ingestTypeList"></select>
+                </div>  
+            </div>
+
+            <!-- contentType==2时 -->
+            <div class="w100 h-auto clear" ng-if="item.contentType==2">
+                <div class="w100 h-auto clear">
+                     <!-- 是否支持时移 -->
+                    <div class="box">
+                        <span class="edit_title">{{"tsSupport"|translate}}:</span>
+                        <select class="edit_content" ng-model="item.tsSupport" ng-options="i.id as i.name for i in tsSupportList" ng-change="resetTSupport(item.tsSupport)"
+                                ng-disabled="item.rdSupport!=null">
+                        </select>
+                    </div>
+                     <!-- 时移时长 -->
+                    <div class="box" ng-if="item.tsSupport==1">
+                        <span class="edit_title">{{"tsDuration"|translate}}(s):</span>
+                        <input class="edit_content" type="number" name="tsDuration" ng-model="item.tsDuration" maxlimit="4" min="0" step="1"
+                               ng-class="{'errIpt':edit_form.tsDuration.$error.number ||edit_form.tsDuration.$error.min}" placeholder={{"pleaseInputNumber"|translate}}>
+                    </div>
+                    <!-- 开始录制时间 -->
+                    <div class="box" ng-if="item.tsSupport==1">
+                        <span class="edit_title">{{"beginTime"|translate}}:</span>
+                        <input class="edit_content" type="text" ng-model="item.beginTime" id="beginTime" lay-date placeholder={{"pleaseSelectTime"|translate}}>
+                    </div>
+                    <!-- 结束录制时间 -->
+                    <div class="box" ng-if="item.tsSupport==1">
+                        <span class="edit_title">{{"endTime"|translate}}:</span>
+                        <input class="edit_content" type="text" ng-model="item.endTime" id="endTime" lay-date placeholder={{"pleaseSelectTime"|translate}}>
+                    </div>
+                </div>
+               
+                <div class="w100 h-auto clear">
+                    <!-- 否支持录制 -->
+                    <div class="box">
+                        <span class="edit_title">{{"rdSupport"|translate}}:</span>
+                        <select class="edit_content" ng-model="item.rdSupport" ng-options="i.id as i.name for i in rdSupportList" ng-change="resetRdSupport(item.rdSupport)"
+                                ng-disabled="item.tsSupport!=null">
+                        </select>
+                    </div>
+                    <!-- 录制保存时长 -->
+                    <div class="box" ng-if="item.rdSupport==1">
+                        <span class="edit_title">{{"rdDuration"|translate}}(h):</span>
+                        <input class="edit_content" type="number" name="rdDuration" ng-model="item.rdDuration" maxlimit="4" min="0" step="1"
+                               ng-class="{'errIpt':edit_form.rdDuration.$error.number ||edit_form.rdDuration.$error.min}" placeholder={{"pleaseInputNumber"|translate}}>
+                    </div>
+                </div>
+
+                <div class="w100 h-auto clear">
+                     <!-- 组播类型 -->
+                    <div class="box">
+                        <span class="edit_title">{{"iptvChannelType"|translate}}:</span>
+                        <select class="edit_content" ng-model="item.iptvChannelType" ng-options="i.id as i.name for i in iptvChannelTypeList" ng-change="resetIptvChannel(item.iptvChannelType)"></select>
+                    </div>
+                    <!-- 是否是浮动频点 -->
+                    <div class="box">
+                        <span class="edit_title">{{"isFloatIPQAM"|translate}}:</span>
+                        <select class="edit_content" ng-model="item.isFloatIPQAM" ng-options="i.id as i.name for i in isFloatIPQAMList"></select>
+                    </div>
+                     <!-- 组播IP -->
+                    <div class="box" ng-if="item.iptvChannelType==1">
+                        <span class="edit_title">{{"iptvChannelMulticastIP"|translate}}:</span>
+                        <input class="edit_content" type="text" name="iptvChannelMulticastIP" ng-model="item.iptvChannelMulticastIP" maxlength="16"
+                               ng-class="{'errIpt':edit_form.iptvChannelMulticastIP.$error.ipErr}" placeholder={{"invalidIpv4"|translate}}>
+                    </div>
+                    <!-- 组播端口 -->
+                    <div class="box" ng-if="item.iptvChannelType==1">
+                        <span class="edit_title">{{"iptvChannelMulticastPort"|translate}}:</span>
+                        <input class="edit_content" type="text" name="iptvChannelMulticastPort" ng-model="item.iptvChannelMulticastPort" port-check
+                               ng-class="{'errIpt':edit_form.iptvChannelMulticastPort.$error.portErr}" placeholder={{"invalidPort"|translate}}>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- 内容访问路径 -->
+            <div class="box">
+                <span class="edit_title">{{"accessURL"|translate}}:</span>
+                <input class="edit_content" type="text" ng-model="item.accessURL" maxlength="256" placeholder={{"pleaseInput"|translate}}>
+            </div>
+            <!-- 内容提供商 -->
+            <div class="box">
+                <span class="edit_title">{{"providerId"|translate}}:</span>
+                <input class="edit_content" type="text" ng-model="item.providerId" maxlength="255" placeholder={{"pleaseInput"|translate}}>
+            </div>
+            <!-- 内容是否需要分发 -->
+            <div class="box">
+                <span class="edit_title">{{"needDelivery"|translate}}:</span>
+                <select class="edit_content" ng-model="item.needDelivery" ng-options="i.id as i.name for i in responseTypeList"></select>
+            </div>
+            <!-- 内容源业务标识 -->
+            <div class="box">
+                <span class="edit_title">{{"serviceId"|translate}}:</span>
+                <input class="edit_content" type="text" ng-model="item.serviceId" maxlength="64" placeholder={{"pleaseInput"|translate}}>
+            </div>
+            <!-- 业务类型 -->
+            <div class="box">
+                <span class="edit_title">{{"serviceType"|translate}}:</span>
+                <select class="edit_content" ng-model="item.serviceType" ng-options="i.id as i.name for i in serviceTypeList"></select>
+            </div>
+            <!-- 媒体类型 -->
+            <div class="box">
+                <span class="edit_title">{{"mediaType"|translate}}:</span>
+                <select class="edit_content" ng-model="item.mediaType" ng-options="i.id as i.name for i in mediaTypeList"></select>
+            </div>
+            <!-- 版权开始日期 -->
+            <div class="box">
+                <span class="edit_title">{{"copyrightStart"|translate}}:</span>
+                <input class="edit_content" type="text" ng-model="item.copyrightStart" id="copyrightStart" lay-date placeholder={{"pleaseSelectTime"|translate}}>
+            </div>
+            <!-- 版权结束日期 -->
+            <div class="box">
+                <span class="edit_title">{{"copyrightEnd"|translate}}:</span>
+                <input class="edit_content" type="text" ng-model="item.copyrightEnd" id="copyrightEnd" lay-date placeholder={{"pleaseSelectTime"|translate}}>
+            </div>
+            <!-- 一级分类 -->
+            <div class="box">
+                <span class="edit_title">{{"item1"|translate}}:</span>
+                <input class="edit_content" type="text" ng-model="item.item1" maxlength="256" placeholder={{"pleaseInput"|translate}}>
+            </div>
+            <!-- 二级分类 -->
+            <div class="box">
+                <span class="edit_title">{{"item2"|translate}}:</span>
+                <input class="edit_content" type="text" ng-model="item.item2" maxlength="256" placeholder={{"pleaseInput"|translate}}>
+            </div>
+            <!-- 标签 -->
+            <div class="box">
+                <span class="edit_title">{{"label"|translate}}:</span>
+                <input class="edit_content" type="text" ng-model="item.label" maxlength="512" placeholder={{"pleaseInput"|translate}}>
+            </div>
+            
+        </div>
+        <div class="btn_group">
+            <button type="button" class="btn-blue" ng-click="inject()" ng-disabled="edit_form.$invalid||loading">{{loading?("loading"|translate):("inject"|translate)}}</button>
+            <button type="button" class="btn-grep" ng-click="closeThisDialog('cancel')">{{"cancel"|translate}}</button>
+        </div>
+    </form>
+</div>

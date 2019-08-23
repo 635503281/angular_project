@@ -1,0 +1,60 @@
+<div id="badDomainEdit" class="pageBox">
+	<div id="pageHead">
+		<div id="breadcrumb">
+			<a class="parent">{{firstMenuName}}</a>
+			<a class="parent" ui-sref="index.content.badDomain.list">{{secondMenuName}}</a>
+			<a class="self" ng-if="id==0">{{"add"|translate}}</a>
+            <a class="self" ng-if="id!=0">{{"modify"|translate}}</a>
+		</div>
+		<div id="currentSelf">
+			<h3 ng-if="id==0">{{"add"|translate}}</h3>
+            <h3 ng-if="id!=0">{{"modify"|translate}}</h3>
+		</div>
+	</div>
+
+	<div class="pageMain w80 autoLR">
+		<div id="pageEdit">
+			<form name="edit_form" novalidate autocomplete="off">
+				<div class="pageEdit_content">
+					<!-- 策略的版本号 -->
+					<div class="pageEdit_item">
+						<span class="pageEdit_itemT">{{"policyVersion"|translate}}:</span>
+						<input class="pageEdit_itemC" type="number" ng-model="item.policyVersion" required maxlimit="32" placeholder='{{"pleaseInput"|translate}}'>
+						<span class="iptTip">{{"pleaseInput"|translate}}</span>
+                    </div>
+                    <!-- 网站名列表 -->
+                    <div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"hostList"|translate}}:</span>
+                        <input class="pageEdit_itemC" type="text" ng-model="item.hostList" required placeholder='{{"pleaseInput"|translate}}'>
+                        <span class="iptTip">{{"pleaseInput"|translate}}</span>
+                    </div>
+                    <!-- 重定向url -->
+                    <div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"redirectURL"|translate}}:</span>
+                        <input class="pageEdit_itemC" type="text" ng-model="item.redirectURL" required placeholder='{{"pleaseInput"|translate}}'>
+                        <span class="iptTip">{{"pleaseInput"|translate}}</span>
+                    </div>
+                    <!-- 放行URL参数关键字 -->
+                    <div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"bypassUrlParam"|translate}}:</span>
+                        <input class="pageEdit_itemC" type="text" ng-model="item.bypassUrlParam" placeholder='{{"pleaseInput"|translate}}'>
+                        <span class="iptTip">{{"pleaseInput"|translate}}</span>
+                    </div>
+                    <!-- 放行Referer的host -->
+                    <div class="pageEdit_item">
+                        <span class="pageEdit_itemT">{{"bypassRefererHost"|translate}}:</span>
+                        <input class="pageEdit_itemC" type="text" ng-model="item.bypassRefererHost" required placeholder='{{"pleaseInput"|translate}}'>
+                        <span class="iptTip">{{"pleaseInput"|translate}}</span>
+                    </div>
+	
+				</div>
+			
+				<div class="pageEdit_btnGroup">
+					<button type="button" class="pageBtn_blue40" ng-click="save()" ng-disabled="edit_form.$invalid">{{"submit"|translate}}</button>
+					<button type="button" class="pageBtn_bai40" ng-click="return()">{{"cancel"|translate}}</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	
+</div>

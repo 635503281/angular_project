@@ -1,0 +1,66 @@
+<div id="index" init-layui>
+    <div id="head" class="clear">
+        <div class="left logo">
+            <img src="../../img/head/icon_logo.svg" alt="">
+        </div>
+
+        <div class="left head-main"></div>
+
+        <div class="welcome">				
+            <span >{{"cdnc"|translate}}</span>
+            <i><img src="../../img/head/icon_user.svg"></i>
+            <ul  class="welcome_dropdown">
+                <li> <i><img src="../../img/head/icon_user.svg"></i><span>{{userName}}</span></li>
+                <li ng-repeat="value in langList track by $index" ng-click="changeLang(value.lang)" ng-if="value.lang!=lang"><a>{{value.name}}</a></li>
+                <li ui-sref="index.modifyPsd"><a>{{"modifyPsd"|translate}}</a> </li>						
+                <li ng-click="exit()"><a>{{"exit"|translate}}</a></li>
+            </ul>    
+        </div>
+
+    </div>
+    <div id="main" class="clear">
+        <div id="main-left">
+            <!-- 一级菜单 -->
+            <div id="f-nav-menu" ng-mouseenter="openFirstMenu()" ng-mouseleave="closeFirstMenu()">
+                <ul class="menu">
+                    <li ng-class="['subMenu',{'active':currentFirstMenuUrl==firstMenu.url}]" ng-repeat="firstMenu in menu track by $index">
+                        <i class="layui-icon {{firstMenu.icon}}"></i>
+                        <a ng-click="clickFirstMenu(firstMenu)">{{firstMenu.menuText}}</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- 二级菜单 -->
+            <div id="nav-menu">
+                <ul class="layui-nav layui-nav-tree"  lay-shrink="all">
+                    <li ng-class="['layui-nav-item',{'layui-nav-itemed':currentFirstMenuUrl==firstMenu.url},{'active':currentFirstMenuUrl==firstMenu.url}]" ng-repeat="firstMenu in menu track by $index">
+                        <a>
+                            {{firstMenu.menuText}}
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd ng-class="{'layui-this':currentSecondMenuUrl==secondMenu.url}" ng-repeat="secondMenu in firstMenu.children | filter:{isShow:true} track by $index">
+                                <a ui-sref="{{secondMenu.url}}" ui-sref-opts="{reload:secondMenu.url}">{{secondMenu.menuText}}</a>
+                            </dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="main-right" onscroll="myScroll()">
+            <div id="wrapper">
+                <ui-view></ui-view>
+            </div>   
+        </div>
+        
+        <div id="loading" ng-if="loading">
+            <div class="animation-2">
+                <div class="shape shape1"></div>
+                <div class="shape shape2"></div>
+                <div class="shape shape3"></div>
+                <div class="shape shape4"></div>
+            </div>
+        </div>
+ 
+    </div>
+
+</div>
