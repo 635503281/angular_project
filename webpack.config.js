@@ -2,7 +2,12 @@ var webpack=require("webpack");//下面有些配置只能是webpack4.0以下
 var cssWebpackPlugin=require("extract-text-webpack-plugin");//打包抓取css插件
 var htmlWebpackPlugin=require("html-webpack-plugin");//打包生成html插件
 var copyWebpackPlugin=require("copy-webpack-plugin");//复制静态目录
-var autoprefixer=require("autoprefixer");//添加css前缀
+// var autoprefixer=require("autoprefixer");//添加css前缀
+
+//使用多线程来打包js/css/less
+const HappyPack = require('happypack');
+const os = require('os');
+const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 
 var path=require("path");
 var ROOT_PATH=path.resolve(__dirname);
@@ -43,46 +48,17 @@ module.exports={
     },
     module:{//模块
         rules:[//加载器 各种loader
-            {test:/\.js$/,exclude:/node_modules/,use:{//将es6转为es5
-                loader:"babel-loader",
-                options:{
-                    presets: ['env'],//babel-preset-env的缩写
-                    plugins: ['transform-runtime']
-                }   
-            }},
-            {test:/\.css$/,use:cssWebpackPlugin.extract({//打包css
-                use:[
-                    {loader:"css-loader"},
-                    {loader:"postcss-loader",
-                        options:{
-                            plugins:[autoprefixer]
-                        }
-                    }
-                ]
+            {test:/\.js$/,exclude:/node_modules/,loader:"happypack/loader?id=babel"},
+            {test:/\.css$/,use:cssWebpackPlugin.extract({//打包css options:{plugins:[autoprefixer]}
+                use:'happypack/loader?id=css'
             })},
-            {test:/\.less$/,use:cssWebpackPlugin.extract({//打包less
-                use:[
-                    {loader:"css-loader"},
-                    {loader:"postcss-loader",
-                        options:{
-                            plugins:[autoprefixer]
-                        }
-                    },
-                    {loader:"less-loader"}
-                ]
+            {test:/\.less$/,exclude:/node_modules/,use:cssWebpackPlugin.extract({//打包less
+                use:'happypack/loader?id=less'
             })},
-            {test:/\.scss$/,use:cssWebpackPlugin.extract({//打包scss
-                use:[
-                    {loader:"css-loader"},
-                    {loader:"postcss-loader",
-                        options:{
-                            plugins:[autoprefixer]
-                        }
-                    },
-                    {loader:"sass-loader"}
-                ]
+            {test:/\.scss$/,exclude:/node_modules/,use:cssWebpackPlugin.extract({//打包scss
+                use:'happypack/loader?id=sass'
             })},
-            {test:/\.(gif|png|jpg|woff|woff2|svg|ttf|eot|otf)$/,use:{//打包js/css中图片及字体
+            {test:/\.(gif|png|jpg|woff|woff2|svg|ttf|eot|otf)$/,exclude:/node_modules/,use:{//打包js/css中图片及字体
                 loader:"url-loader", 
                 options:{
                     limit:8192, //小于限制大小，转为base64
@@ -91,12 +67,40 @@ module.exports={
                     publicPath:"../../" //打包好是以css为根目录
                 }
             }},
-            {test:/\.html$/,use:["html-withimg-loader"]},//打包html中份图片    
+            {test:/\.html$/,exclude:/node_modules/,use:["html-withimg-loader"]},//打包html中份图片    
    
         ]
         
     },
     plugins:[//插件
+        new HappyPack({
+            id:"babel",//用id来标识 happypack处理那里类文件
+            loaders:[//将es6转为es5
+                {
+                    loader:"babel-loader",
+                    options:{
+                        presets: ['env'],//babel-preset-env的缩写
+                        plugins: ['transform-runtime']
+                    } 
+                }   
+            ]
+        }),
+        new HappyPack({
+            id:"less",//用id来标识 happypack处理那里类文件
+            loaders:["css-loader","postcss-loader","less-loader"],
+            threadPool: happyThreadPool,
+        }),
+        new HappyPack({
+            id:"css",//用id来标识 happypack处理那里类文件
+            loaders:["css-loader","postcss-loader"],
+            threadPool: happyThreadPool,
+        }),
+        new HappyPack({
+            id:"sass",//用id来标识 happypack处理那里类文件
+            loaders:["css-loader","postcss-loader","sass-loader"],
+            threadPool: happyThreadPool,
+        }),
+
         new htmlWebpackPlugin({//打包Html文件
             template:SRC_PATH+"/index.html",//模板
             filename:"index.html",//打包后文件名 以output的path为根目录

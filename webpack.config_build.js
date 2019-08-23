@@ -19,7 +19,7 @@ webpackConfig.plugins.push(
           }
         },
         sourceMap:false,
-        parallel: true
+        parallel: true,//并行压缩
     })
 );
 //压缩css
