@@ -1,26 +1,19 @@
-var webpack=require("webpack");//下面有些配置只能是webpack4.0以下
-var cssWebpackPlugin=require("extract-text-webpack-plugin");//打包抓取css插件
-var htmlWebpackPlugin=require("html-webpack-plugin");//打包生成html插件
-var copyWebpackPlugin=require("copy-webpack-plugin");//复制静态目录
+const webpack=require("webpack");//下面有些配置只能是webpack4.0以下
+const cssWebpackPlugin=require("extract-text-webpack-plugin");//打包抓取css插件
+const htmlWebpackPlugin=require("html-webpack-plugin");//打包生成html插件
+const copyWebpackPlugin=require("copy-webpack-plugin");//复制静态目录
 
 //使用多线程来打包js/css/less
 const HappyPack = require('happypack');
 const os = require('os');
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 
-var path=require("path");
-var ROOT_PATH=path.resolve(__dirname);
-var DIST_PATH=ROOT_PATH;
-var SRC_PATH=path.resolve(ROOT_PATH,"src");
+const path=require("path");
+const ROOT_PATH=path.resolve(__dirname);
+const DIST_PATH=ROOT_PATH;
+const SRC_PATH=path.resolve(ROOT_PATH,"src");
 
-var config={
-    app:"cdnc",
-    host:"0.0.0.0",
-    port:8886,
-    // testUrl:"http://localhost:8084"
-    testUrl:"http://10.96.155.42:28080"
-    // testUrl:"http://10.41.71.102:28080"
-}
+const config=require("../config/index");
 
 module.exports={
     entry:{//入口
@@ -31,20 +24,7 @@ module.exports={
         filename:"static/js/[name].js",//文件名 
     },
     devtool:"source-map",//资源地图
-    devServer:{//启动服务
-        // publicPath:"/"+config.app+"/",
-        contentBase:DIST_PATH,//服务的根目录
-        host:config.host,//解决不能通过ip访问
-        port:config.port,//端口 
-        inline:true,//是否同步刷新
-        proxy: {//本地启服务配置跨域（开发用）
-            '/**': {//代理所有
-             target: config.testUrl,
-             changeOrigin: true,
-             secure: false
-            }
-        },
-    },
+
     module:{//模块
         rules:[//加载器 各种loader
             {test:/\.js$/,exclude:/node_modules/,loader:"happypack/loader?id=babel"},//将es6转为es5
